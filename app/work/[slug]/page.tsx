@@ -22,7 +22,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   const current = projects.findIndex(item => item.slug === slug);
   const next = projects[(current + 1) % projects.length];
   return (
-    <main className={`case-page ${project.dark ? 'case-dark' : ''}`} style={{ '--case-bg': project.palette, '--case-accent': project.accent } as React.CSSProperties}>
+    <main className={`case-page case-${project.slug} ${project.dark ? 'case-dark' : ''}`} style={{ '--case-bg': project.palette, '--case-accent': project.accent } as React.CSSProperties}>
       <nav className="case-nav"><Link href="/work"><ArrowLeft /> All projects</Link><Link href="/">Atelier Index <Asterisk /></Link><Link href={`/work/${next.slug}`}>Next: {next.name} <ArrowRight /></Link></nav>
       <header className="case-hero">
         <div><span>{project.index} / 11</span><span>{project.category}</span><span>{project.year}</span></div>
