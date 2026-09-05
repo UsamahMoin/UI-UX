@@ -63,7 +63,7 @@ function Serein() {
     <div className={`demo serein-demo ${season}`}>
       <nav><b>SEREIN</b><span>Field notes&nbsp;&nbsp; Residences&nbsp;&nbsp; Our way</span><button onClick={() => setSeason(season === 'day' ? 'night' : 'day')}><CloudSun /> {season === 'day' ? 'Dusk' : 'Dawn'}</button></nav>
       <section><span className="serein-number">N° 03 / KISO VALLEY</span><h2>Return to<br /><em>the quiet.</em></h2><p>A cedar refuge shaped by mist, mountain water, and the restorative luxury of having nowhere else to be.</p><div className="serein-actions"><button>Explore the residence <ArrowRight /></button><span>35°51&apos; N<br />137°41&apos; E</span></div></section>
-      <div className="serein-landscape" aria-hidden="true"><div className="moon"/><div className="mountain one"/><div className="mountain two"/><div className="water"/></div>
+      <div className="serein-landscape"><img src="/images/serein-human.png" alt="Traveler pausing with tea inside a quiet cedar retreat" /></div>
       <footer><span>08 suites</span><span>Forest onsen</span><span>Seasonal table</span><span>Open Oct—May</span></footer>
     </div>
   );
@@ -79,7 +79,7 @@ function Form() {
       <header><b>F—RM</b><button><Search /> Search the archive</button><Menu /></header>
       <div className="form-title"><span>INDEPENDENT CULTURE / ISSUE 14</span><h2>Things worth<br />keeping.</h2><p>An expanding archive of people and objects that alter how we see the everyday.</p></div>
       <div className="form-filters">{['All matter','Objects','People','Ideas'].map(item => <button key={item} className={filter === item ? 'active' : ''} onClick={() => setFilter(item)}>{item}</button>)}</div>
-      <div className="form-grid">{items.map(([title, meta, tone], i) => <article key={title} className={tone}><span>{String(i+1).padStart(2,'0')}</span><div className="form-shape" aria-hidden="true"/><small>{meta}</small><h3>{title}</h3><ArrowRight /></article>)}</div>
+      <div className="form-grid">{items.map(([title, meta, tone], i) => <article key={title} className={tone}>{i === 4 && <img className="form-human" src="/images/form-human.png" alt="Independent designer arranging work in a colorful studio" />}<span>{String(i+1).padStart(2,'0')}</span>{i !== 4 && <div className="form-shape" aria-hidden="true"/>}<small>{meta}</small><h3>{title}</h3><ArrowRight /></article>)}</div>
     </div>
   );
 }
@@ -166,7 +166,7 @@ function Lumen() {
     <div className="demo lumen-demo">
       <header><b>lumen</b><div><span className="lumen-live"><i/> Workshop 04</span><span className="faces">AM<span>+4</span></span><button>Share</button></div></header>
       <aside>{[['move',<Move key="m"/>],['pen',<PenTool key="p"/>],['type',<Type key="t"/>],['spark',<WandSparkles key="s"/>]].map(([name,icon]) => <button key={String(name)} className={tool === name ? 'active' : ''} onClick={() => setTool(String(name))} aria-label={`${name} tool`}>{icon}</button>)}</aside>
-      <main className={`lumen-canvas tool-${tool}`}><div className="sticky coral"><small>FRAMING</small><p>What if the dashboard felt more like a conversation?</p><span>AM</span></div><div className="sticky lime"><small>PRINCIPLE 02</small><p>Show the next best action, not every possible action.</p><span>SK</span></div><div className="lumen-photo"><Sparkles/><span>NEW MENTAL MODEL</span></div><div className="lumen-ring"><span>clarity</span><span>trust</span><span>momentum</span></div><div className="lumen-link"/><div className="cursor-label"><MousePointer2/> Mia</div></main>
+      <main className={`lumen-canvas tool-${tool}`}><div className="sticky coral"><small>FRAMING</small><p>What if the dashboard felt more like a conversation?</p><span>AM</span></div><div className="sticky lime"><small>PRINCIPLE 02</small><p>Show the next best action, not every possible action.</p><span>SK</span></div><div className="lumen-photo"><img src="/images/lumen-human.png" alt="Creative team collaborating around a studio wall" /><span>NEW MENTAL MODEL</span></div><div className="lumen-ring"><span>clarity</span><span>trust</span><span>momentum</span></div><div className="lumen-link"/><div className="cursor-label"><MousePointer2/> Mia</div></main>
       <footer><button onClick={() => setZoom(Math.max(40, zoom-10))}><Minus /></button><span>{zoom}%</span><button onClick={() => setZoom(Math.min(140, zoom+10))}><Plus /></button><button><ZoomIn/> Fit</button></footer>
     </div>
   );

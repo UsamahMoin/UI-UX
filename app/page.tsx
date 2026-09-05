@@ -116,6 +116,19 @@ export default function Home() {
           ))}
         </div>
 
+        <section className="human-design-strip" aria-labelledby="human-design-title">
+          <div className="human-strip-copy">
+            <span className="eyebrow">People, not personas</span>
+            <h2 id="human-design-title">The interface is only half the story.</h2>
+            <p>Good product work begins in the lived moment: attention, hesitation, collaboration, and delight.</p>
+          </div>
+          <div className="human-collage">
+            <figure className="human-frame frame-serein"><img src="/images/serein-human.png" alt="Traveler in a calm cedar retreat" loading="lazy" /><figcaption>Pause / Serein</figcaption></figure>
+            <figure className="human-frame frame-form"><img src="/images/form-human.png" alt="Designer working in an independent studio" loading="lazy" /><figcaption>Make / Form</figcaption></figure>
+            <figure className="human-frame frame-lumen"><img src="/images/lumen-human.png" alt="Creative team collaborating in a studio" loading="lazy" /><figcaption>Together / Lumen</figcaption></figure>
+          </div>
+        </section>
+
         <a href="/work" className={cn(buttonVariants({ variant: 'outline' }), 'view-all')}>
           View all eleven projects <ArrowUpRight />
         </a>
