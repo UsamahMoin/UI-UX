@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import {
   ArrowDownRight,
   ArrowUpRight,
@@ -44,10 +43,10 @@ export default function Home() {
   return (
     <main className="site-shell">
       <nav className="top-nav" aria-label="Primary navigation">
-        <Link href="/" className="brand-mark" aria-label="Atelier Index home">
+        <a href="/" className="brand-mark" aria-label="Atelier Index home">
           <span>AI</span>
           <span className="brand-copy">Atelier<br />Index</span>
-        </Link>
+        </a>
         <div className="nav-center" aria-hidden="true">
           <span className="status-dot" /> Independent product designer · Chicago
         </div>
@@ -88,7 +87,7 @@ export default function Home() {
 
         <div className="project-grid">
           {featured.map((project) => (
-            <Link href={project.href} key={project.title} className={cn('project-card', project.className)}>
+            <a href={project.href} key={project.title} className={cn('project-card', project.className)}>
               <div className="project-topline"><span>{project.number}</span><ArrowUpRight /></div>
               <div className="project-visual" aria-hidden="true">
                 <div className="visual-window">
@@ -102,24 +101,24 @@ export default function Home() {
                 <p>{project.description}</p>
                 <div>{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
               </div>
-            </Link>
+            </a>
           ))}
         </div>
 
         <div className="project-mini-index">
           {projects.slice(3).map((project) => (
-            <Link href={`/work/${project.slug}`} key={project.slug} className="mini-project-link">
+            <a href={`/work/${project.slug}`} key={project.slug} className="mini-project-link">
               <span>{project.index}</span>
               <strong>{project.name}</strong>
               <small>{project.descriptor}</small>
               <ArrowUpRight />
-            </Link>
+            </a>
           ))}
         </div>
 
-        <Link href="/work" className={cn(buttonVariants({ variant: 'outline' }), 'view-all')}>
+        <a href="/work" className={cn(buttonVariants({ variant: 'outline' }), 'view-all')}>
           View all eleven projects <ArrowUpRight />
-        </Link>
+        </a>
       </section>
     </main>
   );
