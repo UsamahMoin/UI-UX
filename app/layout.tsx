@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://atelier-index-ui-ux.tiny-trout-8453.chatgpt.site'),
+  metadataBase: new URL('https://atelier-index-ui-ux.usamahmoin.chatgpt.site'),
   title: 'Atelier Index — UI/UX Portfolio',
   description: 'A collection of expressive digital products, interfaces, and design experiments.',
   openGraph: {
