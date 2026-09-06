@@ -2,12 +2,12 @@ import {
   ArrowDownRight,
   ArrowUpRight,
   Circle,
-  Command,
   Layers3,
   MousePointer2,
   Sparkles,
 } from 'lucide-react';
 
+import { HeroArtifacts } from '@/components/hero-artifacts';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { projects } from './work/projects';
@@ -56,7 +56,7 @@ export default function Home() {
         </div>
       </nav>
 
-      <section className="hero-grid">
+      <HeroArtifacts>
         <div className="hero-kicker">
           <Sparkles size={14} /> Usamah Moin · Selected work
         </div>
@@ -68,16 +68,11 @@ export default function Home() {
           <MousePointer2 size={18} />
           <p>I’m Usamah Moin, a UI/UX designer turning complex ideas into polished, human-centered digital experiences.</p>
         </div>
-        <div className="hero-orbit" aria-hidden="true">
-          <div className="orbit-ring"><span /></div>
-          <div className="orbit-label">STRATEGY · SYSTEMS · INTERACTION ·</div>
-          <div className="orbit-core"><Command /></div>
-        </div>
         <div className="hero-bottom">
           <a href="#index" className="scroll-cue"><ArrowDownRight /> Explore my work</a>
           <span>Open to UI/UX and product design<br />opportunities</span>
         </div>
-      </section>
+      </HeroArtifacts>
 
       <section id="index" className="work-index">
         <div className="section-heading">
