@@ -1,134 +1,104 @@
-import {
-  ArrowDownRight,
-  ArrowUpRight,
-  Circle,
-  Layers3,
-  MousePointer2,
-  Sparkles,
-} from 'lucide-react';
+import { ArrowDownRight, ArrowUpRight, Asterisk, Code } from 'lucide-react';
 
-import { HeroArtifacts } from '@/components/hero-artifacts';
-import { buttonVariants } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { ProjectExperience } from '@/components/project-experience';
 import { sitePath } from '@/lib/site-path';
 import { projects } from './work/projects';
 
-const featured = [
-  {
-    number: '01',
-    title: 'NOVA / Intelligence Console',
-    description: 'A calm command center for fast-moving product teams.',
-    tags: ['Dashboard', 'Data systems'],
-    href: '/work/nova',
-    className: 'project-lime',
-  },
-  {
-    number: '02',
-    title: 'Serein / Digital Retreat',
-    description: 'A slower, tactile booking experience for restorative travel.',
-    tags: ['Hospitality', 'Editorial'],
-    href: '/work/serein',
-    className: 'project-coral',
-  },
-  {
-    number: '03',
-    title: 'Form / Culture Archive',
-    description: 'An expressive, searchable home for independent culture.',
-    tags: ['Culture', 'Discovery'],
-    href: '/work/form',
-    className: 'project-blue',
-  },
-];
-
 export default function Home() {
   return (
-    <main className="site-shell">
-      <nav className="top-nav" aria-label="Primary navigation">
-        <a href={sitePath('/')} className="brand-mark" aria-label="Usamah Moin portfolio home">
+    <main className="gallery-home" id="top">
+      <nav className="gallery-nav" aria-label="Primary navigation">
+        <a href={sitePath('/')} className="gallery-brand" aria-label="Usamah Moin portfolio home">
           <span>UM</span>
-          <span className="brand-copy">Usamah<br />Moin</span>
+          <strong>Usamah Moin</strong>
         </a>
-        <div className="nav-center" aria-hidden="true">
-          <span className="status-dot" /> Product &amp; UI/UX designer · Chicago
+
+        <div className="gallery-role">
+          <span className="status-dot" /> Engineer / systems thinker / Chicago
         </div>
-        <div className="nav-actions">
-          <a href="#index" className="nav-link">Index <span>11</span></a>
-          <a href="https://github.com/UsamahMoin" className="nav-link">GitHub <ArrowUpRight /></a>
+
+        <div className="gallery-nav-links">
+          <a href="#work">Work <span>11</span></a>
+          <a href="https://github.com/UsamahMoin">GitHub <ArrowUpRight /></a>
         </div>
       </nav>
 
-      <HeroArtifacts>
-        <div className="hero-kicker">
-          <Sparkles size={14} /> Usamah Moin · Selected work
-        </div>
-        <h1>
-          I design digital products<br />
-          <span className="hero-serif">people understand.</span>
-        </h1>
-        <div className="hero-side-note">
-          <MousePointer2 size={18} />
-          <p>I’m Usamah Moin, a UI/UX designer turning complex ideas into polished, human-centered digital experiences.</p>
-        </div>
-        <div className="hero-bottom">
-          <a href="#index" className="scroll-cue"><ArrowDownRight /> Explore my work</a>
-          <span>Open to UI/UX and product design<br />opportunities</span>
-        </div>
-      </HeroArtifacts>
-
-      <section id="index" className="work-index">
-        <div className="section-heading">
-          <div><span className="eyebrow">My portfolio</span><h2>Selected product thinking<br />&amp; interface design</h2></div>
-          <p>I created eleven distinct product concepts to show how I think across research, visual systems, interaction, and responsive design.</p>
+      <header className="gallery-intro">
+        <div>
+          <span className="gallery-kicker"><Asterisk /> Engineering, interfaces &amp; ideas</span>
+          <h1>An engineer<br /><em>with taste.</em></h1>
         </div>
 
-        <div className="project-grid">
-          {featured.map((project) => (
-            <a href={sitePath(project.href)} key={project.title} className={cn('project-card', project.className)}>
-              <div className="project-topline"><span>{project.number}</span><ArrowUpRight /></div>
-              <div className="project-visual" aria-hidden="true">
-                <div className="visual-window">
-                  <div className="window-bar"><i /><i /><i /></div>
-                  <div className="window-body"><Layers3 /><span /></div>
+        <div className="gallery-intro-copy">
+          <p>
+            I build, study, and explain digital systems—using interface design to make complex ideas legible, useful, and memorable.
+          </p>
+          <div>
+            <span>Product thinking</span>
+            <span>Technical prototypes</span>
+            <span>Design critique</span>
+          </div>
+          <a href="#work">See the work <ArrowDownRight /></a>
+        </div>
+      </header>
+
+      <section className="gallery-work" id="work" aria-labelledby="gallery-title">
+        <header className="gallery-heading">
+          <div>
+            <span>Selected studies / 2024—26</span>
+            <h2 id="gallery-title">Working points of view.</h2>
+          </div>
+          <p>
+            Eleven live interface studies, each with its own visual language, interaction model, and design philosophy. Open any frame to explore the working prototype.
+          </p>
+        </header>
+
+        <div className="gallery-grid">
+          {projects.map((project) => (
+            <article className="gallery-card" key={project.slug}>
+              <div className="gallery-visual" style={{ backgroundColor: project.palette }}>
+                <div className="gallery-preview" aria-hidden="true" inert>
+                  <ProjectExperience slug={project.slug} />
                 </div>
-                <Circle className="visual-circle" />
+                <span className="gallery-number">{project.index}</span>
+                <a
+                  href={sitePath(`/work/${project.slug}`)}
+                  className="gallery-hit-area"
+                  aria-label={`Open ${project.name}: ${project.descriptor}`}
+                >
+                  <span className="sr-only">Open {project.name}</span>
+                </a>
+                <span className="gallery-open" aria-hidden="true">View <ArrowUpRight /></span>
               </div>
-              <div className="project-meta">
-                <h3>{project.title}</h3>
-                <p>{project.description}</p>
-                <div>{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
+
+              <div className="gallery-card-meta">
+                <a href={sitePath(`/work/${project.slug}`)}>
+                  <span className="gallery-avatar">{project.name.slice(0, 1)}</span>
+                  <span><strong>{project.name}</strong><small>{project.descriptor}</small></span>
+                </a>
+                <span>{project.category}<small>{project.year}</small></span>
               </div>
-            </a>
+            </article>
           ))}
         </div>
-
-        <div className="project-mini-index">
-          {projects.slice(3).map((project) => (
-            <a href={sitePath(`/work/${project.slug}`)} key={project.slug} className="mini-project-link">
-              <span>{project.index}</span>
-              <strong>{project.name}</strong>
-              <small>{project.descriptor}</small>
-              <ArrowUpRight />
-            </a>
-          ))}
-        </div>
-
-        <section className="human-design-strip" aria-labelledby="human-design-title">
-          <div className="human-strip-copy">
-            <span className="eyebrow">How I design</span>
-            <h2 id="human-design-title">I design for people, not personas.</h2>
-            <p>My process starts with the lived moment: attention, hesitation, collaboration, and delight—then turns those insights into clear interfaces.</p>
-          </div>
-          <div className="human-collage">
-            <figure className="human-frame frame-serein"><img src={sitePath('/images/serein-human.png')} alt="Traveler in a calm cedar retreat" loading="lazy" /><figcaption>Pause / Serein</figcaption></figure>
-            <figure className="human-frame frame-form"><img src={sitePath('/images/form-human.png')} alt="Designer working in an independent studio" loading="lazy" /><figcaption>Make / Form</figcaption></figure>
-            <figure className="human-frame frame-lumen"><img src={sitePath('/images/lumen-human.png')} alt="Creative team collaborating in a studio" loading="lazy" /><figcaption>Together / Lumen</figcaption></figure>
-          </div>
-        </section>
-
-        <a href={sitePath('/work')} className={cn(buttonVariants({ variant: 'outline' }), 'view-all')}>
-          View all eleven projects <ArrowUpRight />
-        </a>
       </section>
+
+      <section className="gallery-statement" aria-labelledby="statement-title">
+        <span>Position / practice</span>
+        <h2 id="statement-title">I work where engineering judgment meets interface taste.</h2>
+        <div>
+          <p>
+            These studies show how I frame problems, establish a visual point of view, and turn ideas into working prototypes—useful ground for UI/UX consulting, product engineering, and teaching.
+          </p>
+          <a href="https://github.com/UsamahMoin"><Code /> Explore my engineering work <ArrowUpRight /></a>
+        </div>
+      </section>
+
+      <footer className="gallery-footer">
+        <strong>Usamah Moin</strong>
+        <span>Engineer with taste · Chicago</span>
+        <a href="#top">Back to top ↑</a>
+      </footer>
     </main>
   );
 }
