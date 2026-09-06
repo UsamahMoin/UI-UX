@@ -53,14 +53,19 @@ function Serein() {
 function Form() {
   const [filter, setFilter] = useState('All matter');
   const items = [
-    ['A chair that refuses to sit still', 'OBJECT / 1984', 'form-red'], ['Dancing with the building', 'FILM / 11:08', 'form-yellow'], ['The useful accident', 'CONVERSATION / 042', 'form-ink'], ['Soft architecture', 'ESSAY / 8 MIN', 'form-mint'], ['Studio visit: Mina Park', 'PLACE / SEOUL', 'form-lilac'],
+    { title: 'A chair that refuses to sit still', meta: 'OBJECT / 1984', tone: 'form-red', slug: 'kinetic-chair', group: 'Objects' },
+    { title: 'Dancing with the building', meta: 'FILM / 11:08', tone: 'form-yellow', slug: 'dancing-building', group: 'Ideas' },
+    { title: 'The useful accident', meta: 'CONVERSATION / 042', tone: 'form-ink', slug: 'useful-accident', group: 'People' },
+    { title: 'Soft architecture', meta: 'ESSAY / 8 MIN', tone: 'form-mint', slug: 'soft-architecture', group: 'Ideas' },
+    { title: 'Studio visit: Mina Park', meta: 'PLACE / SEOUL', tone: 'form-lilac', slug: 'mina-park', group: 'People' },
   ];
+  const visibleItems = filter === 'All matter' ? items : items.filter((item) => item.group === filter);
   return (
     <div className="demo form-demo">
-      <header><b>F—RM</b><button><Search /> Search the archive</button><Menu aria-hidden="true" /></header>
+      <header><b>F—RM</b><a className="form-search-link" href={sitePath('/work/form/archive')}><Search /> Search the archive</a><a className="form-menu-link" href={sitePath('/work/form/archive')} aria-label="Open FORM archive"><Menu aria-hidden="true" /></a></header>
       <div className="form-title"><span>INDEPENDENT CULTURE / ISSUE 14</span><h2>Things worth<br />keeping.</h2><p>An expanding archive of people and objects that alter how we see the everyday.</p></div>
       <div className="form-filters">{['All matter','Objects','People','Ideas'].map(item => <button key={item} className={filter === item ? 'active' : ''} onClick={() => setFilter(item)} aria-pressed={filter === item}>{item}</button>)}</div>
-      <div className="form-grid">{items.map(([title, meta, tone], i) => <article key={title} className={tone}>{i === 4 && <img className="form-human" src={sitePath('/images/form-human.png')} alt="Independent designer arranging work in a colorful studio" />}<span>{String(i+1).padStart(2,'0')}</span>{i !== 4 && <div className="form-shape" aria-hidden="true"/>}<small>{meta}</small><h3>{title}</h3><ArrowRight /></article>)}</div>
+      <div className="form-grid">{visibleItems.map((item) => { const i = items.findIndex((entry) => entry.slug === item.slug); return <article key={item.slug} className={item.tone}><a className="form-card-hit" href={sitePath(`/work/form/archive/${item.slug}`)} aria-label={`Read ${item.title}`} />{i === 4 && <img className="form-human" src={sitePath('/images/form-human.png')} alt="Independent designer arranging work in a colorful studio" />}<span>{String(i+1).padStart(2,'0')}</span>{i !== 4 && <div className="form-shape" aria-hidden="true"/>}<small>{item.meta}</small><h3>{item.title}</h3><ArrowRight /></article>; })}</div>
     </div>
   );
 }
