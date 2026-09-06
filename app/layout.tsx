@@ -14,18 +14,18 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://atelier-index-ui-ux.usamahmoin.chatgpt.site'),
-  title: 'Atelier Index — UI/UX Portfolio',
-  description: 'A collection of expressive digital products, interfaces, and design experiments.',
+  title: 'Usamah Moin — UI/UX Designer',
+  description: 'The UI/UX portfolio of Usamah Moin: eleven polished product concepts spanning dashboards, culture, travel, finance, and collaboration.',
   openGraph: {
-    title: 'Atelier Index — UI/UX Portfolio',
-    description: 'Eleven expressive digital products, interfaces, and design experiments.',
-    images: [{ url: '/og.png', width: 1733, height: 907, alt: 'Interfaces with a point of view — Atelier Index' }],
+    title: 'Usamah Moin — UI/UX Designer',
+    description: 'Eleven polished product concepts shaped with clarity, character, and human-centered interaction.',
+    images: [],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Atelier Index — UI/UX Portfolio',
-    description: 'Eleven expressive digital products, interfaces, and design experiments.',
-    images: ['/og.png'],
+    title: 'Usamah Moin — UI/UX Designer',
+    description: 'Eleven polished product concepts shaped with clarity, character, and human-centered interaction.',
+    images: [],
   },
 };
 

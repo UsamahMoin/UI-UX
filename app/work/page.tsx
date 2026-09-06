@@ -6,13 +6,13 @@ export default function WorkIndex() {
   return (
     <main className="all-work-page">
       <nav className="work-nav">
-        <a href="/"><ArrowLeft /> Atelier Index</a>
-        <span>All work / 2024—26</span>
+        <a href="/"><ArrowLeft /> Usamah Moin</a>
+        <span>UI/UX portfolio / 2024—26</span>
       </nav>
       <header className="work-list-header">
-        <span className="eyebrow">The complete index</span>
-        <h1>Eleven ways to<br /><em>make it clear.</em></h1>
-        <p>Every project is a working design thought: a different philosophy, visual language, and interaction model.</p>
+        <span className="eyebrow">Usamah Moin / Selected work</span>
+        <h1>Eleven projects.<br /><em>One point of view.</em></h1>
+        <p>This portfolio explores dashboards, culture, travel, finance, collaboration, and more. Each project shows how I adapt research, visual language, and interaction to a different human problem.</p>
       </header>
       <section className="work-list" aria-label="Project index">
         {projects.map((project) => (

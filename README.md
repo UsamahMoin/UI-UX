@@ -1,6 +1,6 @@
-# Atelier Index — UI/UX Portfolio
+# Usamah Moin — UI/UX Portfolio
 
-An experimental UI/UX portfolio with one home resource hub, a complete work index, and eleven interactive concept projects.
+A personal UI/UX portfolio showcasing eleven responsive, interactive concept projects across product strategy, visual design, and interaction design.
 
 ## Project worlds
 
