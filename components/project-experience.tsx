@@ -42,7 +42,7 @@ function Serein() {
       <section><span className="serein-number">N° 03 / KISO VALLEY</span><h2>Return to<br /><em>the quiet.</em></h2><p>A cedar refuge shaped by mist, mountain water, and the restorative luxury of having nowhere else to be.</p><div className="serein-actions"><button>Explore the residence <ArrowRight /></button></div></section>
       <div className="serein-landscape">
         <img className={`serein-scene ${!isNight ? 'active' : ''}`} src={sitePath('/images/serein-human.png')} alt={isNight ? '' : 'Traveler having tea in a cedar retreat on a misty morning'} aria-hidden={isNight} />
-        <img className={`serein-scene serein-scene-dusk ${isNight ? 'active' : ''}`} src={sitePath('/images/serein-dusk.png')} alt={isNight ? 'Traveler having tea in a cedar retreat at blue-hour dusk' : ''} aria-hidden={!isNight} />
+        <img className={`serein-scene serein-scene-dusk ${isNight ? 'active' : ''}`} src={sitePath('/images/serein-dusk-v2.png')} alt={isNight ? 'Traveler having tea in a cedar retreat at blue-hour dusk' : ''} aria-hidden={!isNight} />
       </div>
       <div className="serein-coordinates" aria-label="Location: 35 degrees 51 minutes north, 137 degrees 41 minutes east"><small>Location</small><span>35°51′ N</span><span>137°41′ E</span></div>
       <footer><span>08 suites</span><span>Forest onsen</span><span>Seasonal table</span><span>Open Oct—May</span></footer>
