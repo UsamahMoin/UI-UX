@@ -1,12 +1,13 @@
 import { ArrowLeft, ArrowUpRight } from 'lucide-react';
 
 import { projects } from './projects';
+import { sitePath } from '@/lib/site-path';
 
 export default function WorkIndex() {
   return (
     <main className="all-work-page">
       <nav className="work-nav">
-        <a href="/"><ArrowLeft /> Usamah Moin</a>
+        <a href={sitePath('/')}><ArrowLeft /> Usamah Moin</a>
         <span>UI/UX portfolio / 2024—26</span>
       </nav>
       <header className="work-list-header">
@@ -16,7 +17,7 @@ export default function WorkIndex() {
       </header>
       <section className="work-list" aria-label="Project index">
         {projects.map((project) => (
-          <a key={project.slug} href={`/work/${project.slug}`} className="work-list-row" style={{ '--row-color': project.palette } as React.CSSProperties}>
+          <a key={project.slug} href={sitePath(`/work/${project.slug}`)} className="work-list-row" style={{ '--row-color': project.palette } as React.CSSProperties}>
             <span>{project.index}</span>
             <div><strong>{project.name}</strong><small>{project.descriptor}</small></div>
             <span>{project.category}</span>

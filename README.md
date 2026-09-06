@@ -2,6 +2,8 @@
 
 A personal UI/UX portfolio showcasing eleven responsive, interactive concept projects across product strategy, visual design, and interaction design.
 
+**Live portfolio:** [usamahmoin.github.io/UI-UX](https://usamahmoin.github.io/UI-UX/)
+
 ## Project worlds
 
 - **NOVA** — intelligence dashboard

@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "node node_modules/vinext/dist/cli.js dev",
     "build": "node node_modules/vinext/dist/cli.js build",
+    "build:pages": "GITHUB_PAGES=true NEXT_PUBLIC_BASE_PATH=/UI-UX NEXT_PUBLIC_SITE_ORIGIN=https://usamahmoin.github.io/UI-UX node node_modules/vinext/dist/cli.js build && node scripts/prepare-github-pages.mjs",
     "start": "node node_modules/wrangler/bin/wrangler.js dev --config dist/server/wrangler.json",
     "lint": "node node_modules/oxlint/bin/oxlint .",
     "format": "node node_modules/oxfmt/bin/oxfmt ."

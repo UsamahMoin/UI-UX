@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 
+const siteOrigin = process.env.NEXT_PUBLIC_SITE_ORIGIN ?? 'https://atelier-index-ui-ux.usamahmoin.chatgpt.site';
+
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
@@ -13,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://atelier-index-ui-ux.usamahmoin.chatgpt.site'),
+  metadataBase: new URL(siteOrigin),
   title: 'Usamah Moin — UI/UX Designer',
   description: 'The UI/UX portfolio of Usamah Moin: eleven polished product concepts spanning dashboards, culture, travel, finance, and collaboration.',
   openGraph: {

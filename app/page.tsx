@@ -10,6 +10,7 @@ import {
 import { HeroArtifacts } from '@/components/hero-artifacts';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { sitePath } from '@/lib/site-path';
 import { projects } from './work/projects';
 
 const featured = [
@@ -43,7 +44,7 @@ export default function Home() {
   return (
     <main className="site-shell">
       <nav className="top-nav" aria-label="Primary navigation">
-        <a href="/" className="brand-mark" aria-label="Usamah Moin portfolio home">
+        <a href={sitePath('/')} className="brand-mark" aria-label="Usamah Moin portfolio home">
           <span>UM</span>
           <span className="brand-copy">Usamah<br />Moin</span>
         </a>
@@ -82,7 +83,7 @@ export default function Home() {
 
         <div className="project-grid">
           {featured.map((project) => (
-            <a href={project.href} key={project.title} className={cn('project-card', project.className)}>
+            <a href={sitePath(project.href)} key={project.title} className={cn('project-card', project.className)}>
               <div className="project-topline"><span>{project.number}</span><ArrowUpRight /></div>
               <div className="project-visual" aria-hidden="true">
                 <div className="visual-window">
@@ -102,7 +103,7 @@ export default function Home() {
 
         <div className="project-mini-index">
           {projects.slice(3).map((project) => (
-            <a href={`/work/${project.slug}`} key={project.slug} className="mini-project-link">
+            <a href={sitePath(`/work/${project.slug}`)} key={project.slug} className="mini-project-link">
               <span>{project.index}</span>
               <strong>{project.name}</strong>
               <small>{project.descriptor}</small>
@@ -118,13 +119,13 @@ export default function Home() {
             <p>My process starts with the lived moment: attention, hesitation, collaboration, and delight—then turns those insights into clear interfaces.</p>
           </div>
           <div className="human-collage">
-            <figure className="human-frame frame-serein"><img src="/images/serein-human.png" alt="Traveler in a calm cedar retreat" loading="lazy" /><figcaption>Pause / Serein</figcaption></figure>
-            <figure className="human-frame frame-form"><img src="/images/form-human.png" alt="Designer working in an independent studio" loading="lazy" /><figcaption>Make / Form</figcaption></figure>
-            <figure className="human-frame frame-lumen"><img src="/images/lumen-human.png" alt="Creative team collaborating in a studio" loading="lazy" /><figcaption>Together / Lumen</figcaption></figure>
+            <figure className="human-frame frame-serein"><img src={sitePath('/images/serein-human.png')} alt="Traveler in a calm cedar retreat" loading="lazy" /><figcaption>Pause / Serein</figcaption></figure>
+            <figure className="human-frame frame-form"><img src={sitePath('/images/form-human.png')} alt="Designer working in an independent studio" loading="lazy" /><figcaption>Make / Form</figcaption></figure>
+            <figure className="human-frame frame-lumen"><img src={sitePath('/images/lumen-human.png')} alt="Creative team collaborating in a studio" loading="lazy" /><figcaption>Together / Lumen</figcaption></figure>
           </div>
         </section>
 
-        <a href="/work" className={cn(buttonVariants({ variant: 'outline' }), 'view-all')}>
+        <a href={sitePath('/work')} className={cn(buttonVariants({ variant: 'outline' }), 'view-all')}>
           View all eleven projects <ArrowUpRight />
         </a>
       </section>
