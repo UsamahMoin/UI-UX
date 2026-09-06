@@ -3,9 +3,9 @@
 import { useState } from 'react';
 import {
   ArrowRight, Bike, Bookmark,
-  Check, ChevronRight, CircleDollarSign, CloudSun, Coffee, Compass,
-  CreditCard, Download, Heart, Leaf, LocateFixed, MapPin, Menu, Minus,
-  MousePointer2, Move, Pause, PenTool, Play, Plus, Search, ShoppingBag,
+  Check, ChevronRight, CircleDollarSign, Coffee, Compass,
+  CreditCard, Download, Heart, Leaf, LocateFixed, MapPin, Menu, Minus, Moon,
+  MousePointer2, Move, Pause, PenTool, Play, Plus, Search, ShoppingBag, Sun,
   Star, TrainFront, TrendingUp, Type, WandSparkles, ZoomIn,
 } from 'lucide-react';
 
@@ -35,11 +35,16 @@ function Nova() {
 
 function Serein() {
   const [season, setSeason] = useState<'day' | 'night'>('day');
+  const isNight = season === 'night';
   return (
     <div className={`demo serein-demo ${season}`}>
-      <nav><b>SEREIN</b><span>Field notes&nbsp;&nbsp; Residences&nbsp;&nbsp; Our way</span><button onClick={() => setSeason(season === 'day' ? 'night' : 'day')} aria-pressed={season === 'night'}><CloudSun /> {season === 'day' ? 'Dusk' : 'Dawn'}</button></nav>
-      <section><span className="serein-number">N° 03 / KISO VALLEY</span><h2>Return to<br /><em>the quiet.</em></h2><p>A cedar refuge shaped by mist, mountain water, and the restorative luxury of having nowhere else to be.</p><div className="serein-actions"><button>Explore the residence <ArrowRight /></button><span>35°51&apos; N<br />137°41&apos; E</span></div></section>
-      <div className="serein-landscape"><img src={sitePath('/images/serein-human.png')} alt="Traveler pausing with tea inside a quiet cedar retreat" /></div>
+      <nav><b>SEREIN</b><span>Field notes&nbsp;&nbsp; Residences&nbsp;&nbsp; Our way</span><button className="serein-season-toggle" onClick={() => setSeason(isNight ? 'day' : 'night')} aria-pressed={isNight} aria-label={`Switch to ${isNight ? 'dawn' : 'dusk'} scene`}><i>{isNight ? <Sun /> : <Moon />}</i><span><small>Switch to</small>{isNight ? 'Dawn' : 'Dusk'}</span></button></nav>
+      <section><span className="serein-number">N° 03 / KISO VALLEY</span><h2>Return to<br /><em>the quiet.</em></h2><p>A cedar refuge shaped by mist, mountain water, and the restorative luxury of having nowhere else to be.</p><div className="serein-actions"><button>Explore the residence <ArrowRight /></button></div></section>
+      <div className="serein-landscape">
+        <img className={`serein-scene ${!isNight ? 'active' : ''}`} src={sitePath('/images/serein-human.png')} alt={isNight ? '' : 'Traveler having tea in a cedar retreat on a misty morning'} aria-hidden={isNight} />
+        <img className={`serein-scene serein-scene-dusk ${isNight ? 'active' : ''}`} src={sitePath('/images/serein-dusk.png')} alt={isNight ? 'Traveler having tea in a cedar retreat at blue-hour dusk' : ''} aria-hidden={!isNight} />
+      </div>
+      <div className="serein-coordinates" aria-label="Location: 35 degrees 51 minutes north, 137 degrees 41 minutes east"><small>Location</small><span>35°51′ N</span><span>137°41′ E</span></div>
       <footer><span>08 suites</span><span>Forest onsen</span><span>Seasonal table</span><span>Open Oct—May</span></footer>
     </div>
   );
