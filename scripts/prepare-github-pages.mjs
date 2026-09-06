@@ -16,11 +16,20 @@ await rm(path.join(output, 'UI-UX'), { recursive: true, force: true });
 await mkdir(workOutput, { recursive: true });
 await copyFile(path.join(output, 'work.html'), path.join(workOutput, 'index.html'));
 
-for (const file of await readdir(workOutput)) {
-  if (!file.endsWith('.html') || file === 'index.html') continue;
-  const routeDirectory = path.join(workOutput, file.slice(0, -5));
-  await mkdir(routeDirectory, { recursive: true });
-  await copyFile(path.join(workOutput, file), path.join(routeDirectory, 'index.html'));
+async function addDirectoryIndexes(directory) {
+  for (const entry of await readdir(directory, { withFileTypes: true })) {
+    const entryPath = path.join(directory, entry.name);
+    if (entry.isDirectory()) {
+      await addDirectoryIndexes(entryPath);
+      continue;
+    }
+    if (!entry.name.endsWith('.html') || entry.name === 'index.html') continue;
+    const routeDirectory = path.join(directory, entry.name.slice(0, -5));
+    await mkdir(routeDirectory, { recursive: true });
+    await copyFile(entryPath, path.join(routeDirectory, 'index.html'));
+  }
 }
+
+await addDirectoryIndexes(workOutput);
 
 await writeFile(path.join(output, '.nojekyll'), '');

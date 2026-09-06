@@ -39,7 +39,7 @@ function Serein() {
   return (
     <div className={`demo serein-demo ${season}`}>
       <nav><b>SEREIN</b><span>Field notes&nbsp;&nbsp; Residences&nbsp;&nbsp; Our way</span><button className="serein-season-toggle" onClick={() => setSeason(isNight ? 'day' : 'night')} aria-pressed={isNight} aria-label={`Switch to ${isNight ? 'dawn' : 'dusk'} scene`}><i>{isNight ? <Sun /> : <Moon />}</i><span><small>Switch to</small>{isNight ? 'Dawn' : 'Dusk'}</span></button></nav>
-      <section><span className="serein-number">N° 03 / KISO VALLEY</span><h2>Return to<br /><em>the quiet.</em></h2><p>A cedar refuge shaped by mist, mountain water, and the restorative luxury of having nowhere else to be.</p><div className="serein-actions"><button>Explore the residence <ArrowRight /></button></div></section>
+      <section><span className="serein-number">N° 03 / KISO VALLEY</span><h2>Return to<br /><em>the quiet.</em></h2><p>A cedar refuge shaped by mist, mountain water, and the restorative luxury of having nowhere else to be.</p><div className="serein-actions"><a href={sitePath('/work/serein/residence')}>Explore the residence <ArrowRight /></a></div></section>
       <div className="serein-landscape">
         <img className={`serein-scene ${!isNight ? 'active' : ''}`} src={sitePath('/images/serein-human.png')} alt={isNight ? '' : 'Traveler having tea in a cedar retreat on a misty morning'} aria-hidden={isNight} />
         <img className={`serein-scene serein-scene-dusk ${isNight ? 'active' : ''}`} src={sitePath('/images/serein-dusk-v2.png')} alt={isNight ? 'Traveler having tea in a cedar retreat at blue-hour dusk' : ''} aria-hidden={!isNight} />
