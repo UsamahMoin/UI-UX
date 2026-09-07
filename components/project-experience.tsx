@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   ArrowRight, Bike, Bookmark,
   Check, ChevronRight, CircleDollarSign, Coffee, Compass,
@@ -53,11 +53,11 @@ function Serein() {
 function Form() {
   const [filter, setFilter] = useState('All matter');
   const items = [
-    { title: 'A chair that refuses to sit still', meta: 'OBJECT / 1984', tone: 'form-red', slug: 'kinetic-chair', group: 'Objects' },
-    { title: 'Dancing with the building', meta: 'FILM / 11:08', tone: 'form-yellow', slug: 'dancing-building', group: 'Ideas' },
-    { title: 'The useful accident', meta: 'CONVERSATION / 042', tone: 'form-ink', slug: 'useful-accident', group: 'People' },
-    { title: 'Soft architecture', meta: 'ESSAY / 8 MIN', tone: 'form-mint', slug: 'soft-architecture', group: 'Ideas' },
-    { title: 'Studio visit: Mina Park', meta: 'PLACE / SEOUL', tone: 'form-lilac', slug: 'mina-park', group: 'People' },
+    { title: 'A chair that refuses to sit still', meta: 'OBJECT / 1984', tone: 'form-red', slug: 'kinetic-chair', group: 'Objects', image: '/images/form-kinetic-chair.png', alt: 'Kinetic postmodern chair displayed in a raw gallery workshop' },
+    { title: 'Dancing with the building', meta: 'FILM / 11:08', tone: 'form-yellow', slug: 'dancing-building', group: 'Ideas', image: '/images/form-dancing-building.png', alt: 'Contemporary dancer moving through severe concrete architecture' },
+    { title: 'The useful accident', meta: 'CONVERSATION / 042', tone: 'form-ink', slug: 'useful-accident', group: 'People', image: '/images/form-useful-accident.png', alt: 'Two designers in conversation across a material-covered studio table' },
+    { title: 'Soft architecture', meta: 'ESSAY / 8 MIN', tone: 'form-mint', slug: 'soft-architecture', group: 'Ideas', image: '/images/form-soft-architecture.png', alt: 'Translucent textile partitions shaping light around a small human silhouette' },
+    { title: 'Studio visit: Mina Park', meta: 'PLACE / SEOUL', tone: 'form-lilac', slug: 'mina-park', group: 'People', image: '/images/form-human.png', alt: 'Independent designer arranging work in a colorful studio' },
   ];
   const visibleItems = filter === 'All matter' ? items : items.filter((item) => item.group === filter);
   return (
@@ -65,7 +65,7 @@ function Form() {
       <header><b>F—RM</b><a className="form-search-link" href={sitePath('/work/form/archive')}><Search /> Search the archive</a><a className="form-menu-link" href={sitePath('/work/form/archive')} aria-label="Open FORM archive"><Menu aria-hidden="true" /></a></header>
       <div className="form-title"><span>INDEPENDENT CULTURE / ISSUE 14</span><h2>Things worth<br />keeping.</h2><p>An expanding archive of people and objects that alter how we see the everyday.</p></div>
       <div className="form-filters">{['All matter','Objects','People','Ideas'].map(item => <button key={item} className={filter === item ? 'active' : ''} onClick={() => setFilter(item)} aria-pressed={filter === item}>{item}</button>)}</div>
-      <div className="form-grid">{visibleItems.map((item) => { const i = items.findIndex((entry) => entry.slug === item.slug); return <article key={item.slug} className={item.tone}><a className="form-card-hit" href={sitePath(`/work/form/archive/${item.slug}`)} aria-label={`Read ${item.title}`} />{i === 4 && <img className="form-human" src={sitePath('/images/form-human.png')} alt="Independent designer arranging work in a colorful studio" />}<span>{String(i+1).padStart(2,'0')}</span>{i !== 4 && <div className="form-shape" aria-hidden="true"/>}<small>{item.meta}</small><h3>{item.title}</h3><ArrowRight /></article>; })}</div>
+      <div className="form-grid">{visibleItems.map((item) => { const i = items.findIndex((entry) => entry.slug === item.slug); return <article key={item.slug} className={`${item.tone} form-card-${item.slug}`}><a className="form-card-hit" href={sitePath(`/work/form/archive/${item.slug}`)} aria-label={`Read ${item.title}`} /><img className="form-card-image" src={sitePath(item.image)} alt={item.alt} /><span>{String(i+1).padStart(2,'0')}</span><small>{item.meta}</small><h3>{item.title}</h3><ArrowRight /></article>; })}</div>
     </div>
   );
 }
@@ -73,11 +73,38 @@ function Form() {
 function Aura() {
   const [playing, setPlaying] = useState(false);
   const [tone, setTone] = useState('Still');
+  const [elapsed, setElapsed] = useState(0);
+  const totalSeconds = 24 * 60;
+  const session = {
+    Still: { title: 'Blue Hour, Slowly', cue: 'A steady field for settling in' },
+    Open: { title: 'Air Between Cedars', cue: 'A spacious field for clear attention' },
+    Warm: { title: 'Amber Room, Softly', cue: 'A warmer field for gentle focus' },
+  }[tone] ?? { title: 'Blue Hour, Slowly', cue: 'A steady field for settling in' };
+
+  useEffect(() => {
+    if (!playing) return;
+    const timer = window.setInterval(() => {
+      setElapsed((current) => {
+        if (current >= totalSeconds - 1) {
+          window.clearInterval(timer);
+          setPlaying(false);
+          return totalSeconds;
+        }
+        return current + 1;
+      });
+    }, 1000);
+    return () => window.clearInterval(timer);
+  }, [playing, totalSeconds]);
+
+  const minutes = Math.floor(elapsed / 60).toString().padStart(2, '0');
+  const seconds = (elapsed % 60).toString().padStart(2, '0');
   return (
-    <div className="demo aura-demo">
+    <div className={`demo aura-demo tone-${tone.toLowerCase()} ${playing ? 'is-playing' : ''}`}>
       <nav><b>aura°</b><span>Library&nbsp;&nbsp; Rituals&nbsp;&nbsp; About</span><button aria-label="Save listening session"><Bookmark /></button></nav>
-      <main><small>GENERATIVE SESSION / 24 MIN</small><h2>Make space<br />for <em>{tone.toLowerCase()}.</em></h2><div className={`aura-orb ${playing ? 'playing' : ''}`}><span/><i/><b/></div>
-        <div className="aura-player"><button onClick={() => setPlaying(!playing)} aria-label={playing ? 'Pause session' : 'Play session'}>{playing ? <Pause /> : <Play />}</button><div><b>Blue Hour, Slowly</b><span><i style={{width: playing ? '46%' : '18%'}} /></span></div><time>{playing ? '08:42' : '00:00'}</time></div>
+      <main><small>GENERATIVE SESSION / 24 MIN</small><h2>Make space<br />for <em>{tone.toLowerCase()}.</em></h2>
+        <div className={`aura-field ${playing ? 'playing' : ''}`} aria-hidden="true"><span className="aura-halo aura-halo-outer"/><span className="aura-halo aura-halo-inner"/><span className="aura-mist aura-mist-one"/><span className="aura-mist aura-mist-two"/><span className="aura-core"/><span className="aura-glint"/></div>
+        <div className="aura-breath-cue" aria-live="polite"><span>{playing ? 'Follow the slow light' : session.cue}</span><small>{playing ? '≈ 5.5 gentle cycles / min' : 'Motion paused until you begin'}</small></div>
+        <div className="aura-player"><button onClick={() => setPlaying(!playing)} aria-label={playing ? 'Pause session' : 'Begin session'} aria-pressed={playing}>{playing ? <Pause /> : <Play />}</button><div><b>{session.title}</b><span className="aura-progress" aria-hidden="true"><i style={{width: `${Math.max(2, (elapsed / totalSeconds) * 100)}%`}} /></span></div><time>{minutes}:{seconds}</time></div>
       </main>
       <footer><span>How should this moment feel?</span><div>{['Still','Open','Warm'].map(item => <button key={item} onClick={() => setTone(item)} className={tone === item ? 'active' : ''} aria-pressed={tone === item}>{item}</button>)}</div></footer>
     </div>
