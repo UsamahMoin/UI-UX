@@ -102,8 +102,8 @@ function Aura() {
     <div className={`demo aura-demo tone-${tone.toLowerCase()} ${playing ? 'is-playing' : ''}`}>
       <nav><b>aura°</b><span>Library&nbsp;&nbsp; Rituals&nbsp;&nbsp; About</span><button aria-label="Save listening session"><Bookmark /></button></nav>
       <main><small>GENERATIVE SESSION / 24 MIN</small><h2>Make space<br />for <em>{tone.toLowerCase()}.</em></h2>
-        <div className={`aura-field ${playing ? 'playing' : ''}`} aria-hidden="true"><span className="aura-halo aura-halo-outer"/><span className="aura-halo aura-halo-inner"/><span className="aura-mist aura-mist-one"/><span className="aura-mist aura-mist-two"/><span className="aura-core"/><span className="aura-glint"/></div>
-        <div className="aura-breath-cue" aria-live="polite"><span>{playing ? 'Follow the slow light' : session.cue}</span><small>{playing ? '≈ 5.5 gentle cycles / min' : 'Motion paused until you begin'}</small></div>
+        <div className={`aura-lightscape ${playing ? 'playing' : ''}`} aria-hidden="true"><span className="aura-wash"/><span className="aura-veil aura-veil-one"/><span className="aura-veil aura-veil-two"/><span className="aura-horizon"/></div>
+        <div className="aura-breath-cue" aria-live="polite"><span>{playing ? 'Let the room move slowly around you' : session.cue}</span><small>{playing ? 'Slow light · one unhurried cycle every 11 seconds' : 'The room stays still until you begin'}</small></div>
         <div className="aura-player"><button onClick={() => setPlaying(!playing)} aria-label={playing ? 'Pause session' : 'Begin session'} aria-pressed={playing}>{playing ? <Pause /> : <Play />}</button><div><b>{session.title}</b><span className="aura-progress" aria-hidden="true"><i style={{width: `${Math.max(2, (elapsed / totalSeconds) * 100)}%`}} /></span></div><time>{minutes}:{seconds}</time></div>
       </main>
       <footer><span>How should this moment feel?</span><div>{['Still','Open','Warm'].map(item => <button key={item} onClick={() => setTone(item)} className={tone === item ? 'active' : ''} aria-pressed={tone === item}>{item}</button>)}</div></footer>
