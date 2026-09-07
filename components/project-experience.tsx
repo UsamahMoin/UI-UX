@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 import {
   ArrowRight, Bike, Bookmark,
   Check, ChevronRight, CircleDollarSign, Coffee, Compass,
-  CreditCard, Download, Heart, Leaf, LocateFixed, MapPin, Menu, Minus, Moon,
+  CreditCard, Download, Headphones, Heart, Info, Leaf, LocateFixed, MapPin, Menu, Minus, Moon,
   MousePointer2, Move, Pause, PenTool, Play, Plus, Search, ShoppingBag, Sun,
-  Star, TrainFront, TrendingUp, Type, WandSparkles, ZoomIn,
+  Sparkles, Star, TrainFront, TrendingUp, Type, WandSparkles, ZoomIn,
 } from 'lucide-react';
 
 import { NovaDashboard } from '@/components/nova-dashboard';
@@ -101,13 +101,17 @@ function Aura() {
   const seconds = (elapsed % 60).toString().padStart(2, '0');
   return (
     <div className={`demo aura-demo tone-${tone.toLowerCase()} ${playing ? 'is-playing' : ''}`}>
-      <nav><a href={sitePath('/work/aura')} aria-label="AURA home"><b>aura°</b></a><span className="aura-nav-links"><a href={sitePath('/work/aura/library')}>Library</a><a href={sitePath('/work/aura/rituals')}>Rituals</a><a href={sitePath('/work/aura/about')}>About</a></span><button onClick={() => setSaved(!saved)} aria-label={saved ? 'Remove listening session from saved' : 'Save listening session'} aria-pressed={saved}><Bookmark fill={saved ? 'currentColor' : 'none'} /></button></nav>
-      <main><small>GENERATIVE SESSION / 24 MIN</small><h2>Make space<br />for <em>{tone.toLowerCase()}.</em></h2>
+      <nav className="aura-demo-top"><a href={sitePath('/work/aura')} aria-label="AURA home"><b>aura°</b></a><span className="aura-demo-status"><i aria-hidden="true" /> LISTENING SYSTEM · ONLINE</span><button onClick={() => setSaved(!saved)} aria-label={saved ? 'Remove listening session from saved' : 'Save listening session'} aria-pressed={saved}><Bookmark fill={saved ? 'currentColor' : 'none'} /></button></nav>
+      <aside className="aura-demo-rail" aria-label="Explore AURA"><a href={sitePath('/work/aura/library')} aria-label="Library"><Headphones /><span>Library</span></a><a href={sitePath('/work/aura/rituals')} aria-label="Rituals"><Sparkles /><span>Rituals</span></a><a href={sitePath('/work/aura/about')} aria-label="About"><Info /><span>About</span></a></aside>
+      <main>
         <div className={`aura-lightscape ${playing ? 'playing' : ''}`} aria-hidden="true"><span className="aura-wash"/><span className="aura-veil aura-veil-one"/><span className="aura-veil aura-veil-two"/></div>
-        <div className="aura-breath-cue" aria-live="polite"><span>{playing ? 'Let the room move slowly around you' : session.cue}</span><small>{playing ? 'Slow light · one unhurried cycle every 11 seconds' : 'The room stays still until you begin'}</small></div>
-        <div className="aura-player"><button onClick={() => setPlaying(!playing)} aria-label={playing ? 'Pause session' : 'Begin session'} aria-pressed={playing}>{playing ? <Pause /> : <Play />}</button><div><b>{session.title}</b><span className="aura-progress" aria-hidden="true"><i style={{width: `${Math.max(2, (elapsed / totalSeconds) * 100)}%`}} /></span></div><time>{minutes}:{seconds}</time></div>
+        <section className="aura-demo-copy"><small>GENERATIVE SESSION / 24 MIN</small><h2>Make space<br />for <em>{tone.toLowerCase()}.</em></h2>
+          <div className="aura-breath-cue" aria-live="polite"><span>{playing ? 'Let the room move slowly around you' : session.cue}</span><small>{playing ? 'Slow light · one unhurried cycle every 11 seconds' : 'The room stays still until you begin'}</small></div>
+          <div className="aura-player"><button onClick={() => setPlaying(!playing)} aria-label={playing ? 'Pause session' : 'Begin session'} aria-pressed={playing}>{playing ? <Pause /> : <Play />}</button><div><b>{session.title}</b><span className="aura-progress" aria-hidden="true"><i style={{width: `${Math.max(2, (elapsed / totalSeconds) * 100)}%`}} /></span></div><time>{minutes}:{seconds}</time></div>
+        </section>
+        <aside className="aura-demo-context" aria-live="polite"><div><span>ENVIRONMENT</span><strong>{playing ? 'Playing' : 'Ready'}</strong></div><div className={`aura-demo-wave ${playing ? 'active' : ''}`} aria-hidden="true">{[4,8,5,11,7,13,9,5,10,6,8,4].map((height, index) => <i key={index} style={{height: `${height * 2}px`}} />)}</div><small>{tone} · {session.title}</small><a href={sitePath('/work/aura/library')}>Open library <ArrowRight /></a></aside>
       </main>
-      <footer><span>How should this moment feel?</span><div>{['Still','Open','Warm'].map(item => <button key={item} onClick={() => setTone(item)} className={tone === item ? 'active' : ''} aria-pressed={tone === item}>{item}</button>)}</div></footer>
+      <footer><span>Choose your environment</span><div>{['Still','Open','Warm'].map(item => <button key={item} onClick={() => { setTone(item); setPlaying(false); setElapsed(0); }} className={tone === item ? 'active' : ''} aria-pressed={tone === item}>{item}</button>)}</div></footer>
     </div>
   );
 }
