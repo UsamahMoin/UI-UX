@@ -99,6 +99,14 @@ function Aura() {
 
   const minutes = Math.floor(elapsed / 60).toString().padStart(2, '0');
   const seconds = (elapsed % 60).toString().padStart(2, '0');
+  const remaining = Math.max(0, totalSeconds - elapsed);
+  const remainingMinutes = Math.floor(remaining / 60).toString().padStart(2, '0');
+  const remainingSeconds = (remaining % 60).toString().padStart(2, '0');
+  const progress = elapsed / totalSeconds;
+  const playheadX = 55 + progress * 890;
+  const waveStart = playheadX - 55;
+  const waveEnd = playheadX + 55;
+  const wavePath = `M 0 35 H ${waveStart} C ${waveStart + 20} 35 ${playheadX - 26} 8 ${playheadX} 8 C ${playheadX + 26} 8 ${waveEnd - 20} 35 ${waveEnd} 35 H 1000`;
   return (
     <div className={`demo aura-demo tone-${tone.toLowerCase()} ${playing ? 'is-playing' : ''}`}>
       <nav className="aura-demo-top"><a href={sitePath('/work/aura')} aria-label="AURA home"><b>aura°</b></a><span className="aura-demo-status"><i aria-hidden="true" /> LISTENING SYSTEM · ONLINE</span><button onClick={() => setSaved(!saved)} aria-label={saved ? 'Remove listening session from saved' : 'Save listening session'} aria-pressed={saved}><Bookmark fill={saved ? 'currentColor' : 'none'} /></button></nav>
@@ -107,7 +115,7 @@ function Aura() {
         <div className={`aura-lightscape ${playing ? 'playing' : ''}`} aria-hidden="true"><span className="aura-wash"/><span className="aura-veil aura-veil-one"/><span className="aura-veil aura-veil-two"/></div>
         <section className="aura-demo-copy"><small>GENERATIVE SESSION / 24 MIN</small><h2>Make space<br />for <em>{tone.toLowerCase()}.</em></h2>
           <div className="aura-breath-cue" aria-live="polite"><span>{playing ? 'Let the room move slowly around you' : session.cue}</span><small>{playing ? 'Slow light · one unhurried cycle every 11 seconds' : 'The room stays still until you begin'}</small></div>
-          <div className="aura-player"><button onClick={() => setPlaying(!playing)} aria-label={playing ? 'Pause session' : 'Begin session'} aria-pressed={playing}>{playing ? <Pause /> : <Play />}</button><div><b>{session.title}</b><span className="aura-progress" aria-hidden="true"><i style={{width: `${Math.max(2, (elapsed / totalSeconds) * 100)}%`}} /></span></div><time>{minutes}:{seconds}</time></div>
+          <div className="aura-player"><button onClick={() => setPlaying(!playing)} aria-label={playing ? 'Pause session' : 'Begin session'} aria-pressed={playing}>{playing ? <Pause /> : <Play />}</button><div className="aura-player-info"><b>{session.title}</b><div className="aura-wave-tracker"><svg viewBox="0 0 1000 52" preserveAspectRatio="none" aria-hidden="true"><path className="track" d={wavePath} pathLength="100"/><path className="played" d={wavePath} pathLength="100" style={{strokeDasharray: `${Math.max(1, progress * 100)} 100`}}/></svg><i className="aura-playhead" style={{left: `${5.5 + progress * 89}%`}} aria-hidden="true"/><input type="range" min="0" max={totalSeconds} value={elapsed} onChange={(event) => setElapsed(Number(event.target.value))} aria-label={`Seek ${session.title}`} /></div><div className="aura-player-times"><time>{minutes}:{seconds}</time><span>AURA SPATIAL</span><time>-{remainingMinutes}:{remainingSeconds}</time></div></div></div>
         </section>
         <aside className="aura-demo-context" aria-live="polite"><div><span>ENVIRONMENT</span><strong>{playing ? 'Playing' : 'Ready'}</strong></div><div className={`aura-demo-wave ${playing ? 'active' : ''}`} aria-hidden="true">{[4,8,5,11,7,13,9,5,10,6,8,4].map((height, index) => <i key={index} style={{height: `${height * 2}px`}} />)}</div><small>{tone} · {session.title}</small><a href={sitePath('/work/aura/library')}>Open library <ArrowRight /></a></aside>
       </main>
