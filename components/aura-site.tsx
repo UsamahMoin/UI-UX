@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ArrowLeft, ArrowRight, Bookmark, Check, Pause, Play } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Bookmark, Check, Headphones, Home, Info, Pause, Play, Search, Sparkles } from 'lucide-react';
 
 import { sitePath } from '@/lib/site-path';
 
@@ -23,32 +23,84 @@ const rituals = [
 ];
 
 export function AuraSite({ section }: { section: AuraSection }) {
+  const destinations = [
+    { label: 'Listening room', href: '/work/aura', icon: Home },
+    { label: 'Library', href: '/work/aura/library', icon: Headphones, section: 'library' },
+    { label: 'Rituals', href: '/work/aura/rituals', icon: Sparkles, section: 'rituals' },
+    { label: 'About', href: '/work/aura/about', icon: Info, section: 'about' },
+  ] as const;
+
   return (
     <main className={`aura-site aura-site-${section}`}>
       <nav className="aura-site-nav">
         <a className="aura-site-mark" href={sitePath('/work/aura')}>aura°</a>
-        <div>{(['library', 'rituals', 'about'] as const).map((item) => <a key={item} className={section === item ? 'active' : ''} aria-current={section === item ? 'page' : undefined} href={sitePath(`/work/aura/${item}`)}>{item}</a>)}</div>
+        <div className="aura-site-status"><span>LISTENING SYSTEM</span><i aria-hidden="true" /> <span>ONLINE</span></div>
         <a className="aura-site-back" href={sitePath('/work/aura')}><ArrowLeft /> Listening room</a>
       </nav>
-      {section === 'library' && <AuraLibrary />}
-      {section === 'rituals' && <AuraRituals />}
-      {section === 'about' && <AuraAbout />}
-      <footer className="aura-site-footer"><span>AURA · A CONCEPT BY USAMAH MOIN</span><a href={sitePath('/work')}>All portfolio projects <ArrowRight /></a></footer>
+      <aside className="aura-os-rail" aria-label="AURA navigation">
+        {destinations.map((destination) => {
+          const Icon = destination.icon;
+          const isActive = 'section' in destination && destination.section === section;
+          return <a key={destination.label} className={isActive ? 'active' : ''} aria-current={isActive ? 'page' : undefined} href={sitePath(destination.href)} aria-label={destination.label}><Icon /><span>{destination.label}</span></a>;
+        })}
+      </aside>
+      <div className="aura-os-content">
+        {section === 'library' && <AuraLibrary />}
+        {section === 'rituals' && <AuraRituals />}
+        {section === 'about' && <AuraAbout />}
+        <footer className="aura-site-footer"><span>AURA · A CONCEPT BY USAMAH MOIN</span><a href={sitePath('/work')}>All portfolio projects <ArrowRight /></a></footer>
+      </div>
     </main>
   );
 }
 
 function AuraLibrary() {
   const [filter, setFilter] = useState('All');
+  const [query, setQuery] = useState('');
   const [playing, setPlaying] = useState<string | null>(null);
+  const [selected, setSelected] = useState(sessions[0].title);
   const [saved, setSaved] = useState<string[]>([]);
-  const visible = filter === 'All' ? sessions : sessions.filter((session) => session.tone === filter);
+  const visible = sessions.filter((session) => {
+    const matchesTone = filter === 'All' || session.tone === filter;
+    const terms = `${session.title} ${session.tone} ${session.note}`.toLowerCase();
+    return matchesTone && terms.includes(query.toLowerCase().trim());
+  });
+  const active = sessions.find((session) => session.title === selected) ?? sessions[0];
   const toggleSaved = (title: string) => setSaved((current) => current.includes(title) ? current.filter((item) => item !== title) : [...current, title]);
+  const togglePlaying = (title: string) => {
+    setSelected(title);
+    setPlaying((current) => current === title ? null : title);
+  };
 
   return <>
-    <header className="aura-site-hero"><span>LISTENING LIBRARY / 06 SESSIONS</span><h1>Sound for the space<br />between thoughts.</h1><p>Choose by feeling, not genre. Every session changes slowly enough to become part of the room.</p></header>
-    <section className="aura-library-tools"><span>FILTER BY FEELING</span><div>{['All', 'Still', 'Open', 'Warm'].map((item) => <button key={item} className={filter === item ? 'active' : ''} aria-pressed={filter === item} onClick={() => setFilter(item)}>{item}</button>)}</div></section>
-    <section className="aura-session-grid" aria-label="Listening sessions">{visible.map((session, index) => <article key={session.title} className={`aura-session-card ${session.color}`}><div className="aura-session-art" aria-hidden="true"><i/><span>{String(index + 1).padStart(2, '0')}</span></div><div className="aura-session-copy"><span>{session.tone.toUpperCase()} · {session.duration}</span><h2>{session.title}</h2><p>{session.note}</p><div><button className="aura-session-play" onClick={() => setPlaying(playing === session.title ? null : session.title)} aria-label={`${playing === session.title ? 'Pause' : 'Play'} ${session.title}`}>{playing === session.title ? <Pause /> : <Play />}{playing === session.title ? 'Playing' : 'Listen'}</button><button className="aura-session-save" onClick={() => toggleSaved(session.title)} aria-label={`${saved.includes(session.title) ? 'Remove' : 'Save'} ${session.title}`} aria-pressed={saved.includes(session.title)}><Bookmark fill={saved.includes(session.title) ? 'currentColor' : 'none'} /></button></div></div></article>)}</section>
+    <section className={`aura-os-stage ${active.color}`} aria-labelledby="aura-library-title">
+      <div className="aura-os-scene" aria-hidden="true"><i /><b /><span /></div>
+      <div className="aura-os-stage-copy">
+        <span>CURATED LISTENING / {active.tone.toUpperCase()} / {active.duration}</span>
+        <h1 id="aura-library-title">{active.title}</h1>
+        <p>{active.note}</p>
+        <div className="aura-os-stage-actions">
+          <button className="primary" onClick={() => togglePlaying(active.title)}>{playing === active.title ? <Pause /> : <Play />}{playing === active.title ? 'Pause session' : 'Begin session'}</button>
+          <button onClick={() => toggleSaved(active.title)} aria-pressed={saved.includes(active.title)}><Bookmark fill={saved.includes(active.title) ? 'currentColor' : 'none'} />{saved.includes(active.title) ? 'Saved' : 'Save'}</button>
+        </div>
+      </div>
+      <aside className="aura-now-card" aria-live="polite">
+        <div><span>ENVIRONMENT</span><strong>{playing === active.title ? 'Playing' : 'Ready'}</strong></div>
+        <div className={`aura-waveform ${playing === active.title ? 'active' : ''}`} aria-hidden="true">{[3, 7, 5, 10, 6, 12, 8, 5, 9, 4, 7, 3].map((height, index) => <i key={index} style={{ height: `${height * 2}px` }} />)}</div>
+        <small>{active.tone} · {active.duration}</small>
+      </aside>
+    </section>
+    <section className="aura-library-heading"><div><span>LISTENING LIBRARY / 06 SESSIONS</span><h2>Choose the room you need.</h2></div><p>Browse by feeling rather than genre. The controls stay close, then recede when listening begins.</p></section>
+    <section className="aura-library-tools">
+      <label><Search aria-hidden="true" /><span className="sr-only">Search listening sessions</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search sessions" /></label>
+      <div aria-label="Filter by feeling">{['All', 'Still', 'Open', 'Warm'].map((item) => <button key={item} className={filter === item ? 'active' : ''} aria-pressed={filter === item} onClick={() => setFilter(item)}>{item}</button>)}</div>
+    </section>
+    <section className="aura-session-grid" aria-label="Listening sessions">
+      {visible.length ? visible.map((session, index) => <article key={session.title} className={`aura-session-card ${session.color} ${selected === session.title ? 'selected' : ''}`}>
+        <button className="aura-session-art" onClick={() => setSelected(session.title)} aria-label={`Preview ${session.title}`}><i aria-hidden="true" /><b aria-hidden="true" /><span>{String(index + 1).padStart(2, '0')}</span><small>Preview</small></button>
+        <div className="aura-session-copy"><span>{session.tone.toUpperCase()} · {session.duration}</span><h3>{session.title}</h3><p>{session.note}</p><div><button className="aura-session-play" onClick={() => togglePlaying(session.title)} aria-label={`${playing === session.title ? 'Pause' : 'Play'} ${session.title}`}>{playing === session.title ? <Pause /> : <Play />}{playing === session.title ? 'Playing' : 'Listen'}</button><button className="aura-session-save" onClick={() => toggleSaved(session.title)} aria-label={`${saved.includes(session.title) ? 'Remove' : 'Save'} ${session.title}`} aria-pressed={saved.includes(session.title)}><Bookmark fill={saved.includes(session.title) ? 'currentColor' : 'none'} /></button></div></div>
+      </article>) : <p className="aura-empty-state">No sessions match that search. Try another feeling or title.</p>}
+    </section>
   </>;
 }
 
