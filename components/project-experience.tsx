@@ -72,6 +72,7 @@ function Form() {
 
 function Aura() {
   const [playing, setPlaying] = useState(false);
+  const [saved, setSaved] = useState(false);
   const [tone, setTone] = useState('Still');
   const [elapsed, setElapsed] = useState(0);
   const totalSeconds = 24 * 60;
@@ -100,7 +101,7 @@ function Aura() {
   const seconds = (elapsed % 60).toString().padStart(2, '0');
   return (
     <div className={`demo aura-demo tone-${tone.toLowerCase()} ${playing ? 'is-playing' : ''}`}>
-      <nav><b>aura°</b><span>Library&nbsp;&nbsp; Rituals&nbsp;&nbsp; About</span><button aria-label="Save listening session"><Bookmark /></button></nav>
+      <nav><a href={sitePath('/work/aura')} aria-label="AURA home"><b>aura°</b></a><span className="aura-nav-links"><a href={sitePath('/work/aura/library')}>Library</a><a href={sitePath('/work/aura/rituals')}>Rituals</a><a href={sitePath('/work/aura/about')}>About</a></span><button onClick={() => setSaved(!saved)} aria-label={saved ? 'Remove listening session from saved' : 'Save listening session'} aria-pressed={saved}><Bookmark fill={saved ? 'currentColor' : 'none'} /></button></nav>
       <main><small>GENERATIVE SESSION / 24 MIN</small><h2>Make space<br />for <em>{tone.toLowerCase()}.</em></h2>
         <div className={`aura-lightscape ${playing ? 'playing' : ''}`} aria-hidden="true"><span className="aura-wash"/><span className="aura-veil aura-veil-one"/><span className="aura-veil aura-veil-two"/></div>
         <div className="aura-breath-cue" aria-live="polite"><span>{playing ? 'Let the room move slowly around you' : session.cue}</span><small>{playing ? 'Slow light · one unhurried cycle every 11 seconds' : 'The room stays still until you begin'}</small></div>
