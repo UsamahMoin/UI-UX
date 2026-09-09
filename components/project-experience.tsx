@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { PointerEvent as ReactPointerEvent } from 'react';
 import {
   ArrowRight, Bike, Bookmark,
@@ -72,7 +72,6 @@ function Form() {
 }
 
 function Aura() {
-  const trackerClipId = useId().replaceAll(':', '');
   const trackerRef = useRef<HTMLDivElement>(null);
   const dragStartX = useRef<number | null>(null);
   const didDragPlayhead = useRef(false);
@@ -120,14 +119,14 @@ function Aura() {
   const remainingMinutes = Math.floor(remaining / 60).toString().padStart(2, '0');
   const remainingSeconds = (remaining % 60).toString().padStart(2, '0');
   const progress = elapsed / totalSeconds;
-  const waveRadius = Math.max(20, Math.min(26, trackerWidth * 0.075));
+  const waveRadius = Math.max(24, Math.min(32, trackerWidth * 0.09));
   const trackBaseline = 52;
   const playheadX = waveRadius + progress * (trackerWidth - waveRadius * 2);
-  const waveRise = waveRadius * 0.9;
+  const waveRise = waveRadius * 0.7;
   const waveStart = playheadX - waveRadius;
   const waveEnd = playheadX + waveRadius;
   const waveTop = trackBaseline - waveRise;
-  const joinControl = waveRadius * 0.56;
+  const joinControl = waveRadius * 0.62;
   const wavePath = `M 0 ${trackBaseline} H ${waveStart} C ${waveStart + joinControl} ${trackBaseline} ${playheadX - joinControl} ${waveTop} ${playheadX} ${waveTop} C ${playheadX + joinControl} ${waveTop} ${waveEnd - joinControl} ${trackBaseline} ${waveEnd} ${trackBaseline} H ${trackerWidth}`;
   const seekFromPointer = (clientX: number) => {
     const tracker = trackerRef.current;
@@ -164,7 +163,7 @@ function Aura() {
         <div className={`aura-lightscape ${playing ? 'playing' : ''}`} aria-hidden="true"><span className="aura-wash"/><span className="aura-veil aura-veil-one"/><span className="aura-veil aura-veil-two"/></div>
         <section className="aura-demo-copy"><small>GENERATIVE SESSION / 24 MIN</small><h2>Make space<br />for <em>{tone.toLowerCase()}.</em></h2>
           <div className="aura-breath-cue" aria-live="polite"><span>{playing ? 'Let the room move slowly around you' : session.cue}</span><small>{playing ? 'Slow light · one unhurried cycle every 11 seconds' : 'The room stays still until you begin'}</small></div>
-          <div className="aura-player"><div className="aura-player-info"><b>{session.title}</b><div className="aura-wave-tracker" ref={trackerRef}><svg viewBox={`0 0 ${trackerWidth} 64`} preserveAspectRatio="none" aria-hidden="true"><defs><clipPath id={trackerClipId}><rect width={playheadX} height="64" /></clipPath></defs><path className="track" d={wavePath}/><path className="played" d={wavePath} clipPath={`url(#${trackerClipId})`}/></svg><input style={{left: `${waveRadius}px`, right: `${waveRadius}px`, width: 'auto'}} type="range" min="0" max={totalSeconds} step="0.1" value={elapsed} onChange={(event) => setElapsed(Number(event.target.value))} aria-label={`Seek ${session.title}`} /><button type="button" className={`aura-playhead-button ${playing ? 'playing' : ''}`} style={{left: `${playheadX}px`}} onPointerDown={beginPlayheadDrag} onPointerMove={movePlayhead} onPointerUp={endPlayheadDrag} onPointerCancel={() => { dragStartX.current = null; }} onClick={() => { if (suppressPlayheadClick.current) { suppressPlayheadClick.current = false; return; } setPlaying(!playing); }} aria-label={playing ? 'Pause session or drag to seek' : 'Play session or drag to seek'} aria-pressed={playing}>{playing ? <Pause aria-hidden="true" /> : <span className="sr-only">Play</span>}</button></div><div className="aura-player-times"><time>{minutes}:{seconds}</time><span>AURA SPATIAL</span><time>-{remainingMinutes}:{remainingSeconds}</time></div></div></div>
+          <div className="aura-player"><div className="aura-player-info"><b>{session.title}</b><div className="aura-wave-tracker" ref={trackerRef}><svg viewBox={`0 0 ${trackerWidth} 64`} preserveAspectRatio="none" aria-hidden="true"><path className="track" d={wavePath}/></svg><input style={{left: `${waveRadius}px`, right: `${waveRadius}px`, width: 'auto'}} type="range" min="0" max={totalSeconds} step="0.1" value={elapsed} onChange={(event) => setElapsed(Number(event.target.value))} aria-label={`Seek ${session.title}`} /><button type="button" className={`aura-playhead-button ${playing ? 'playing' : ''}`} style={{left: `${playheadX}px`}} onPointerDown={beginPlayheadDrag} onPointerMove={movePlayhead} onPointerUp={endPlayheadDrag} onPointerCancel={() => { dragStartX.current = null; }} onClick={() => { if (suppressPlayheadClick.current) { suppressPlayheadClick.current = false; return; } setPlaying(!playing); }} aria-label={playing ? 'Pause session or drag to seek' : 'Play session or drag to seek'} aria-pressed={playing}>{playing ? <Pause aria-hidden="true" /> : <span className="sr-only">Play</span>}</button></div><div className="aura-player-times"><time>{minutes}:{seconds}</time><span>AURA SPATIAL</span><time>-{remainingMinutes}:{remainingSeconds}</time></div></div></div>
         </section>
         <aside className="aura-demo-context" aria-live="polite"><div><span>ENVIRONMENT</span><strong>{playing ? 'Playing' : 'Ready'}</strong></div><div className={`aura-demo-wave ${playing ? 'active' : ''}`} aria-hidden="true">{[4,8,5,11,7,13,9,5,10,6,8,4].map((height, index) => <i key={index} style={{height: `${height * 2}px`}} />)}</div><small>{tone} · {session.title}</small><a href={sitePath('/work/aura/library')}>Open library <ArrowRight /></a></aside>
       </main>
