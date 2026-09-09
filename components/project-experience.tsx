@@ -105,9 +105,15 @@ function Aura() {
   const remainingSeconds = (remaining % 60).toString().padStart(2, '0');
   const progress = elapsed / totalSeconds;
   const playheadX = 55 + progress * 890;
-  const waveStart = playheadX - 55;
-  const waveEnd = playheadX + 55;
-  const wavePath = `M 0 35 H ${waveStart} C ${waveStart + 20} 35 ${playheadX - 26} 8 ${playheadX} 8 C ${playheadX + 26} 8 ${waveEnd - 20} 35 ${waveEnd} 35 H 1000`;
+  const waveRadius = 42;
+  const waveRise = 26;
+  const circleControl = 0.5522848;
+  const waveStart = playheadX - waveRadius;
+  const waveEnd = playheadX + waveRadius;
+  const waveTop = 35 - waveRise;
+  const waveShoulder = 35 - circleControl * waveRise;
+  const waveSide = circleControl * waveRadius;
+  const wavePath = `M 0 35 H ${waveStart} C ${waveStart} ${waveShoulder} ${playheadX - waveSide} ${waveTop} ${playheadX} ${waveTop} C ${playheadX + waveSide} ${waveTop} ${waveEnd} ${waveShoulder} ${waveEnd} 35 H 1000`;
   return (
     <div className={`demo aura-demo tone-${tone.toLowerCase()} ${playing ? 'is-playing' : ''}`}>
       <nav className="aura-demo-top"><a href={sitePath('/work/aura')} aria-label="AURA home"><b>aura°</b></a><span className="aura-demo-status"><i aria-hidden="true" /> LISTENING SYSTEM · ONLINE</span><button onClick={() => setSaved(!saved)} aria-label={saved ? 'Remove listening session from saved' : 'Save listening session'} aria-pressed={saved}><Bookmark fill={saved ? 'currentColor' : 'none'} /></button></nav>
