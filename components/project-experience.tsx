@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import {
   ArrowRight, Bike, Bookmark,
   Check, ChevronRight, CircleDollarSign, Coffee, Compass,
@@ -71,6 +71,7 @@ function Form() {
 }
 
 function Aura() {
+  const trackerClipId = useId().replaceAll(':', '');
   const [playing, setPlaying] = useState(false);
   const [saved, setSaved] = useState(false);
   const [tone, setTone] = useState('Still');
@@ -86,14 +87,14 @@ function Aura() {
     if (!playing) return;
     const timer = window.setInterval(() => {
       setElapsed((current) => {
-        if (current >= totalSeconds - 1) {
+        if (current >= totalSeconds - 0.1) {
           window.clearInterval(timer);
           setPlaying(false);
           return totalSeconds;
         }
-        return current + 1;
+        return Math.min(totalSeconds, current + 0.1);
       });
-    }, 1000);
+    }, 100);
     return () => window.clearInterval(timer);
   }, [playing, totalSeconds]);
 
@@ -115,7 +116,7 @@ function Aura() {
         <div className={`aura-lightscape ${playing ? 'playing' : ''}`} aria-hidden="true"><span className="aura-wash"/><span className="aura-veil aura-veil-one"/><span className="aura-veil aura-veil-two"/></div>
         <section className="aura-demo-copy"><small>GENERATIVE SESSION / 24 MIN</small><h2>Make space<br />for <em>{tone.toLowerCase()}.</em></h2>
           <div className="aura-breath-cue" aria-live="polite"><span>{playing ? 'Let the room move slowly around you' : session.cue}</span><small>{playing ? 'Slow light · one unhurried cycle every 11 seconds' : 'The room stays still until you begin'}</small></div>
-          <div className="aura-player"><button onClick={() => setPlaying(!playing)} aria-label={playing ? 'Pause session' : 'Begin session'} aria-pressed={playing}>{playing ? <Pause /> : <Play />}</button><div className="aura-player-info"><b>{session.title}</b><div className="aura-wave-tracker"><svg viewBox="0 0 1000 52" preserveAspectRatio="none" aria-hidden="true"><path className="track" d={wavePath} pathLength="100"/><path className="played" d={wavePath} pathLength="100" style={{strokeDasharray: `${Math.max(1, progress * 100)} 100`}}/></svg><i className="aura-playhead" style={{left: `${5.5 + progress * 89}%`}} aria-hidden="true"/><input type="range" min="0" max={totalSeconds} value={elapsed} onChange={(event) => setElapsed(Number(event.target.value))} aria-label={`Seek ${session.title}`} /></div><div className="aura-player-times"><time>{minutes}:{seconds}</time><span>AURA SPATIAL</span><time>-{remainingMinutes}:{remainingSeconds}</time></div></div></div>
+          <div className="aura-player"><button onClick={() => setPlaying(!playing)} aria-label={playing ? 'Pause session' : 'Begin session'} aria-pressed={playing}>{playing ? <Pause /> : <Play />}</button><div className="aura-player-info"><b>{session.title}</b><div className="aura-wave-tracker"><svg viewBox="0 0 1000 52" preserveAspectRatio="none" aria-hidden="true"><defs><clipPath id={trackerClipId}><rect width={playheadX} height="52" /></clipPath></defs><path className="track" d={wavePath}/><path className="played" d={wavePath} clipPath={`url(#${trackerClipId})`}/></svg><i className="aura-playhead" style={{left: `${5.5 + progress * 89}%`}} aria-hidden="true"/><input type="range" min="0" max={totalSeconds} step="0.1" value={elapsed} onChange={(event) => setElapsed(Number(event.target.value))} aria-label={`Seek ${session.title}`} /></div><div className="aura-player-times"><time>{minutes}:{seconds}</time><span>AURA SPATIAL</span><time>-{remainingMinutes}:{remainingSeconds}</time></div></div></div>
         </section>
         <aside className="aura-demo-context" aria-live="polite"><div><span>ENVIRONMENT</span><strong>{playing ? 'Playing' : 'Ready'}</strong></div><div className={`aura-demo-wave ${playing ? 'active' : ''}`} aria-hidden="true">{[4,8,5,11,7,13,9,5,10,6,8,4].map((height, index) => <i key={index} style={{height: `${height * 2}px`}} />)}</div><small>{tone} · {session.title}</small><a href={sitePath('/work/aura/library')}>Open library <ArrowRight /></a></aside>
       </main>
