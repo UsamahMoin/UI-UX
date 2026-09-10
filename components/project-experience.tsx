@@ -180,14 +180,66 @@ function Aura() {
 }
 
 function Vernacular() {
-  const [size, setSize] = useState(86);
-  const [text, setText] = useState('LOUDER THAN WORDS');
+  const packs = [
+    { count: 20, price: 12 },
+    { count: 50, price: 25 },
+    { count: 100, price: 42 },
+  ];
+  const [pack, setPack] = useState(packs[1]);
+  const [quantity, setQuantity] = useState(1);
+  const [bagQuantity, setBagQuantity] = useState(0);
+  const [added, setAdded] = useState(false);
+  const addToBag = () => {
+    setBagQuantity((current) => current + quantity);
+    setAdded(true);
+    window.setTimeout(() => setAdded(false), 1800);
+  };
   return (
-    <div className="demo vernacular-demo">
-      <header><b>VNL®</b><span>TYPEFACES</span><span>LICENSES</span><span>STUDIO</span><button><ShoppingBag /> CART (0)</button></header>
-      <div className="type-controls"><label>TYPE SOMETHING <input value={text} onChange={e => setText(e.target.value)} aria-label="Specimen text" /></label><label>SIZE <input type="range" min="42" max="150" value={size} onChange={e => setSize(Number(e.target.value))} aria-label="Specimen type size" /> <b>{size}px</b></label></div>
-      <div className="type-stage" style={{fontSize: `clamp(42px, ${size/12}vw, ${size}px)`}}>{text || 'TYPE SOMETHING'}</div>
-      <footer><div><span>VNL GROTESK</span><b>14 STYLES / VARIABLE</b></div><button>TRY THE FAMILY <ArrowRight /></button><span>ABCDEFGHIJKLM<br />NOPQRSTUVWXYZ</span></footer>
+    <div className="demo vernacular-demo" id="vernacular-top">
+      <header className="vnl-nav">
+        <a className="vnl-logo" href="#vernacular-top" aria-label="Vernacular Paper home">VNL<span>/</span>PAPER</a>
+        <nav aria-label="Vernacular product navigation"><a href="#product">Product</a><a href="#material">Material</a><a href="#system">System</a></nav>
+        <a className="vnl-bag" href="#buy" aria-label={`${bagQuantity} pack${bagQuantity === 1 ? '' : 's'} in bag`}><ShoppingBag aria-hidden="true" /> Bag <span>{String(bagQuantity).padStart(2, '0')}</span></a>
+      </header>
+
+      <main>
+        <section className="vnl-hero" id="product">
+          <img src={sitePath('/images/vernacular-plates-hero.jpg')} alt="Stacked molded-fiber paper plates staged on cobalt and yellow blocks" />
+          <div className="vnl-hero-copy">
+            <span className="vnl-kicker">OBJECT 001 / MOLDED FIBER</span>
+            <h2>Hold more.<br /><em>Waste less.</em></h2>
+            <p>A deliberately over-designed paper plate: deep rim, rigid ribs, honest material. Made for the meal—not the landfill aesthetic.</p>
+            <a href="#buy">Build your stack <ArrowRight aria-hidden="true" /></a>
+          </div>
+          <div className="vnl-hero-note"><b>10″</b><span>Dinner plate<br />Natural fiber</span></div>
+          <span className="vnl-prototype">DESIGN CONCEPT / 2026</span>
+        </section>
+
+        <div className="vnl-marquee" aria-label="Product principles"><div><span>NO SAD PLATES</span><i>●</i><span>PLANT FIBER</span><i>●</i><span>BUILT TO HOLD</span><i>●</i><span>NO SAD PLATES</span><i>●</i><span>PLANT FIBER</span></div></div>
+
+        <section className="vnl-material" id="material">
+          <div className="vnl-material-image"><img src={sitePath('/images/vernacular-plates-detail.jpg')} alt="Macro view of thick molded-fiber plate rims and pressed reinforcement ribs" /><span>MACRO / 4×</span></div>
+          <div className="vnl-material-copy"><span>WHY THIS FORM</span><h3>Fiber has a<br />point of view.</h3><p>The rough edge stays visible. The ribs do the structural work. The warm-white surface avoids pretending to be porcelain. Every choice lets the material explain itself.</p><div className="vnl-spec-grid"><div><b>01</b><span>Pressed radial ribs</span></div><div><b>02</b><span>Deep spill-aware rim</span></div><div><b>03</b><span>Uncoated tactile finish</span></div><div><b>04</b><span>Stack-first geometry</span></div></div></div>
+        </section>
+
+        <section className="vnl-system" id="system">
+          <div className="vnl-system-title"><span>THE SYSTEM / ONE MATERIAL</span><h3>Pick a plate.<br />Keep the language.</h3></div>
+          <div className="vnl-size-card vnl-size-small"><span>01</span><div className="vnl-css-plate" aria-hidden="true" /><h4>SIDE / 7″</h4><p>Snacks, cake, optimistic portions.</p></div>
+          <div className="vnl-size-card vnl-size-main"><span>02</span><div className="vnl-css-plate" aria-hidden="true" /><h4>DINNER / 10″</h4><p>The everyday workhorse with a deeper rim.</p></div>
+          <div className="vnl-size-card vnl-size-bowl"><span>03</span><div className="vnl-css-plate" aria-hidden="true" /><h4>BOWL / 16 OZ</h4><p>For things that refuse to stay still.</p></div>
+        </section>
+
+        <section className="vnl-buy" id="buy">
+          <div><span>PLATE 02 / DINNER</span><h3>Build your stack.</h3><p>Concept configuration for a future product system. Pricing is illustrative—not a live offer.</p></div>
+          <div className="vnl-buy-controls">
+            <fieldset><legend>Pack size</legend><div>{packs.map((item) => <button type="button" key={item.count} className={pack.count === item.count ? 'active' : ''} onClick={() => setPack(item)} aria-pressed={pack.count === item.count}>{item.count}</button>)}</div></fieldset>
+            <div className="vnl-quantity"><span>Quantity</span><div><button type="button" onClick={() => setQuantity(Math.max(1, quantity - 1))} aria-label="Decrease quantity"><Minus aria-hidden="true" /></button><output aria-live="polite">{String(quantity).padStart(2, '0')}</output><button type="button" onClick={() => setQuantity(quantity + 1)} aria-label="Increase quantity"><Plus aria-hidden="true" /></button></div></div>
+            <button className={`vnl-add ${added ? 'added' : ''}`} type="button" onClick={addToBag}>{added ? <><Check aria-hidden="true" /> Added to bag</> : <>Add concept — ${pack.price * quantity} <ArrowRight aria-hidden="true" /></>}</button>
+          </div>
+        </section>
+      </main>
+
+      <footer className="vnl-footer"><a className="vnl-logo" href="#vernacular-top">VNL<span>/</span>PAPER</a><p>Vernacular is a speculative product-design study by Usamah Moin—engineering discipline with visual taste.</p><a href={sitePath('/work')}>Back to index <ArrowRight aria-hidden="true" /></a></footer>
     </div>
   );
 }
