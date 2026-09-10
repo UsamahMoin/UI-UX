@@ -120,14 +120,17 @@ function Aura() {
   const remainingMinutes = Math.floor(remaining / 60).toString().padStart(2, '0');
   const remainingSeconds = (remaining % 60).toString().padStart(2, '0');
   const progress = elapsed / totalSeconds;
-  const waveRadius = Math.max(24, Math.min(32, trackerWidth * 0.09));
+  const restingWaveRadius = Math.max(24, Math.min(32, trackerWidth * 0.09));
+  const playingWaveRadius = restingWaveRadius * 1.2;
+  const waveRadius = playingWaveRadius;
+  const archRadius = playing ? playingWaveRadius : restingWaveRadius;
   const trackBaseline = 52;
   const playheadX = waveRadius + progress * (trackerWidth - waveRadius * 2);
-  const waveRise = waveRadius * (playing ? 0.77 : 0.84);
-  const waveStart = playheadX - waveRadius;
-  const waveEnd = playheadX + waveRadius;
+  const waveRise = restingWaveRadius * (playing ? 0.77 : 0.84);
+  const waveStart = playheadX - archRadius;
+  const waveEnd = playheadX + archRadius;
   const waveTop = trackBaseline - waveRise;
-  const joinControl = waveRadius * 0.62;
+  const joinControl = archRadius * 0.62;
   const wavePath = `M 0 ${trackBaseline} H ${waveStart} C ${waveStart + joinControl} ${trackBaseline} ${playheadX - joinControl} ${waveTop} ${playheadX} ${waveTop} C ${playheadX + joinControl} ${waveTop} ${waveEnd - joinControl} ${trackBaseline} ${waveEnd} ${trackBaseline} H ${trackerWidth}`;
   const seekFromPointer = (clientX: number) => {
     const tracker = trackerRef.current;
