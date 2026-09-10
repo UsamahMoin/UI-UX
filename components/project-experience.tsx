@@ -255,21 +255,24 @@ function Field() {
     { code: 'R—03', name: 'Bear Lake Path', miles: '8.1 MI', time: '4H 10M', gain: '1,680 FT', grade: 'CHALLENGING', color: '#e04482', path: 'M 84 498 C 143 423 213 490 272 406 C 331 323 389 378 452 292 C 518 202 592 268 654 180 C 720 87 806 172 916 82', points: [[84,498],[272,406],[654,180],[916,82]], note: 'A longer ascent through spruce shade to an open alpine basin.' },
   ];
   const route = routes[trail];
+  const layerLegend = { Terrain: 'Contour / 40 ft', Water: 'Creek + spring', Shelter: 'Camp access' }[layer];
   return (
     <div className={`demo field-demo field-${layer.toLowerCase()}`}>
       <header className="field-topbar"><a href={sitePath('/work')} aria-label="Back to portfolio index">FIELD<span>/06</span></a><div><i aria-hidden="true" /> Olympic Peninsula · 47.8021° N</div><span>58° / LIGHT RAIN</span></header>
       <main className="field-explorer">
         <section className="field-map-stage" aria-label={`${route.name} topographic route preview`}>
-          <div className="field-map-heading"><span>ROUTE READER / LIVE TERRAIN</span><strong>{route.code}</strong></div>
+          <div className="field-map-heading"><span>ROUTE READER / {layer.toUpperCase()}</span><strong>{route.code}</strong></div>
           <div className="field-layer-switch" aria-label="Map layer">{(['Terrain','Water','Shelter'] as const).map((item) => <button type="button" key={item} className={layer === item ? 'active' : ''} onClick={() => setLayer(item)} aria-pressed={layer === item}>{item}</button>)}</div>
           <div className="field-topography" aria-hidden="true"><i/><i/><i/><i/><i/><i/></div>
           <svg className="field-route-canvas" viewBox="0 0 1000 650" role="img" aria-label={`${route.name}, ${route.miles}, ${route.gain} elevation gain`}>
-            <path className="field-river" d="M -30 426 C 124 344 159 395 281 303 C 412 204 500 305 633 215 C 758 131 819 190 1030 38" />
+            {layer === 'Terrain' && <g className="field-context-terrain"><path d="M 16 540 C 170 418 257 497 389 362 S 635 282 760 154 S 913 73 1002 18"/><path d="M -12 604 C 156 485 281 570 446 408 S 708 334 854 187 S 956 122 1022 78"/><path d="M 42 456 C 181 346 252 421 352 299 S 551 224 670 117 S 833 53 942 -12"/></g>}
+            {layer === 'Water' && <g className="field-context-water"><path className="field-river" d="M -30 426 C 124 344 159 395 281 303 C 412 204 500 305 633 215 C 758 131 819 190 1030 38"/><path d="M 244 -20 C 226 94 300 128 276 229 C 253 326 303 391 246 447 C 196 497 224 574 175 686"/><path d="M 694 -18 C 674 86 719 118 731 191 C 745 279 691 340 723 435 C 751 520 710 579 742 674"/><g transform="translate(281 303)"><circle r="18"/><circle r="6"/><text x="28" y="5">SPRING 01</text></g><g transform="translate(633 215)"><circle r="18"/><circle r="6"/><text x="28" y="5">WATER 02</text></g></g>}
+            {layer === 'Shelter' && <g className="field-context-shelter"><path d="M 154 606 L 246 447 L 397 346 L 548 522"/><path d="M 397 346 L 633 408 L 820 314"/><g transform="translate(154 606)"><rect x="-18" y="-18" width="36" height="36"/><path d="M -24 -18 L 0 -39 L 24 -18"/><text x="29" y="5">CAMP A</text></g><g transform="translate(548 522)"><rect x="-18" y="-18" width="36" height="36"/><path d="M -24 -18 L 0 -39 L 24 -18"/><text x="29" y="5">RAIN SHELTER</text></g><g transform="translate(820 314)"><rect x="-18" y="-18" width="36" height="36"/><path d="M -24 -18 L 0 -39 L 24 -18"/><text x="29" y="5">RIDGE HUT</text></g></g>}
             <path key={`${trail}-${layer}`} className="field-live-route" d={route.path} style={{stroke: route.color}} />
             {route.points.map(([cx, cy], index) => <g className="field-waypoint" key={`${trail}-${index}`} transform={`translate(${cx} ${cy})`}><circle r={index === 0 || index === route.points.length - 1 ? 13 : 9} style={{fill: route.color}}/><circle r="4"/><text x="17" y="4">{index === 0 ? 'START' : index === route.points.length - 1 ? 'SUMMIT' : `0${index + 1}`}</text></g>)}
           </svg>
           <div className="field-map-label field-map-label-a">OWL CREEK</div><div className="field-map-label field-map-label-b">NORTH RIDGE</div><div className="field-map-label field-map-label-c">BEAR BASIN</div>
-          <div className="field-map-legend"><span><i style={{background: route.color}} />Active route</span><span><i />Contour / 40 ft</span></div>
+          <div className="field-map-legend"><span><i style={{background: route.color}} />Active route</span><span><i />{layerLegend}</span></div>
         </section>
 
         <aside className="field-route-panel">
