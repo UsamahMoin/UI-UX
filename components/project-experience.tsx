@@ -114,16 +114,17 @@ function Aura() {
     return () => observer.disconnect();
   }, []);
 
-  const minutes = Math.floor(elapsed / 60).toString().padStart(2, '0');
-  const seconds = (elapsed % 60).toString().padStart(2, '0');
-  const remaining = Math.max(0, totalSeconds - elapsed);
-  const remainingMinutes = Math.floor(remaining / 60).toString().padStart(2, '0');
-  const remainingSeconds = (remaining % 60).toString().padStart(2, '0');
+  const elapsedWholeSeconds = Math.min(totalSeconds, Math.floor(elapsed));
+  const remainingWholeSeconds = totalSeconds - elapsedWholeSeconds;
+  const minutes = Math.floor(elapsedWholeSeconds / 60).toString().padStart(2, '0');
+  const seconds = (elapsedWholeSeconds % 60).toString().padStart(2, '0');
+  const remainingMinutes = Math.floor(remainingWholeSeconds / 60).toString().padStart(2, '0');
+  const remainingSeconds = (remainingWholeSeconds % 60).toString().padStart(2, '0');
   const progress = elapsed / totalSeconds;
   const restingWaveRadius = Math.max(24, Math.min(32, trackerWidth * 0.09));
   const playingWaveRadius = restingWaveRadius * 1.2;
   const waveRadius = playingWaveRadius;
-  const archRadius = playing ? playingWaveRadius : restingWaveRadius;
+  const archRadius = playingWaveRadius;
   const trackBaseline = 52;
   const playheadX = waveRadius + progress * (trackerWidth - waveRadius * 2);
   const waveRise = restingWaveRadius * (playing ? 0.77 : 0.84);
