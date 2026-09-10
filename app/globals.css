@@ -320,6 +320,6 @@ a { color: inherit; text-decoration: none; }
 
 /* Let the paused arch breathe without changing its horizontal relationship to the playhead. */
 .aura-wave-tracker path{transition:d .34s cubic-bezier(.22,1,.36,1),stroke .5s ease,stroke-width .25s ease}
-.aura-demo.is-playing .aura-wave-tracker path.track{stroke-width:5px}
+.aura-demo.is-playing .aura-wave-tracker path.track{stroke-width:6px}
 .aura-wave-tracker.is-dragging path,.aura-wave-tracker.is-dragging .aura-playhead-button{transition:none}
 @media(prefers-reduced-motion:reduce){.aura-wave-tracker path{transition:none}}
