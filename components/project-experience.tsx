@@ -122,7 +122,7 @@ function Aura() {
   const waveRadius = Math.max(24, Math.min(32, trackerWidth * 0.09));
   const trackBaseline = 52;
   const playheadX = waveRadius + progress * (trackerWidth - waveRadius * 2);
-  const waveRise = waveRadius * (playing ? 0.7 : 0.84);
+  const waveRise = waveRadius * (playing ? 0.77 : 0.84);
   const waveStart = playheadX - waveRadius;
   const waveEnd = playheadX + waveRadius;
   const waveTop = trackBaseline - waveRise;
