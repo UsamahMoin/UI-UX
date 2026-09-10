@@ -4,8 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import type { PointerEvent as ReactPointerEvent } from 'react';
 import {
   ArrowRight, Bike, Bookmark,
-  Check, ChevronRight, CircleDollarSign, Coffee, Compass,
-  CreditCard, Download, Headphones, Heart, Info, Leaf, LocateFixed, MapPin, Menu, Minus, Moon,
+  Check, ChevronRight, CircleDollarSign, Coffee,
+  CreditCard, Download, Headphones, Heart, Info, Leaf, MapPin, Menu, Minus, Moon,
   MousePointer2, Move, Pause, PenTool, Play, Plus, Search, ShoppingBag, Sun,
   Sparkles, Star, TrainFront, TrendingUp, Type, WandSparkles, ZoomIn,
 } from 'lucide-react';
@@ -246,13 +246,40 @@ function Vernacular() {
 
 function Field() {
   const [trail, setTrail] = useState(0);
-  const routes = [{name:'Fern Canyon Loop', miles:'6.8 mi', time:'3h 20m'}, {name:'Juniper Ridge', miles:'4.2 mi', time:'2h 05m'}, {name:'Bear Lake Path', miles:'8.1 mi', time:'4h 10m'}];
+  const [layer, setLayer] = useState<'Terrain' | 'Water' | 'Shelter'>('Terrain');
+  const [saved, setSaved] = useState(false);
+  const [offline, setOffline] = useState(false);
+  const routes = [
+    { code: 'R—01', name: 'Fern Canyon Loop', miles: '6.8 MI', time: '3H 20M', gain: '1,240 FT', grade: 'MODERATE', color: '#ff5b38', path: 'M 86 548 C 152 505 184 454 246 447 C 316 438 330 361 397 346 C 468 330 464 260 536 246 C 621 229 655 164 731 191 C 808 218 835 148 914 112', points: [[86,548],[397,346],[731,191],[914,112]], note: 'Old-growth cedar, a narrow creek crossing, and a quiet final ridge.' },
+    { code: 'R—02', name: 'Juniper Ridge', miles: '4.2 MI', time: '2H 05M', gain: '860 FT', grade: 'STEADY', color: '#214fd1', path: 'M 104 144 C 183 158 208 213 276 229 C 348 246 351 319 429 333 C 517 349 551 416 633 408 C 724 400 765 475 886 536', points: [[104,144],[276,229],[633,408],[886,536]], note: 'Exposed stone, dry juniper, and long western views at the turn.' },
+    { code: 'R—03', name: 'Bear Lake Path', miles: '8.1 MI', time: '4H 10M', gain: '1,680 FT', grade: 'CHALLENGING', color: '#e04482', path: 'M 84 498 C 143 423 213 490 272 406 C 331 323 389 378 452 292 C 518 202 592 268 654 180 C 720 87 806 172 916 82', points: [[84,498],[272,406],[654,180],[916,82]], note: 'A longer ascent through spruce shade to an open alpine basin.' },
+  ];
   const route = routes[trail];
   return (
-    <div className="demo field-demo">
-      <aside><b>FIELD</b><button aria-label="Search trails"><Search /></button><nav aria-label="Trail tools"><button className="active" aria-label="Explore map" aria-current="page"><Compass /></button><button aria-label="Saved trails"><Bookmark /></button><button aria-label="Download offline map"><Download /></button></nav><div className="field-temp">58°<small>LIGHT RAIN</small></div></aside>
-      <section className="field-map" aria-label="Stylized route map"><div className="contour c1"/><div className="contour c2"/><div className="contour c3"/><div className={`route-line route-${trail}`}><i/><i/><i/></div><span className="map-label one">OWL CREEK</span><span className="map-label two">NORTH RIDGE</span><button className="locate" aria-label="Center map on current location"><LocateFixed /></button></section>
-      <section className="field-card"><small>ROUTE 0{trail+1} · MODERATE</small><h2>{route.name}</h2><p>A shaded climb through old-growth cedar with clear water at mile 2.4.</p><div><span><b>{route.miles}</b>DISTANCE</span><span><b>1,240 ft</b>ELEVATION</span><span><b>{route.time}</b>EST. TIME</span></div><button onClick={() => setTrail((trail+1)%routes.length)}>Next trail <ArrowRight /></button></section>
+    <div className={`demo field-demo field-${layer.toLowerCase()}`}>
+      <header className="field-topbar"><a href={sitePath('/work')} aria-label="Back to portfolio index">FIELD<span>/06</span></a><div><i aria-hidden="true" /> Olympic Peninsula · 47.8021° N</div><span>58° / LIGHT RAIN</span></header>
+      <main className="field-explorer">
+        <section className="field-map-stage" aria-label={`${route.name} topographic route preview`}>
+          <div className="field-map-heading"><span>ROUTE READER / LIVE TERRAIN</span><strong>{route.code}</strong></div>
+          <div className="field-layer-switch" aria-label="Map layer">{(['Terrain','Water','Shelter'] as const).map((item) => <button type="button" key={item} className={layer === item ? 'active' : ''} onClick={() => setLayer(item)} aria-pressed={layer === item}>{item}</button>)}</div>
+          <div className="field-topography" aria-hidden="true"><i/><i/><i/><i/><i/><i/></div>
+          <svg className="field-route-canvas" viewBox="0 0 1000 650" role="img" aria-label={`${route.name}, ${route.miles}, ${route.gain} elevation gain`}>
+            <path className="field-river" d="M -30 426 C 124 344 159 395 281 303 C 412 204 500 305 633 215 C 758 131 819 190 1030 38" />
+            <path key={`${trail}-${layer}`} className="field-live-route" d={route.path} style={{stroke: route.color}} />
+            {route.points.map(([cx, cy], index) => <g className="field-waypoint" key={`${trail}-${index}`} transform={`translate(${cx} ${cy})`}><circle r={index === 0 || index === route.points.length - 1 ? 13 : 9} style={{fill: route.color}}/><circle r="4"/><text x="17" y="4">{index === 0 ? 'START' : index === route.points.length - 1 ? 'SUMMIT' : `0${index + 1}`}</text></g>)}
+          </svg>
+          <div className="field-map-label field-map-label-a">OWL CREEK</div><div className="field-map-label field-map-label-b">NORTH RIDGE</div><div className="field-map-label field-map-label-c">BEAR BASIN</div>
+          <div className="field-map-legend"><span><i style={{background: route.color}} />Active route</span><span><i />Contour / 40 ft</span></div>
+        </section>
+
+        <aside className="field-route-panel">
+          <div className="field-panel-heading"><span>CHOOSE A LINE</span><small>Three routes / one weather window</small></div>
+          <div className="field-route-list">{routes.map((item, index) => <button type="button" key={item.code} className={trail === index ? 'active' : ''} onClick={() => setTrail(index)} aria-pressed={trail === index}><span>{item.code}</span><strong>{item.name}</strong><small>{item.miles} · {item.grade}</small><i style={{background: item.color}} /></button>)}</div>
+          <article className="field-route-detail" aria-live="polite"><span>{route.grade} / SELECTED</span><h2>{route.name}</h2><p>{route.note}</p><div><span><b>{route.miles}</b>Distance</span><span><b>{route.gain}</b>Gain</span><span><b>{route.time}</b>Time</span></div></article>
+          <div className="field-actions"><button type="button" className={saved ? 'active' : ''} onClick={() => setSaved(!saved)} aria-pressed={saved}><Bookmark fill={saved ? 'currentColor' : 'none'} />{saved ? 'Route saved' : 'Save route'}</button><button type="button" className={offline ? 'active' : ''} onClick={() => setOffline(!offline)} aria-pressed={offline}><Download />{offline ? 'Available offline' : 'Make offline'}</button></div>
+        </aside>
+      </main>
+      <footer className="field-footer"><span>Map concept / not for navigation</span><div><i style={{background: route.color}} /><b>{route.name}</b> is ready to read.</div><button type="button" onClick={() => setTrail((trail + 1) % routes.length)}>Next route <ArrowRight /></button></footer>
     </div>
   );
 }
