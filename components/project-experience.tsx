@@ -291,22 +291,26 @@ function Field() {
 function Atelier() {
   const looks = [
     {
-      id: 'line-coat', number: '01', name: 'Line Coat', note: 'A boundary that moves.',
+      id: 'line-coat', number: '01', name: 'Line Coat', note: 'A boundary that moves.', word: 'BOUND', gesture: 'Boundary', cut: 'Long, asymmetric, protective',
       image: '/images/atelier-line-coat.jpg', alt: 'Model wearing a long architectural black wool coat with an asymmetric collar',
       price: 1280, material: 'Double-face wool / horn closure', tone: '#24211f', text: '#f3eee5',
+      notes: ['Shoulder sets the perimeter', 'Closure interrupts symmetry', 'Hem releases the stride'],
     },
     {
-      id: 'orbit-jacket', number: '02', name: 'Orbit Jacket', note: 'Volume without noise.',
+      id: 'orbit-jacket', number: '02', name: 'Orbit Jacket', note: 'Volume without noise.', word: 'ORBIT', gesture: 'Volume', cut: 'Cropped, curved, suspended',
       image: '/images/atelier-orbit-jacket.jpg', alt: 'Model wearing an ivory sculptural jacket with curved sleeves and a charcoal column skirt',
       price: 860, material: 'Brushed wool / cotton structure', tone: '#d9d2c7', text: '#171513',
+      notes: ['Sleeve holds negative space', 'Curve softens the shoulder', 'Short hem lengthens the line'],
     },
     {
-      id: 'bias-drape', number: '03', name: 'Bias Drape', note: 'Movement writes the silhouette.',
+      id: 'bias-drape', number: '03', name: 'Bias Drape', note: 'Movement writes the silhouette.', word: 'FLOW', gesture: 'Flow', cut: 'Bias cut, released at the hip',
       image: '/images/atelier-bias-drape.jpg', alt: 'Model wearing an oxblood draped satin top with wide black trousers',
       price: 640, material: 'Washed satin / wool trouser', tone: '#52201f', text: '#f5eee5',
+      notes: ['Bias redirects gravity', 'Fold records movement', 'Trouser steadies the gesture'],
     },
   ];
   const [lookIndex, setLookIndex] = useState(0);
+  const [lens, setLens] = useState<'editorial' | 'design'>('editorial');
   const [size, setSize] = useState('02');
   const [saved, setSaved] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -333,37 +337,41 @@ function Atelier() {
   };
   return (
     <div className="demo atelier-demo" id="atelier-top">
-      <header className="atelier-nav">
+      <header className="atelier-casebar">
         <button className="atelier-menu-button" type="button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle ATELIER navigation" aria-expanded={menuOpen}><Menu aria-hidden="true" /></button>
-        <a className="atelier-wordmark" href="#atelier-top"><span>ATELIER</span><small>STUDY 07 / CHICAGO</small></a>
-        <nav className={menuOpen ? 'open' : ''} aria-label="ATELIER sections"><a href="#atelier-collection" onClick={() => setMenuOpen(false)}>Collection</a><a href="#atelier-philosophy" onClick={() => setMenuOpen(false)}>Philosophy</a><a href="#atelier-journal" onClick={() => setMenuOpen(false)}>Journal</a></nav>
-        <div className="atelier-nav-actions"><button type="button" onClick={() => setSaved(!saved)} aria-label={saved ? 'Remove selected look from saved' : 'Save selected look'} aria-pressed={saved}><Heart fill={saved ? 'currentColor' : 'none'} aria-hidden="true" /></button><button type="button" onClick={() => setBagOpen(true)} aria-label={`Open fitting bag, ${bagCount} items`}><ShoppingBag aria-hidden="true" /><i>{bagCount}</i></button></div>
+        <a className="atelier-wordmark" href="#atelier-top"><span>ATELIER / 07</span><small>INTERACTION + ART DIRECTION</small></a>
+        <nav className={menuOpen ? 'open' : ''} aria-label="ATELIER study sections"><a href="#atelier-stage" onClick={() => setMenuOpen(false)}>Prototype</a><a href="#atelier-decisions" onClick={() => setMenuOpen(false)}>Decisions</a><a href="#atelier-philosophy" onClick={() => setMenuOpen(false)}>Philosophy</a></nav>
+        <div className="atelier-nav-actions"><span>CASE STUDY / 2026</span><button type="button" onClick={() => setBagOpen(true)} aria-label={`Open fitting bag, ${bagCount} items`}><ShoppingBag aria-hidden="true" /><i>{bagCount}</i></button></div>
       </header>
 
       <main>
-        <section className="atelier-hero">
-          <Image src={sitePath('/images/atelier-motion-hero.jpg')} alt="Model in an ivory coat and black tailoring standing in a quiet stone interior" fill priority unoptimized sizes="(max-width: 700px) 100vw, 1440px" />
-          <div className="atelier-hero-shade" aria-hidden="true" />
-          <div className="atelier-hero-copy"><span>CHAPTER I / AUTUMN STUDY</span><h2>Dress is<br /><em>architecture</em><br />in motion.</h2><p>Cut creates space. Cloth records movement. What we repeat becomes identity.</p><a href="#atelier-collection">Enter the study <ArrowRight aria-hidden="true" /></a></div>
-          <div className="atelier-hero-index"><span>01</span><i /><span>03</span></div>
-          <small className="atelier-hero-caption">A FICTIONAL FASHION COMMERCE PROTOTYPE<br />CONCEPT AND DIRECTION BY USAMAH MOIN</small>
+        <section className={`atelier-stage lens-${lens}`} id="atelier-stage" style={{ '--atelier-tone': selected.tone, '--atelier-look-text': selected.text } as React.CSSProperties}>
+          <div className="atelier-stage-grid" aria-hidden="true"><i /><i /><i /><i /><i /></div>
+          <div className="atelier-stage-intro"><span>PORTFOLIO PROTOTYPE / 01</span><p>A fashion interface that begins with a spatial gesture, not a product category.</p></div>
+          <div className="atelier-lens" role="group" aria-label="Choose presentation lens"><span>VIEW THROUGH</span><button type="button" className={lens === 'editorial' ? 'active' : ''} onClick={() => setLens('editorial')} aria-pressed={lens === 'editorial'}>Editorial</button><button type="button" className={lens === 'design' ? 'active' : ''} onClick={() => setLens('design')} aria-pressed={lens === 'design'}>Design notes</button></div>
+          <div className="atelier-stage-word" aria-hidden="true">{selected.word}</div>
+          <figure key={`${selected.id}-${lens}`}><Image src={sitePath(selected.image)} alt={selected.alt} width={1024} height={1536} priority unoptimized sizes="(max-width: 700px) 72vw, 44vw" /><figcaption>FORM {selected.number} / {selected.gesture.toUpperCase()}</figcaption>{lens === 'design' && <div className="atelier-annotations" aria-label="Design annotations">{selected.notes.map((note, index) => <span key={note} className={`note-${index + 1}`}><i />0{index + 1} / {note}</span>)}</div>}</figure>
+          <div className="atelier-stage-copy" aria-live="polite"><span>ACTIVE GESTURE / {selected.number}</span><h2>{selected.name}</h2><blockquote>“{selected.note}”</blockquote><dl><div><dt>Cut</dt><dd>{selected.cut}</dd></div><div><dt>Material</dt><dd>{selected.material}</dd></div><div><dt>Prototype</dt><dd>${selected.price.toLocaleString()}</dd></div></dl></div>
+          <div className="atelier-look-score" role="group" aria-label="Choose a garment gesture">{looks.map((look, index) => <button type="button" key={look.id} className={lookIndex === index ? 'active' : ''} onClick={() => { setLookIndex(index); setSize('02'); }} aria-pressed={lookIndex === index}><span>{look.number}</span><i /><strong>{look.gesture}</strong><small>{look.word}</small></button>)}</div>
+          <div className="atelier-stage-actions"><fieldset><legend>PROTOTYPE SIZE</legend>{['00','01','02','03','04'].map((item) => <button type="button" key={item} className={size === item ? 'active' : ''} onClick={() => setSize(item)} aria-pressed={size === item}>{item}</button>)}</fieldset><button className="atelier-add" type="button" onClick={addSelected}>Add form {selected.number}, size {size} <ArrowRight aria-hidden="true" /></button><button className="atelier-save" type="button" onClick={() => setSaved(!saved)} aria-pressed={saved}><Heart fill={saved ? 'currentColor' : 'none'} aria-hidden="true" />{saved ? 'Saved as reference' : 'Save the reference'}</button></div>
+          <small className="atelier-stage-disclaimer">FICTIONAL COMMERCE FLOW / NO PAYMENT CONNECTED</small>
         </section>
 
-        <section className="atelier-collection" id="atelier-collection">
-          <header><span>01 / THE COLLECTION</span><h3>Three gestures.<br />One vocabulary.</h3><p>Each look begins with a single spatial idea: boundary, volume, or flow. Nothing is added unless it changes how the body occupies a room.</p></header>
-          <div className="atelier-look-grid">{looks.map((look, index) => <button type="button" key={look.id} className={lookIndex === index ? 'active' : ''} onClick={() => { setLookIndex(index); setSize('02'); }} aria-pressed={lookIndex === index}><span>{look.number}</span><Image src={sitePath(look.image)} alt={look.alt} width={1024} height={1536} loading="lazy" unoptimized sizes="(max-width: 700px) 86vw, 30vw" /><div><strong>{look.name}</strong><small>{look.note}</small></div><ArrowRight aria-hidden="true" /></button>)}</div>
+        <section className="atelier-thesis">
+          <span>THE THESIS / 07</span><h3>What if fashion commerce sold a <em>way of seeing</em> before it sold an object?</h3><p>The interface turns three garments into three spatial verbs. Switching looks changes type, color, annotations, and product logic as one system.</p>
         </section>
 
-        <section className="atelier-fitting" style={{ '--atelier-tone': selected.tone, '--atelier-look-text': selected.text } as React.CSSProperties}>
-          <figure key={selected.id}><Image src={sitePath(selected.image)} alt={selected.alt} width={1024} height={1536} loading="lazy" unoptimized sizes="(max-width: 800px) 100vw, 58vw" /><figcaption>LOOK {selected.number} / FRONT STUDY</figcaption></figure>
-          <div className="atelier-fitting-copy" aria-live="polite"><span>SELECTED FORM / {selected.number}</span><h3>{selected.name}</h3><blockquote>“{selected.note}”</blockquote><p>{selected.material}</p><dl><div><dt>Cut</dt><dd>{selected.id === 'line-coat' ? 'Long, asymmetric, protective' : selected.id === 'orbit-jacket' ? 'Cropped, curved, suspended' : 'Bias cut, released at the hip'}</dd></div><div><dt>Gesture</dt><dd>{selected.id === 'line-coat' ? 'Boundary' : selected.id === 'orbit-jacket' ? 'Volume' : 'Flow'}</dd></div><div><dt>Prototype price</dt><dd>${selected.price.toLocaleString()}</dd></div></dl><fieldset><legend>SELECT A PROTOTYPE SIZE</legend>{['00','01','02','03','04'].map((item) => <button type="button" key={item} className={size === item ? 'active' : ''} onClick={() => setSize(item)} aria-pressed={size === item}>{item}</button>)}</fieldset><button className="atelier-add" type="button" onClick={addSelected}>Add look {selected.number}, size {size} <ArrowRight aria-hidden="true" /></button><button className="atelier-save" type="button" onClick={() => setSaved(!saved)} aria-pressed={saved}><Heart fill={saved ? 'currentColor' : 'none'} aria-hidden="true" />{saved ? 'Saved to your study' : 'Save for later'}</button><small>No order or payment is created. This is an interaction study.</small></div>
+        <section className="atelier-decisions" id="atelier-decisions"><header><span>02 / DESIGN DECISIONS</span><h3>The portfolio<br />lens stays on.</h3><p>Visitors can experience the concept and inspect the thinking without leaving the prototype.</p></header><div><article><b>01</b><span>PROBLEM</span><h4>Product grids flatten point of view.</h4><p>A conventional category page would make the silhouettes feel interchangeable.</p></article><article><b>02</b><span>DESIGN MOVE</span><h4>Make gesture the navigation model.</h4><p>Boundary, volume, and flow become both the collection story and the interaction structure.</p></article><article><b>03</b><span>PROOF IN USE</span><h4>One state changes the whole composition.</h4><p>Image, field color, typography, annotations, details, and bag selection remain synchronized.</p></article></div>
         </section>
 
-        <section className="atelier-philosophy" id="atelier-philosophy"><span>02 / PHILOSOPHY</span><div><h3>Not fashion<br />as novelty.<br /><em>Dress as practice.</em></h3><p>A useful wardrobe is not a stream of replacements. It is a small language learned through repetition. Proportion gives confidence. Material creates memory. Wear makes the object more specific to its person.</p></div><ol><li><b>01</b><strong>Form follows movement.</strong><p>A silhouette is finished by the body, never by the hanger.</p></li><li><b>02</b><strong>Restraint creates recognition.</strong><p>One decisive line is remembered longer than ten decorative ideas.</p></li><li><b>03</b><strong>Attachment precedes longevity.</strong><p>We keep what becomes part of how we understand ourselves.</p></li></ol></section>
+        <section className="atelier-sequence" id="atelier-collection"><header><span>03 / INTERACTION SCORE</span><h3>One collection.<br />Three tempos.</h3></header><div>{looks.map((look, index) => <button type="button" key={look.id} className={lookIndex === index ? 'active' : ''} onClick={() => { setLookIndex(index); setSize('02'); }} aria-pressed={lookIndex === index}><Image src={sitePath(look.image)} alt="" width={1024} height={1536} loading="lazy" unoptimized sizes="(max-width: 700px) 100vw, 32vw" /><span>{look.number}</span><strong>{look.word}</strong><small>{look.note}</small><i>SELECT GESTURE <ArrowRight aria-hidden="true" /></i></button>)}</div>
+        </section>
 
-        <section className="atelier-construction"><div><span>03 / CONSTRUCTION NOTES</span><h3>The inside<br />must deserve<br />the outside.</h3></div><div className="atelier-construction-notes"><details open><summary>01 / PROPORTION <Plus aria-hidden="true" /></summary><p>The shoulder establishes the room around the body. The hem answers only after movement begins.</p></details><details><summary>02 / MATERIAL <Plus aria-hidden="true" /></summary><p>Material descriptions are sample specifications for this fictional collection. No environmental performance claim is implied.</p></details><details><summary>03 / REPAIR <Plus aria-hidden="true" /></summary><p>Seams, closures, and panels remain legible so care can be understood as part of ownership, not an afterthought.</p></details></div></section>
+        <section className="atelier-philosophy" id="atelier-philosophy"><span>04 / PHILOSOPHY</span><div><h3>Not fashion<br />as novelty.<br /><em>Dress as practice.</em></h3><p>A useful wardrobe is not a stream of replacements. It is a small language learned through repetition. Proportion gives confidence. Material creates memory. Wear makes the object more specific to its person.</p></div><ol><li><b>01</b><strong>Form follows movement.</strong><p>A silhouette is finished by the body, never by the hanger.</p></li><li><b>02</b><strong>Restraint creates recognition.</strong><p>One decisive line is remembered longer than ten decorative ideas.</p></li><li><b>03</b><strong>Attachment precedes longevity.</strong><p>We keep what becomes part of how we understand ourselves.</p></li></ol></section>
 
-        <section className="atelier-journal" id="atelier-journal"><span>04 / FIELD NOTES</span><div className="atelier-journal-grid"><figure><Image src={sitePath('/images/atelier-orbit-jacket.jpg')} alt="Detail study of the ivory Orbit Jacket silhouette" width={1024} height={1536} loading="lazy" unoptimized sizes="(max-width: 700px) 100vw, 44vw" /></figure><article><small>NOTE 07 / VOLUME</small><h3>The space<br />between cloth<br />and skin.</h3><p>Fashion becomes interesting when it stops decorating the body and starts negotiating with it. The Orbit Jacket holds a quiet perimeter, giving posture a shape without forcing performance.</p><a href="#atelier-collection">Return to the collection <ArrowRight aria-hidden="true" /></a></article></div></section>
+        <section className="atelier-construction"><div><span>05 / CONSTRUCTION NOTES</span><h3>The inside<br />must deserve<br />the outside.</h3></div><div className="atelier-construction-notes"><details open><summary>01 / PROPORTION <Plus aria-hidden="true" /></summary><p>The shoulder establishes the room around the body. The hem answers only after movement begins.</p></details><details><summary>02 / MATERIAL <Plus aria-hidden="true" /></summary><p>Material descriptions are sample specifications for this fictional collection. No environmental performance claim is implied.</p></details><details><summary>03 / REPAIR <Plus aria-hidden="true" /></summary><p>Seams, closures, and panels remain legible so care can be understood as part of ownership, not an afterthought.</p></details></div></section>
+
+        <section className="atelier-journal" id="atelier-journal"><span>06 / FIELD NOTES</span><div className="atelier-journal-grid"><figure><Image src={sitePath('/images/atelier-orbit-jacket.jpg')} alt="Detail study of the ivory Orbit Jacket silhouette" width={1024} height={1536} loading="lazy" unoptimized sizes="(max-width: 700px) 100vw, 44vw" /></figure><article><small>NOTE 07 / VOLUME</small><h3>The space<br />between cloth<br />and skin.</h3><p>Fashion becomes interesting when it stops decorating the body and starts negotiating with it. The Orbit Jacket holds a quiet perimeter, giving posture a shape without forcing performance.</p><a href="#atelier-collection">Return to the collection <ArrowRight aria-hidden="true" /></a></article></div></section>
       </main>
 
       <footer className="atelier-footer"><a href="#atelier-top">ATELIER / STUDY 07</a><span>ENGINEERING JUDGMENT / FASHION POINT OF VIEW</span><a href={sitePath('/')}>Portfolio index <ArrowRight aria-hidden="true" /></a></footer>
