@@ -153,7 +153,7 @@ function DataTable({ rows, caption }: { rows: NovaRow[]; caption: string }) {
       <table className="nova-table">
         <caption>{caption}</caption>
         <thead><tr><th scope="col">Account</th><th scope="col">Owner</th><th scope="col">Revenue</th><th scope="col">Activation</th><th scope="col">Risk</th><th scope="col">Status</th></tr></thead>
-        <tbody>{rows.map((row, index) => <tr key={`${row.account}-${index}`}><th scope="row">{row.account}</th><td>{row.owner}</td><td>${row.revenue.toLocaleString()}</td><td>{row.activation ? `${row.activation}%` : '—'}</td><td><span className={`risk-badge risk-${row.risk.toLowerCase()}`}>{row.risk}</span></td><td>{row.status}</td></tr>)}</tbody>
+        <tbody>{rows.map((row, index) => <tr key={`${row.account}-${index}`}><th scope="row">{row.account}</th><td>{row.owner}</td><td>${row.revenue.toLocaleString()}</td><td>{row.activation ? `${row.activation}%` : 'Not available'}</td><td><span className={`risk-badge risk-${row.risk.toLowerCase()}`}>{row.risk}</span></td><td>{row.status}</td></tr>)}</tbody>
       </table>
     </div>
   );
@@ -228,7 +228,7 @@ export function NovaDashboard() {
         {view === 'overview' && <>
           <div className="nova-metrics">
             <article><span>Pipeline</span><strong>${(revenue / 1000).toFixed(0)}K</strong><em><ArrowUp /> Live data</em></article>
-            <article><span>Activation</span><strong>{activation ? `${activation.toFixed(1)}%` : '—'}</strong><em><ArrowUp /> Average</em></article>
+            <article><span>Activation</span><strong>{activation ? `${activation.toFixed(1)}%` : 'N/A'}</strong><em><ArrowUp /> Average</em></article>
             <article><span>At risk</span><strong>{String(atRisk.length).padStart(2, '0')}</strong><em className="down"><ArrowDown /> Review</em></article>
           </div>
           <div className="nova-grid">

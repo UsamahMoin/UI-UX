@@ -7,10 +7,10 @@ const siteOrigin = process.env.NEXT_PUBLIC_SITE_ORIGIN ?? 'https://atelier-index
 const previewImage = new URL(sitePath('/images/form-human.png'), siteOrigin).toString();
 
 export const metadata: Metadata = {
-  title: 'FORM — Independent Culture Archive',
+  title: 'FORM | Independent Culture Archive',
   description: 'An expressive archive of people, objects, and ideas that alter how we see the everyday.',
-  openGraph: { title: 'FORM — Independent Culture Archive', description: 'Things worth keeping.', images: [previewImage] },
-  twitter: { title: 'FORM — Independent Culture Archive', description: 'Things worth keeping.', images: [previewImage] },
+  openGraph: { title: 'FORM | Independent Culture Archive', description: 'Things worth keeping.', images: [previewImage] },
+  twitter: { title: 'FORM | Independent Culture Archive', description: 'Things worth keeping.', images: [previewImage] },
 };
 
 export default function FormArchivePage() {

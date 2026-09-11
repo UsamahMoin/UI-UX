@@ -19,7 +19,7 @@ export function FormArchive() {
   return (
     <main className="form-site">
       <nav className="form-site-nav">
-        <a className="form-site-wordmark" href={sitePath('/work/form/archive')}>F—RM</a>
+        <a className="form-site-wordmark" href={sitePath('/work/form/archive')}>FORM</a>
         <span>INDEPENDENT CULTURE · ISSUE 14</span>
         <a href={sitePath('/work/form')}><ArrowLeft /> Portfolio view</a>
       </nav>
@@ -37,10 +37,10 @@ export function FormArchive() {
           {results.map((story, index) => <article className={`form-archive-item form-archive-item-${index + 1}`} key={story.slug} style={{ '--form-story-color': story.color } as React.CSSProperties}><a href={sitePath(`/work/form/archive/${story.slug}`)}><figure><img src={sitePath(story.image)} alt={story.alt} /><span>{story.number}</span></figure><div><span>{story.format} · {story.readTime}</span><h2>{story.title}</h2><p>{story.dek}</p><span className="form-read-link">Open story <ArrowRight /></span></div></a></article>)}
         </section>
       ) : (
-        <section className="form-empty"><span>NOTHING FILED HERE—YET.</span><h2>Try a broader word<br />or clear the filter.</h2><button onClick={() => { setQuery(''); setCategory('All'); }}>Reset the archive</button></section>
+        <section className="form-empty"><span>NOTHING FILED HERE YET.</span><h2>Try a broader word<br />or clear the filter.</h2><button onClick={() => { setQuery(''); setCategory('All'); }}>Reset the archive</button></section>
       )}
       <section className="form-manifesto"><span>FORM / NOTE 01</span><blockquote>“An archive should not tell you what matters. It should make you want to look again.”</blockquote><p>FORM is a fictional editorial concept created by Usamah Moin to demonstrate information architecture, visual direction, interaction design, accessibility, and responsive front-end craft.</p></section>
-      <footer className="form-site-footer"><span>F—RM · ISSUE 14</span><a href={sitePath('/work')}>All portfolio projects <ArrowRight /></a></footer>
+      <footer className="form-site-footer"><span>FORM · ISSUE 14</span><a href={sitePath('/work')}>All portfolio projects <ArrowRight /></a></footer>
     </main>
   );
 }

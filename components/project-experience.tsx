@@ -46,7 +46,7 @@ function Serein() {
         <img className={`serein-scene serein-scene-dusk ${isNight ? 'active' : ''}`} src={sitePath('/images/serein-dusk-v2.png')} alt={isNight ? 'Traveler having tea in a cedar retreat at blue-hour dusk' : ''} aria-hidden={!isNight} />
       </div>
       <div className="serein-coordinates" aria-label="Location: 35 degrees 51 minutes north, 137 degrees 41 minutes east"><small>Location</small><span>35°51′ N</span><span>137°41′ E</span></div>
-      <footer><span>08 suites</span><span>Forest onsen</span><span>Seasonal table</span><span>Open Oct—May</span></footer>
+      <footer><span>08 suites</span><span>Forest onsen</span><span>Seasonal table</span><span>Open Oct to May</span></footer>
     </div>
   );
 }
@@ -63,7 +63,7 @@ function Form() {
   const visibleItems = filter === 'All matter' ? items : items.filter((item) => item.group === filter);
   return (
     <div className="demo form-demo">
-      <header><b>F—RM</b><a className="form-search-link" href={sitePath('/work/form/archive')}><Search /> Search the archive</a><a className="form-menu-link" href={sitePath('/work/form/archive')} aria-label="Open FORM archive"><Menu aria-hidden="true" /></a></header>
+      <header><b>FORM</b><a className="form-search-link" href={sitePath('/work/form/archive')}><Search /> Search the archive</a><a className="form-menu-link" href={sitePath('/work/form/archive')} aria-label="Open FORM archive"><Menu aria-hidden="true" /></a></header>
       <div className="form-title"><span>INDEPENDENT CULTURE / ISSUE 14</span><h2>Things worth<br />keeping.</h2><p>An expanding archive of people and objects that alter how we see the everyday.</p></div>
       <div className="form-filters">{['All matter','Objects','People','Ideas'].map(item => <button key={item} className={filter === item ? 'active' : ''} onClick={() => setFilter(item)} aria-pressed={filter === item}>{item}</button>)}</div>
       <div className="form-grid">{visibleItems.map((item) => { const i = items.findIndex((entry) => entry.slug === item.slug); return <article key={item.slug} className={`${item.tone} form-card-${item.slug}`}><a className="form-card-hit" href={sitePath(`/work/form/archive/${item.slug}`)} aria-label={`Read ${item.title}`} /><img className="form-card-image" src={sitePath(item.image)} alt={item.alt} /><span>{String(i+1).padStart(2,'0')}</span><small>{item.meta}</small><h3>{item.title}</h3><ArrowRight /></article>; })}</div>
@@ -208,7 +208,7 @@ function Vernacular() {
           <div className="vnl-hero-copy">
             <span className="vnl-kicker">OBJECT 001 / MOLDED FIBER</span>
             <h2>Hold more.<br /><em>Waste less.</em></h2>
-            <p>A deliberately over-designed paper plate: deep rim, rigid ribs, honest material. Made for the meal—not the landfill aesthetic.</p>
+            <p>A deliberately over-designed paper plate: deep rim, rigid ribs, honest material. Made for the meal, not the landfill aesthetic.</p>
             <a href="#buy">Build your stack <ArrowRight aria-hidden="true" /></a>
           </div>
           <div className="vnl-hero-note"><b>10″</b><span>Dinner plate<br />Natural fiber</span></div>
@@ -230,16 +230,16 @@ function Vernacular() {
         </section>
 
         <section className="vnl-buy" id="buy">
-          <div><span>PLATE 02 / DINNER</span><h3>Build your stack.</h3><p>Concept configuration for a future product system. Pricing is illustrative—not a live offer.</p></div>
+          <div><span>PLATE 02 / DINNER</span><h3>Build your stack.</h3><p>Concept configuration for a future product system. Pricing is illustrative and not a live offer.</p></div>
           <div className="vnl-buy-controls">
             <fieldset><legend>Pack size</legend><div>{packs.map((item) => <button type="button" key={item.count} className={pack.count === item.count ? 'active' : ''} onClick={() => setPack(item)} aria-pressed={pack.count === item.count}>{item.count}</button>)}</div></fieldset>
             <div className="vnl-quantity"><span>Quantity</span><div><button type="button" onClick={() => setQuantity(Math.max(1, quantity - 1))} aria-label="Decrease quantity"><Minus aria-hidden="true" /></button><output aria-live="polite">{String(quantity).padStart(2, '0')}</output><button type="button" onClick={() => setQuantity(quantity + 1)} aria-label="Increase quantity"><Plus aria-hidden="true" /></button></div></div>
-            <button className={`vnl-add ${added ? 'added' : ''}`} type="button" onClick={addToBag}>{added ? <><Check aria-hidden="true" /> Added to bag</> : <>Add concept — ${pack.price * quantity} <ArrowRight aria-hidden="true" /></>}</button>
+            <button className={`vnl-add ${added ? 'added' : ''}`} type="button" onClick={addToBag}>{added ? <><Check aria-hidden="true" /> Added to bag</> : <>Add concept · ${pack.price * quantity} <ArrowRight aria-hidden="true" /></>}</button>
           </div>
         </section>
       </main>
 
-      <footer className="vnl-footer"><a className="vnl-logo" href="#vernacular-top">VNL<span>/</span>PAPER</a><p>Vernacular is a speculative product-design study by Usamah Moin—engineering discipline with visual taste.</p><a href={sitePath('/work')}>Back to index <ArrowRight aria-hidden="true" /></a></footer>
+      <footer className="vnl-footer"><a className="vnl-logo" href="#vernacular-top">VNL<span>/</span>PAPER</a><p>Vernacular is a speculative product-design study by Usamah Moin, combining engineering discipline with visual taste.</p><a href={sitePath('/work')}>Back to index <ArrowRight aria-hidden="true" /></a></footer>
     </div>
   );
 }
@@ -250,9 +250,9 @@ function Field() {
   const [saved, setSaved] = useState(false);
   const [offline, setOffline] = useState(false);
   const routes = [
-    { code: 'R—01', name: 'Fern Canyon Loop', miles: '6.8 MI', time: '3H 20M', gain: '1,240 FT', grade: 'MODERATE', color: '#ff5b38', path: 'M 86 548 C 152 505 184 454 246 447 C 316 438 330 361 397 346 C 468 330 464 260 536 246 C 621 229 655 164 731 191 C 808 218 835 148 914 112', points: [[86,548],[397,346],[731,191],[914,112]], note: 'Old-growth cedar, a narrow creek crossing, and a quiet final ridge.' },
-    { code: 'R—02', name: 'Juniper Ridge', miles: '4.2 MI', time: '2H 05M', gain: '860 FT', grade: 'STEADY', color: '#214fd1', path: 'M 104 144 C 183 158 208 213 276 229 C 348 246 351 319 429 333 C 517 349 551 416 633 408 C 724 400 765 475 886 536', points: [[104,144],[276,229],[633,408],[886,536]], note: 'Exposed stone, dry juniper, and long western views at the turn.' },
-    { code: 'R—03', name: 'Bear Lake Path', miles: '8.1 MI', time: '4H 10M', gain: '1,680 FT', grade: 'CHALLENGING', color: '#e04482', path: 'M 84 498 C 143 423 213 490 272 406 C 331 323 389 378 452 292 C 518 202 592 268 654 180 C 720 87 806 172 916 82', points: [[84,498],[272,406],[654,180],[916,82]], note: 'A longer ascent through spruce shade to an open alpine basin.' },
+    { code: 'R-01', name: 'Fern Canyon Loop', miles: '6.8 MI', time: '3H 20M', gain: '1,240 FT', grade: 'MODERATE', color: '#ff5b38', path: 'M 86 548 C 152 505 184 454 246 447 C 316 438 330 361 397 346 C 468 330 464 260 536 246 C 621 229 655 164 731 191 C 808 218 835 148 914 112', points: [[86,548],[397,346],[731,191],[914,112]], note: 'Old-growth cedar, a narrow creek crossing, and a quiet final ridge.' },
+    { code: 'R-02', name: 'Juniper Ridge', miles: '4.2 MI', time: '2H 05M', gain: '860 FT', grade: 'STEADY', color: '#214fd1', path: 'M 104 144 C 183 158 208 213 276 229 C 348 246 351 319 429 333 C 517 349 551 416 633 408 C 724 400 765 475 886 536', points: [[104,144],[276,229],[633,408],[886,536]], note: 'Exposed stone, dry juniper, and long western views at the turn.' },
+    { code: 'R-03', name: 'Bear Lake Path', miles: '8.1 MI', time: '4H 10M', gain: '1,680 FT', grade: 'CHALLENGING', color: '#e04482', path: 'M 84 498 C 143 423 213 490 272 406 C 331 323 389 378 452 292 C 518 202 592 268 654 180 C 720 87 806 172 916 82', points: [[84,498],[272,406],[654,180],[916,82]], note: 'A longer ascent through spruce shade to an open alpine basin.' },
   ];
   const route = routes[trail];
   const layerLegend = { Terrain: 'Contour / 40 ft', Water: 'Creek + spring', Shelter: 'Camp access' }[layer];
@@ -317,10 +317,10 @@ function Civic() {
   const [submitted, setSubmitted] = useState(false);
   const [priority, setPriority] = useState('Safe crossings');
   const requests = [
-    { id: 'CHI—4821', category: 'Streetlight', title: 'Lamp out beside Palmer Square', place: '2200 N Kedzie Ave', status: 'In progress', age: '2 days', color: '#ff4f38' },
-    { id: 'CHI—4774', category: 'Sidewalk', title: 'Broken curb at accessible crossing', place: 'Milwaukee + California', status: 'In progress', age: '4 days', color: '#1747d1' },
-    { id: 'CHI—4688', category: 'Tree', title: 'Storm branch blocking the path', place: 'Humboldt Blvd + Wabansia', status: 'Resolved', age: 'Closed today', color: '#15875c' },
-    { id: 'CHI—4590', category: 'Water', title: 'Hydrant leak near school entrance', place: 'Armitage + Richmond', status: 'Resolved', age: 'Closed Sep 8', color: '#8f4bd8' },
+    { id: 'CHI-4821', category: 'Streetlight', title: 'Lamp out beside Palmer Square', place: '2200 N Kedzie Ave', status: 'In progress', age: '2 days', color: '#ff4f38' },
+    { id: 'CHI-4774', category: 'Sidewalk', title: 'Broken curb at accessible crossing', place: 'Milwaukee + California', status: 'In progress', age: '4 days', color: '#1747d1' },
+    { id: 'CHI-4688', category: 'Tree', title: 'Storm branch blocking the path', place: 'Humboldt Blvd + Wabansia', status: 'Resolved', age: 'Closed today', color: '#15875c' },
+    { id: 'CHI-4590', category: 'Water', title: 'Hydrant leak near school entrance', place: 'Armitage + Richmond', status: 'Resolved', age: 'Closed Sep 8', color: '#8f4bd8' },
   ];
   const visibleRequests = requestFilter === 'All' ? requests : requests.filter((item) => item.status === requestFilter);
   return (
@@ -329,7 +329,7 @@ function Civic() {
 
       <main>
         <section className="civic-hero">
-          <div className="civic-hero-copy"><span>CHICAGO / PUBLIC-SERVICE PROTOTYPE</span><h2>The city is<br />a shared <em>interface.</em></h2><p>See what is working, report what is not, and understand what happens next—without learning how government is organized first.</p><a href="#report">Start a request <ArrowRight /></a></div>
+          <div className="civic-hero-copy"><span>CHICAGO / PUBLIC-SERVICE PROTOTYPE</span><h2>The city is<br />a shared <em>interface.</em></h2><p>See what is working, report what is not, and understand what happens next without learning how government is organized first.</p><a href="#report">Start a request <ArrowRight /></a></div>
           <div className="civic-bulletin"><div><span>RIGHT NOW</span><i>Wed / 10 Sep</i></div><strong>3</strong><h3>services need attention</h3><ul><li><b>Blue Line</b><span>Minor delays</span></li><li><b>Ward 32 pickup</b><span>1 day late</span></li><li><b>Cooling centers</b><span>Open until 7 PM</span></li></ul><small>Illustrative service data</small></div>
           <div className="civic-street-grid" aria-hidden="true"><i/><i/><i/><i/><i/><i/><i/><i/><span>●</span><b>+</b></div>
         </section>
@@ -338,11 +338,11 @@ function Civic() {
 
         <section className="civic-requests" id="requests"><div className="civic-section-heading"><span>02 / OPEN REQUESTS</span><h3>Visible work.<br />Clear ownership.</h3><div>{(['All','In progress','Resolved'] as const).map((item) => <button type="button" key={item} className={requestFilter === item ? 'active' : ''} onClick={() => setRequestFilter(item)} aria-pressed={requestFilter === item}>{item}</button>)}</div></div><div className="civic-request-list">{visibleRequests.map((item) => <article key={item.id}><i style={{background: item.color}} /><span>{item.id}<small>{item.category}</small></span><h4>{item.title}<small><MapPin />{item.place}</small></h4><b>{item.status}</b><time>{item.age}</time></article>)}</div><p className="civic-data-note">Sample requests created for this interaction prototype. No real resident or city records are shown.</p></section>
 
-        <section className="civic-report" id="report"><div className="civic-report-intro"><span>03 / MAKE A REQUEST</span><h3>One form.<br />No department maze.</h3><p>Describe the public-space problem. The interface handles the category; you keep the confirmation number.</p><div><b>1</b>Choose the issue <i /> <b>2</b>Add the place <i /> <b>3</b>Track the work</div></div><form onSubmit={(event) => { event.preventDefault(); setSubmitted(true); }}><fieldset><legend>What needs attention?</legend><div>{['Streetlight','Sidewalk','Tree','Water'].map((item) => <button type="button" key={item} className={issueType === item ? 'active' : ''} onClick={() => setIssueType(item)} aria-pressed={issueType === item}>{item}</button>)}</div></fieldset><label>Location<input required defaultValue="Palmer Square, Chicago" /></label><label>What did you notice?<textarea required defaultValue="The light beside the northeast path has been out for two nights." /></label><button className="civic-submit" type="submit">Create prototype request <ArrowRight /></button><small>Prototype only—this form does not transmit personal information or contact the city.</small>{submitted && <output className="civic-confirmation"><Check /> Request drafted locally <b>CHI—DEMO</b><button type="button" onClick={() => setSubmitted(false)}>Dismiss</button></output>}</form></section>
+        <section className="civic-report" id="report"><div className="civic-report-intro"><span>03 / MAKE A REQUEST</span><h3>One form.<br />No department maze.</h3><p>Describe the public-space problem. The interface handles the category; you keep the confirmation number.</p><div><b>1</b>Choose the issue <i /> <b>2</b>Add the place <i /> <b>3</b>Track the work</div></div><form onSubmit={(event) => { event.preventDefault(); setSubmitted(true); }}><fieldset><legend>What needs attention?</legend><div>{['Streetlight','Sidewalk','Tree','Water'].map((item) => <button type="button" key={item} className={issueType === item ? 'active' : ''} onClick={() => setIssueType(item)} aria-pressed={issueType === item}>{item}</button>)}</div></fieldset><label>Location<input required defaultValue="Palmer Square, Chicago" /></label><label>What did you notice?<textarea required defaultValue="The light beside the northeast path has been out for two nights." /></label><button className="civic-submit" type="submit">Create prototype request <ArrowRight /></button><small>Prototype only. This form does not transmit personal information or contact the city.</small>{submitted && <output className="civic-confirmation"><Check /> Request drafted locally <b>CHI-DEMO</b><button type="button" onClick={() => setSubmitted(false)}>Dismiss</button></output>}</form></section>
 
         <section className="civic-priorities" id="priorities"><header><span>04 / NEIGHBORHOOD PRIORITIES</span><h3>What should<br />move first?</h3><p>This local-only simulator demonstrates transparent participation without pretending to cast a real vote.</p></header><div>{['Safe crossings','More tree canopy','Late-night transit'].map((item, index) => <button type="button" key={item} className={priority === item ? 'active' : ''} onClick={() => setPriority(item)} aria-pressed={priority === item}><span>0{index + 1}</span><strong>{item}</strong><i>{priority === item ? 'Your priority' : 'Select'}</i><ArrowRight /></button>)}</div></section>
 
-        <section className="civic-principle"><span>DESIGN PRINCIPLE</span><blockquote>“A public interface should explain the institution through the next useful action.”</blockquote><p>I used high contrast, plain language, visible status and reversible local interactions so the concept demonstrates trust—not just civic-looking colors.</p></section>
+        <section className="civic-principle"><span>DESIGN PRINCIPLE</span><blockquote>“A public interface should explain the institution through the next useful action.”</blockquote><p>I used high contrast, plain language, visible status, and reversible local interactions so the concept demonstrates trust instead of relying on civic-looking colors.</p></section>
       </main>
 
       <footer className="civic-footer"><a className="civic-brand" href="#civic-top">CIVIC<span>/COMMONS</span></a><p>Concept and interface design by Usamah Moin.<br />Sample data only.</p><a href={sitePath('/work')}>Back to index <ArrowRight /></a></footer>

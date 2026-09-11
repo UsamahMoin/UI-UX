@@ -18,10 +18,10 @@ export type FormStory = {
 
 export const formStories: FormStory[] = [
   {
-    slug: 'kinetic-chair', number: '01', title: 'A chair that refuses to sit still', category: 'Objects', format: 'Object study', year: '1984—Now', readTime: '6 min',
+    slug: 'kinetic-chair', number: '01', title: 'A chair that refuses to sit still', category: 'Objects', format: 'Object study', year: '1984 to now', readTime: '6 min',
     image: '/images/form-kinetic-chair.png', alt: 'Kinetic postmodern chair displayed in a raw gallery workshop', color: '#ff6d57',
     dek: 'What changes when furniture stops behaving like a polite background object?',
-    introduction: 'This is less a chair than a negotiation between balance, posture, and play. Its angled frame makes sitting feel active—and turns an ordinary room into a small stage.',
+    introduction: 'This is less a chair than a negotiation between balance, posture, and play. Its angled frame makes sitting feel active and turns an ordinary room into a small stage.',
     pullquote: 'The object is finished only when somebody changes how it stands.',
     body: [
       'The most enduring objects rarely disappear into a room. They create a relationship: a pause before use, a new gesture, a slightly different way of understanding weight. This chair belongs to that restless family.',
@@ -36,7 +36,7 @@ export const formStories: FormStory[] = [
     pullquote: 'Every corridor proposes a tempo. Every threshold asks for a decision.',
     body: [
       'The film begins with restraint: a shoulder following a wall, a foot held above a seam in the concrete. Gradually the body leaves the expected path and the architecture seems to move with it.',
-      'The result is not documentation of a performance. It is a study of two systems—one fixed, one adaptive—discovering a shared rhythm.',
+      'The result is not documentation of a performance. It is a study of two systems, one fixed and one adaptive, discovering a shared rhythm.',
     ], credit: 'Film by FORM moving-image unit · 11 minutes 08 seconds',
   },
   {
@@ -54,11 +54,11 @@ export const formStories: FormStory[] = [
     slug: 'soft-architecture', number: '04', title: 'Soft architecture', category: 'Ideas', format: 'Essay', year: 'Issue 14', readTime: '8 min',
     image: '/images/form-soft-architecture.png', alt: 'Translucent textile partitions shaping light around a small human silhouette', color: '#a7ddb9',
     dek: 'Curtains, air, sound, and light can organize space without pretending to be walls.',
-    introduction: 'We often describe architecture through what resists us: structure, surface, boundary. Soft architecture begins somewhere else—with materials that move, filter, and make room negotiable.',
+    introduction: 'We often describe architecture through what resists us: structure, surface, boundary. Soft architecture begins somewhere else, with materials that move, filter, and make room negotiable.',
     pullquote: 'A boundary can guide us without becoming a barrier.',
     body: [
       'Textile partitions make occupancy visible through shadow and sound. They trade certainty for awareness, allowing a room to change without hiding the fact that other people are near.',
-      'This softness is not fragility. It is a responsive form of order—one that accepts weather, bodies, and use as collaborators in the final shape of a place.',
+      'This softness is not fragility. It is a responsive form of order that accepts weather, bodies, and use as collaborators in the final shape of a place.',
     ], credit: 'Essay by FORM architecture editor · Issue 14',
   },
   {

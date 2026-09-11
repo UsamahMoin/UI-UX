@@ -17,16 +17,16 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteOrigin),
-  title: 'Usamah Moin — Engineer with Taste',
+  title: 'Usamah Moin | Engineer with Taste',
   description: 'The interface portfolio of Usamah Moin: an engineer exploring product thinking, technical prototypes, visual systems, and design critique.',
   openGraph: {
-    title: 'Usamah Moin — Engineer with Taste',
+    title: 'Usamah Moin | Engineer with Taste',
     description: 'Eleven working interface studies where engineering judgment meets a strong visual point of view.',
     images: [],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Usamah Moin — Engineer with Taste',
+    title: 'Usamah Moin | Engineer with Taste',
     description: 'Eleven working interface studies where engineering judgment meets a strong visual point of view.',
     images: [],
   },

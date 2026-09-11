@@ -8,7 +8,7 @@ export default function WorkIndex() {
     <main className="all-work-page">
       <nav className="work-nav">
         <a href={sitePath('/')}><ArrowLeft /> Usamah Moin</a>
-        <span>UI/UX portfolio / 2024—26</span>
+        <span>UI/UX portfolio / 2024 to 2026</span>
       </nav>
       <header className="work-list-header">
         <span className="eyebrow">Usamah Moin / Selected work</span>

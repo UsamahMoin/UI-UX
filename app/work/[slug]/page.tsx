@@ -12,7 +12,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const project = getProject((await params).slug);
-  return project ? { title: `${project.name} — Usamah Moin`, description: project.summary, openGraph: { title: `${project.name} — Usamah Moin`, description: project.summary, images: [] }, twitter: { title: `${project.name} — Usamah Moin`, description: project.summary, images: [] } } : {};
+  return project ? { title: `${project.name} | Usamah Moin`, description: project.summary, openGraph: { title: `${project.name} | Usamah Moin`, description: project.summary, images: [] }, twitter: { title: `${project.name} | Usamah Moin`, description: project.summary, images: [] } } : {};
 }
 
 export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {

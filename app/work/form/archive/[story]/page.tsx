@@ -15,9 +15,9 @@ export async function generateMetadata({ params }: { params: Promise<{ story: st
   const siteOrigin = process.env.NEXT_PUBLIC_SITE_ORIGIN ?? 'https://atelier-index-ui-ux.usamahmoin.chatgpt.site';
   const image = new URL(sitePath(story.image), siteOrigin).toString();
   return {
-    title: `${story.title} — FORM`, description: story.dek,
-    openGraph: { title: `${story.title} — FORM`, description: story.dek, images: [image] },
-    twitter: { title: `${story.title} — FORM`, description: story.dek, images: [image] },
+    title: `${story.title} | FORM`, description: story.dek,
+    openGraph: { title: `${story.title} | FORM`, description: story.dek, images: [image] },
+    twitter: { title: `${story.title} | FORM`, description: story.dek, images: [image] },
   };
 }
 
@@ -30,7 +30,7 @@ export default async function FormStoryPage({ params }: { params: Promise<{ stor
 
   return (
     <main className="form-story" style={{ '--form-story-color': story.color } as React.CSSProperties}>
-      <nav className="form-story-nav"><a href={sitePath('/work/form/archive')}><ArrowLeft /> Archive</a><a className="form-site-wordmark" href={sitePath('/work/form/archive')}>F—RM</a><span>ISSUE 14 · {story.number} / 05</span></nav>
+      <nav className="form-story-nav"><a href={sitePath('/work/form/archive')}><ArrowLeft /> Archive</a><a className="form-site-wordmark" href={sitePath('/work/form/archive')}>FORM</a><span>ISSUE 14 · {story.number} / 05</span></nav>
       <header className="form-story-header"><div><span>{story.format} / {story.year}</span><h1>{story.title}</h1><p>{story.dek}</p></div><figure><img src={sitePath(story.image)} alt={story.alt} /><figcaption>{story.credit}</figcaption></figure></header>
       <section className="form-story-intro"><span>{story.category.toUpperCase()} · {story.readTime.toUpperCase()}</span><p>{story.introduction}</p></section>
       <section className="form-story-body"><div>{story.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div><blockquote>“{story.pullquote}”</blockquote></section>

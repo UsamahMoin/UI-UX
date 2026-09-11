@@ -31,7 +31,7 @@ export default function Home() {
 
         <div className="gallery-intro-copy">
           <p>
-            I build, study, and explain digital systems—using interface design to make complex ideas legible, useful, and memorable.
+            I build, study, and explain digital systems, using interface design to make complex ideas legible, useful, and memorable.
           </p>
           <div>
             <span>Product thinking</span>
@@ -45,7 +45,7 @@ export default function Home() {
       <section className="gallery-work" id="work" aria-labelledby="gallery-title">
         <header className="gallery-heading">
           <div>
-            <span>Selected studies / 2024—26</span>
+            <span>Selected studies / 2024 to 2026</span>
             <h2 id="gallery-title">Working points of view.</h2>
           </div>
           <p>
@@ -88,7 +88,7 @@ export default function Home() {
         <h2 id="statement-title">I work where engineering judgment meets interface taste.</h2>
         <div>
           <p>
-            These studies show how I frame problems, establish a visual point of view, and turn ideas into working prototypes—useful ground for UI/UX consulting, product engineering, and teaching.
+            These studies show how I frame problems, establish a visual point of view, and turn ideas into working prototypes. They create useful ground for UI/UX consulting, product engineering, and teaching.
           </p>
           <a href="https://github.com/UsamahMoin"><Code /> Explore my engineering work <ArrowUpRight /></a>
         </div>

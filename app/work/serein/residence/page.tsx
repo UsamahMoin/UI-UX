@@ -8,10 +8,10 @@ const siteOrigin = process.env.NEXT_PUBLIC_SITE_ORIGIN ?? 'https://atelier-index
 const heroImage = new URL(sitePath('/images/serein-human.png'), siteOrigin).toString();
 
 export const metadata: Metadata = {
-  title: 'The Residence — SEREIN',
+  title: 'The Residence | SEREIN',
   description: 'Explore a quiet cedar retreat in the Kiso Valley through its suites, forest onsen, and seasonal table.',
-  openGraph: { title: 'The Residence — SEREIN', description: 'A quiet cedar retreat in the Kiso Valley.', images: [heroImage] },
-  twitter: { title: 'The Residence — SEREIN', description: 'A quiet cedar retreat in the Kiso Valley.', images: [heroImage] },
+  openGraph: { title: 'The Residence | SEREIN', description: 'A quiet cedar retreat in the Kiso Valley.', images: [heroImage] },
+  twitter: { title: 'The Residence | SEREIN', description: 'A quiet cedar retreat in the Kiso Valley.', images: [heroImage] },
 };
 
 export default function ResidencePage() {
@@ -50,7 +50,7 @@ export default function ResidencePage() {
       <section className="residence-way" id="our-way">
         <span>OUR WAY</span>
         <blockquote>“Luxury is not more to look at. It is less to look past.”</blockquote>
-        <div><p>SEREIN is a fictional hospitality study about making digital experiences feel unhurried. The concept uses readable hierarchy, tactile imagery, and quiet transitions to express a point of view—not fictional performance claims.</p><a href={sitePath('/work/serein')}>Return to the interactive concept <ArrowRight /></a></div>
+        <div><p>SEREIN is a fictional hospitality study about making digital experiences feel unhurried. The concept uses readable hierarchy, tactile imagery, and quiet transitions to express a point of view, not fictional performance claims.</p><a href={sitePath('/work/serein')}>Return to the interactive concept <ArrowRight /></a></div>
       </section>
       <footer className="residence-footer"><span>SEREIN · KISO VALLEY</span><span>ENGINEERED WITH TASTE BY USAMAH MOIN</span><a href={sitePath('/work')}>View all work <ArrowRight /></a></footer>
     </main>

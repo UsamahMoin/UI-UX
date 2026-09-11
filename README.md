@@ -1,4 +1,4 @@
-# Usamah Moin — UI/UX Portfolio
+# Usamah Moin: UI/UX Portfolio
 
 A personal UI/UX portfolio showcasing eleven responsive, interactive concept projects across product strategy, visual design, and interaction design.
 
@@ -6,17 +6,17 @@ A personal UI/UX portfolio showcasing eleven responsive, interactive concept pro
 
 ## Project worlds
 
-- **NOVA** — intelligence dashboard
-- **SEREIN** — digital hospitality
-- **FORM** — culture archive
-- **AURA** — generative listening room
-- **VERNACULAR** — type laboratory
-- **FIELD** — trail companion
-- **ATELIER** — collectible commerce
-- **SIGNAL** — humane finance
-- **CIVIC** — accessible transit
-- **LUMEN** — collaborative canvas
-- **PANTRY** — food marketplace
+- **NOVA:** intelligence dashboard
+- **SEREIN:** digital hospitality
+- **FORM:** culture archive
+- **AURA:** generative listening room
+- **VERNACULAR:** type laboratory
+- **FIELD:** trail companion
+- **ATELIER:** collectible commerce
+- **SIGNAL:** humane finance
+- **CIVIC:** public service commons
+- **LUMEN:** collaborative canvas
+- **PANTRY:** food marketplace
 
 ## Run locally
 

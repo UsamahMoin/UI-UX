@@ -16,10 +16,10 @@ export async function generateMetadata({ params }: { params: Promise<{ space: st
   const image = new URL(sitePath(space.image), siteOrigin).toString();
   const description = `${space.invitation} ${space.introduction}`;
   return {
-    title: `${space.name} — SEREIN`,
+    title: `${space.name} | SEREIN`,
     description,
-    openGraph: { title: `${space.name} — SEREIN`, description, images: [image] },
-    twitter: { title: `${space.name} — SEREIN`, description, images: [image] },
+    openGraph: { title: `${space.name} | SEREIN`, description, images: [image] },
+    twitter: { title: `${space.name} | SEREIN`, description, images: [image] },
   };
 }
 

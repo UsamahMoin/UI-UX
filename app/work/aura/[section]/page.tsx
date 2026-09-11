@@ -7,9 +7,9 @@ const sections = ['library', 'rituals', 'about'] as const;
 type AuraSection = (typeof sections)[number];
 
 const metadataBySection: Record<AuraSection, { title: string; description: string }> = {
-  library: { title: 'Listening Library — AURA', description: 'Generative listening sessions organized by emotional tone.' },
-  rituals: { title: 'Listening Rituals — AURA', description: 'Small guided rituals for arriving, focusing, and releasing the day.' },
-  about: { title: 'About — AURA', description: 'The design thinking and accessibility principles behind AURA.' },
+  library: { title: 'Listening Library | AURA', description: 'Generative listening sessions organized by emotional tone.' },
+  rituals: { title: 'Listening Rituals | AURA', description: 'Small guided rituals for arriving, focusing, and releasing the day.' },
+  about: { title: 'About | AURA', description: 'The design thinking and accessibility principles behind AURA.' },
 };
 
 export function generateStaticParams() {
