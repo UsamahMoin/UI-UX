@@ -2,12 +2,13 @@
 
 import { useEffect, useRef, useState } from 'react';
 import type { PointerEvent as ReactPointerEvent } from 'react';
+import Image from 'next/image';
 import {
   ArrowRight, Bookmark,
-  Check, ChevronRight, CircleDollarSign, Coffee,
-  CreditCard, Download, Headphones, Heart, Info, Leaf, MapPin, Menu, Minus, Moon,
+  Check, ChevronRight, CircleDollarSign,
+  CreditCard, Download, Headphones, Heart, Info, MapPin, Menu, Minus, Moon,
   MousePointer2, Move, Pause, PenTool, Plus, Search, ShoppingBag, Sun,
-  Sparkles, Star, TrendingUp, Type, WandSparkles, ZoomIn,
+  Sparkles, TrendingUp, Type, WandSparkles, X, ZoomIn,
 } from 'lucide-react';
 
 import { NovaDashboard } from '@/components/nova-dashboard';
@@ -365,14 +366,89 @@ function Lumen() {
 }
 
 function Pantry() {
-  const [category, setCategory] = useState('Tonight');
-  const [count, setCount] = useState(0);
+  const products = [
+    { id: 'tomato', name: 'Peak tomato supper', label: 'FARM FAVORITE', description: 'Tomato toast, burrata, basil oil, and a sharp little salad.', detail: '20 min · serves 2', price: 28, moods: ['Bright', 'Quick'], image: '/images/pantry-tomato-sketch.jpg', alt: 'Marker and ink sketch of tomato and burrata toast on an illustrated recipe sheet', tone: 'tomato' },
+    { id: 'greens', name: 'Green everything bowl', label: 'JUST HARVESTED', description: 'Little gems, market herbs, grains, tahini, and crisp seeds.', detail: '15 min · serves 2', price: 24, moods: ['Bright', 'Quick'], image: '/images/pantry-greens-sketch.jpg', alt: 'Marker and ink sketch of a green grain bowl with herbs and lemon', tone: 'greens' },
+    { id: 'beans', name: 'Beans on toast, deluxe', label: 'SLOW EVENING', description: 'Butter beans, sourdough, lemon, greens, and smoky chile oil.', detail: '30 min · serves 2', price: 22, moods: ['Comfort'], image: '/images/pantry-beans-sketch.jpg', alt: 'Marker and ink sketch of creamy butter beans on sourdough toast', tone: 'beans' },
+    { id: 'galette', name: 'Plum edge galette', label: 'BAKER\'S NOTE', description: 'Late plums, flaky pastry, almond cream, and lemon sugar.', detail: '45 min · serves 4', price: 26, moods: ['Sweet', 'Comfort'], image: '/images/pantry-galette-sketch.jpg', alt: 'Marker and ink sketch of a rustic plum galette with pastry notes', tone: 'galette' },
+  ];
+  const [category, setCategory] = useState('All');
+  const [query, setQuery] = useState('');
+  const [bag, setBag] = useState<Record<string, number>>({});
+  const [bagOpen, setBagOpen] = useState(false);
+  const [orderReady, setOrderReady] = useState(false);
+  const visibleProducts = products.filter((product) => {
+    const matchesCategory = category === 'All' || product.moods.includes(category);
+    const searchable = `${product.name} ${product.description} ${product.label} ${product.moods.join(' ')}`.toLowerCase();
+    return matchesCategory && searchable.includes(query.trim().toLowerCase());
+  });
+  const bagItems = products.filter((product) => bag[product.id]);
+  const bagCount = Object.values(bag).reduce((sum, quantity) => sum + quantity, 0);
+  const subtotal = bagItems.reduce((sum, product) => sum + product.price * bag[product.id], 0);
+  const updateBag = (id: string, change: number) => {
+    setOrderReady(false);
+    setBag((current) => {
+      const quantity = Math.max(0, (current[id] ?? 0) + change);
+      const next = { ...current };
+      if (quantity === 0) delete next[id]; else next[id] = quantity;
+      return next;
+    });
+  };
+  const findDinner = () => document.getElementById('pantry-market')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   return (
-    <div className="demo pantry-demo">
-      <header><b>PANTRY!</b><nav>Market&nbsp;&nbsp;&nbsp; Makers&nbsp;&nbsp;&nbsp; How it works</nav><button><ShoppingBag /> Bag · {count}</button></header>
-      <section className="pantry-hero"><span>SEPTEMBER / PEAK SEASON</span><h2>What are we<br/><em>hungry for?</em></h2><div className="pantry-search"><Search/><input placeholder="A cozy dinner, something bright…" aria-label="Search food moods"/><button>Find dinner <ArrowRight/></button></div></section>
-      <div className="pantry-cats">{['Tonight','Bright','Comfort','Quick'].map(item => <button key={item} className={category === item ? 'active' : ''} onClick={() => setCategory(item)} aria-pressed={category === item}>{item}</button>)}</div>
-      <div className="food-grid"><article className="food-card tomato"><span><Star/> FARM FAVORITE</span><div className="food-visual">🍅</div><h3>Peak tomato supper</h3><p>Heirloom tomatoes, burrata, basil, torn bread.</p><button onClick={() => setCount(count+1)}><Plus/> $28 · Serves 2</button></article><article className="food-card greens"><span><Leaf/> JUST HARVESTED</span><div className="food-visual">🥬</div><h3>Green everything bowl</h3><p>Little gems, herbs, grains, tahini, crisp seeds.</p><button onClick={() => setCount(count+1)}><Plus/> $24 · Serves 2</button></article><article className="food-card beans"><span><Coffee/> SLOW EVENING</span><div className="food-visual">🫘</div><h3>Beans on toast, deluxe</h3><p>Butter beans, sourdough, lemon, chile oil.</p><button onClick={() => setCount(count+1)}><Plus/> $22 · Serves 2</button></article></div>
+    <div className="demo pantry-demo" id="pantry-top">
+      <header className="pantry-nav">
+        <a className="pantry-wordmark" href="#pantry-top" aria-label="Pantry home"><span>PANTRY</span><i>sketch market</i></a>
+        <nav aria-label="Pantry sections"><a href="#pantry-market">Tonight</a><a href="#pantry-season">The harvest</a><a href="#pantry-method">How it works</a></nav>
+        <button className="pantry-bag-button" type="button" onClick={() => setBagOpen(true)} aria-expanded={bagOpen}><ShoppingBag aria-hidden="true" /> Bag <span>{bagCount}</span></button>
+      </header>
+
+      <main>
+        <section className="pantry-sketch-hero">
+          <div className="pantry-hero-copy">
+            <span className="pantry-kicker">SEPTEMBER 11 · FIELD SHEET 04</span>
+            <h2>Dinner starts<br />with a <em>scribble.</em></h2>
+            <p>Small-batch meal kits drawn from what the market has right now. Pick a feeling, not an aisle.</p>
+            <form className="pantry-search" onSubmit={(event) => { event.preventDefault(); findDinner(); }}>
+              <Search aria-hidden="true" />
+              <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Try bright, beans, quick..." aria-label="Search meals and moods" />
+              <button type="submit">Find dinner <ArrowRight aria-hidden="true" /></button>
+            </form>
+            <div className="pantry-hero-notes"><span>CHICAGO / 09.11</span><span>4 RECIPES / 12 INGREDIENTS</span></div>
+          </div>
+          <figure className="pantry-hero-art">
+            <Image src={sitePath('/images/pantry-sketch-hero.jpg')} alt="Marker and ink sketch of a market basket filled with tomatoes, bread, greens, beans, and plums" width={1600} height={1066} priority unoptimized sizes="(max-width: 820px) 100vw, 58vw" />
+            <figcaption><span>MARKET HAUL Nº 04</span><b>Drawn from this week&apos;s harvest</b></figcaption>
+            <i aria-hidden="true">NEW<br />THIS<br />WEEK</i>
+          </figure>
+        </section>
+
+        <section className="pantry-market" id="pantry-market">
+          <div className="pantry-section-heading"><span>01 / PICK A FEELING</span><h3>Tonight&apos;s<br /><em>sketchbook.</em></h3><p>Four complete dinner ideas, drawn before they are boxed. Each serves real ingredients with the commitment visible up front.</p></div>
+          <div className="pantry-filter-row">
+            <div className="pantry-cats" aria-label="Filter meals by mood">{['All', 'Bright', 'Comfort', 'Quick', 'Sweet'].map((item) => <button type="button" key={item} className={category === item ? 'active' : ''} onClick={() => setCategory(item)} aria-pressed={category === item}>{item}</button>)}</div>
+            <output aria-live="polite">{visibleProducts.length} {visibleProducts.length === 1 ? 'idea' : 'ideas'} on the table</output>
+          </div>
+          {visibleProducts.length > 0 ? <div className="food-grid">{visibleProducts.map((product, index) => <article className={`food-card ${product.tone}`} key={product.id}>
+            <div className="food-card-art"><Image src={sitePath(product.image)} alt={product.alt} width={1120} height={1400} loading="lazy" unoptimized sizes="(max-width: 600px) 100vw, (max-width: 820px) 50vw, 28vw" /><span aria-hidden="true">0{index + 1}</span></div>
+            <div className="food-card-copy"><span>{product.label}</span><h4>{product.name}</h4><p>{product.description}</p><div><small>{product.detail}</small><strong>${product.price}</strong></div><button type="button" onClick={() => { updateBag(product.id, 1); setBagOpen(true); }}><Plus aria-hidden="true" /> Add the sketch</button></div>
+          </article>)}</div> : <div className="pantry-empty"><span>NO MATCH ON THIS PAGE</span><h4>Try a looser scribble.</h4><p>Search for bright, beans, quick, sweet, or clear the filters and look again.</p><button type="button" onClick={() => { setCategory('All'); setQuery(''); }}>Show every recipe</button></div>}
+        </section>
+
+        <section className="pantry-season" id="pantry-season">
+          <div className="pantry-season-art"><Image src={sitePath('/images/pantry-tomato-sketch.jpg')} alt="Close view of the tomato supper illustration and ingredient notes" width={1120} height={1400} loading="lazy" unoptimized sizes="(max-width: 820px) 100vw, 54vw" /><span>PEAK / NOW</span></div>
+          <div className="pantry-season-copy"><span>02 / WHY IT LOOKS THIS WAY</span><h3>A market<br />you can <em>feel.</em></h3><p>The loose black line keeps the food human. Marker color makes each ingredient easy to spot. Warm paper replaces polished grocery photography with the feeling of a cook&apos;s notebook: immediate, imperfect, and inviting.</p><dl><div><dt>RED</dt><dd>Ripeness and appetite</dd></div><div><dt>GREEN</dt><dd>Freshness without generic wellness</dd></div><div><dt>YELLOW</dt><dd>Warmth, energy, and quick decisions</dd></div><div><dt>INK</dt><dd>Structure that holds the mess together</dd></div></dl></div>
+        </section>
+
+        <section className="pantry-method" id="pantry-method">
+          <header><span>03 / FROM PAGE TO PLATE</span><h3>Three marks.<br />Dinner handled.</h3></header>
+          <div><article><b>01</b><h4>Follow the appetite</h4><p>Search by mood or scan the color-coded recipe sheets.</p></article><article><b>02</b><h4>Build your bag</h4><p>Add a complete kit, adjust quantities, and see the cost immediately.</p></article><article><b>03</b><h4>Cook the drawing</h4><p>Every kit arrives as measured ingredients plus the illustrated field sheet.</p></article></div>
+        </section>
+      </main>
+
+      <footer className="pantry-footer"><a href="#pantry-top">PANTRY / SKETCH MARKET</a><span>Concept, interface, and art direction by Usamah Moin</span><a href={sitePath('/work')}>Portfolio index <ArrowRight aria-hidden="true" /></a></footer>
+
+      {bagOpen && <><button className="pantry-bag-scrim" type="button" onClick={() => setBagOpen(false)} aria-label="Close market bag" /><aside className="pantry-bag-drawer" aria-label="Market bag" aria-live="polite"><header><div><span>YOUR MARKET BAG</span><b>{bagCount} {bagCount === 1 ? 'kit' : 'kits'}</b></div><button type="button" onClick={() => setBagOpen(false)} aria-label="Close bag"><X aria-hidden="true" /></button></header>{bagItems.length > 0 ? <><div className="pantry-bag-list">{bagItems.map((product) => <article key={product.id}><Image src={sitePath(product.image)} alt="" width={1120} height={1400} loading="lazy" unoptimized sizes="94px" /><div><b>{product.name}</b><span>${product.price} each</span><div><button type="button" onClick={() => updateBag(product.id, -1)} aria-label={`Remove one ${product.name}`}><Minus aria-hidden="true" /></button><output aria-label={`${bag[product.id]} in bag`}>{bag[product.id]}</output><button type="button" onClick={() => updateBag(product.id, 1)} aria-label={`Add one ${product.name}`}><Plus aria-hidden="true" /></button></div></div></article>)}</div><div className="pantry-bag-total"><span>Prototype subtotal</span><b>${subtotal}</b></div><button className="pantry-prepare" type="button" onClick={() => setOrderReady(true)}>{orderReady ? <><Check aria-hidden="true" /> Demo order prepared</> : <>Prepare demo order <ArrowRight aria-hidden="true" /></>}</button>{orderReady && <p className="pantry-order-note">Saved in this browser view only. No payment or delivery request was sent.</p>}</> : <div className="pantry-bag-empty"><ShoppingBag aria-hidden="true" /><h4>The page is still clean.</h4><p>Add a recipe sketch and it will appear here.</p><button type="button" onClick={() => setBagOpen(false)}>Keep looking</button></div>}</aside></>}
     </div>
   );
 }
