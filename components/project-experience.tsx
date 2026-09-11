@@ -7,8 +7,8 @@ import {
   ArrowRight, Bookmark,
   Check, ChevronRight, CircleDollarSign,
   CreditCard, Download, Headphones, Heart, Info, MapPin, Menu, Minus, Moon,
-  MousePointer2, Move, Pause, PenTool, Plus, Search, ShoppingBag, Sun,
-  Sparkles, TrendingUp, Type, WandSparkles, X, ZoomIn,
+  Pause, Plus, Search, ShoppingBag, Sun,
+  Sparkles, TrendingUp, X,
 } from 'lucide-react';
 
 import { NovaDashboard } from '@/components/nova-dashboard';
@@ -434,15 +434,82 @@ function Civic() {
 }
 
 function Lumen() {
-  const [tool, setTool] = useState('move');
-  const [zoom, setZoom] = useState(82);
-  const toolButtons = [{name:'move',icon:<Move key="m"/>},{name:'pen',icon:<PenTool key="p"/>},{name:'type',icon:<Type key="t"/>},{name:'spark',icon:<WandSparkles key="s"/>}];
+  type LumenStage = 'Now' | 'Next' | 'Later';
+  type LumenCard = { id: number; title: string; owner: string; note: string; stage: LumenStage; done: boolean };
+  const [cards, setCards] = useState<LumenCard[]>([
+    { id: 1, title: 'Choose the clearest opening sentence', owner: 'MIA', note: 'Bring two options, not a deck.', stage: 'Now', done: false },
+    { id: 2, title: 'Test the invite with three people', owner: 'OMAR', note: 'Watch where they hesitate.', stage: 'Now', done: false },
+    { id: 3, title: 'Reduce the first session to one promise', owner: 'LEA', note: 'Name what the person gets today.', stage: 'Next', done: false },
+    { id: 4, title: 'Write the handoff in plain language', owner: 'SAM', note: 'A stranger should know what happens next.', stage: 'Next', done: false },
+    { id: 5, title: 'Explore a weekly reflection ritual', owner: 'TEAM', note: 'Only after the first session works.', stage: 'Later', done: false },
+  ]);
+  const [draft, setDraft] = useState('');
+  const [draftOwner, setDraftOwner] = useState('ME');
+  const [decision, setDecision] = useState('');
+  const [promiseDone, setPromiseDone] = useState(false);
+  const stages: LumenStage[] = ['Now', 'Next', 'Later'];
+  const placeCard = (id: number, stage: LumenStage) => setCards((current) => current.map((card) => card.id === id ? { ...card, stage } : card));
+  const toggleCard = (id: number) => setCards((current) => current.map((card) => card.id === id ? { ...card, done: !card.done } : card));
+  const addCard = () => {
+    const title = draft.trim();
+    if (!title) return;
+    setCards((current) => [...current, { id: Date.now(), title, owner: draftOwner.trim().toUpperCase() || 'ME', note: 'Added at the shared table.', stage: 'Now', done: false }]);
+    setDraft('');
+  };
   return (
-    <div className="demo lumen-demo">
-      <header><b>lumen</b><div><span className="lumen-live"><i/> Workshop 04</span><span className="faces">AM<span>+4</span></span><button>Share</button></div></header>
-      <aside>{toolButtons.map(({name,icon}) => <button key={name} className={tool === name ? 'active' : ''} onClick={() => setTool(name)} aria-label={`${name} tool`} aria-pressed={tool === name}>{icon}</button>)}</aside>
-      <main className={`lumen-canvas tool-${tool}`}><div className="sticky coral"><small>FRAMING</small><p>What if the dashboard felt more like a conversation?</p><span>AM</span></div><div className="sticky lime"><small>PRINCIPLE 02</small><p>Show the next best action, not every possible action.</p><span>SK</span></div><div className="lumen-photo"><img src={sitePath('/images/lumen-human.png')} alt="Creative team collaborating around a studio wall" /><span>NEW MENTAL MODEL</span></div><div className="lumen-ring"><span>clarity</span><span>trust</span><span>momentum</span></div><div className="lumen-link"/><div className="cursor-label"><MousePointer2/> Mia</div></main>
-      <footer><button onClick={() => setZoom(Math.max(40, zoom-10))} aria-label="Zoom out"><Minus /></button><span>{zoom}%</span><button onClick={() => setZoom(Math.min(140, zoom+10))} aria-label="Zoom in"><Plus /></button><button><ZoomIn/> Fit</button></footer>
+    <div className="demo lumen-demo" id="lumen-top">
+      <header className="lumen-header">
+        <a href="#lumen-top" className="lumen-mark"><b>LUMEN</b><span>boring on purpose</span></a>
+        <div className="lumen-room"><i /> SHARED WORKROOM / THURSDAY</div>
+        <a href={sitePath('/')}>Portfolio index <ArrowRight /></a>
+      </header>
+
+      <main>
+        <section className="lumen-intro">
+          <div className="lumen-intro-label"><span>COLLABORATION STUDY / 10</span><small>INSPIRED BY THE SHARED TABLE, THE INDEX CARD, AND THE DAILY PROMISE</small></div>
+          <h2>We did not need<br />more <em>workspace.</em><br />We needed one table.</h2>
+          <div className="lumen-intro-note"><span>THE PREMISE</span><p>Before software gave every thought a panel, people gathered around one visible surface. Lumen brings back that constraint: one promise, a few cards, three horizons.</p></div>
+        </section>
+
+        <section className="lumen-promise" aria-labelledby="lumen-promise-title">
+          <div><span>TODAY&apos;S SHARED PROMISE</span><small>Written before work begins</small></div>
+          <h3 id="lumen-promise-title">A new member understands the first session without help.</h3>
+          <button type="button" className={promiseDone ? 'done' : ''} onClick={() => setPromiseDone(!promiseDone)} aria-pressed={promiseDone}>{promiseDone ? <Check /> : <i />}{promiseDone ? 'Kept' : 'Mark as kept'}</button>
+        </section>
+
+        <section className="lumen-worktable" id="lumen-table">
+          <header><div><span>THE WORKTABLE / LIVE</span><h3>Now. Next. Later.</h3></div><p>No feeds. No folders. No status theater. If a card cannot earn a place on this table, it is not yet work.</p></header>
+          <form className="lumen-new-card" onSubmit={(event) => { event.preventDefault(); addCard(); }}>
+            <label><span>WRITE ONE CARD</span><input value={draft} onChange={(event) => setDraft(event.target.value)} placeholder="A specific promise or action" aria-label="New work card" /></label>
+            <label className="lumen-owner"><span>INITIALS</span><input value={draftOwner} maxLength={5} onChange={(event) => setDraftOwner(event.target.value)} aria-label="Owner initials" /></label>
+            <button type="submit"><Plus /> Place in Now</button>
+          </form>
+          <div className="lumen-board">{stages.map((stage, stageIndex) => {
+            const stageCards = cards.filter((card) => card.stage === stage);
+            return <section className={`lumen-column lumen-${stage.toLowerCase()}`} key={stage} aria-labelledby={`lumen-${stage.toLowerCase()}-title`}><header><span>0{stageIndex + 1}</span><h4 id={`lumen-${stage.toLowerCase()}-title`}>{stage}</h4><output>{stageCards.length} {stageCards.length === 1 ? 'card' : 'cards'}</output></header><div>{stageCards.map((card) => <article className={card.done ? 'done' : ''} key={card.id}>
+              <div className="lumen-card-pin" aria-hidden="true" />
+              <span className="lumen-card-owner">{card.owner}</span>
+              <h5>{card.title}</h5>
+              <p>{card.note}</p>
+              <div className="lumen-card-actions"><button type="button" onClick={() => toggleCard(card.id)} aria-label={`${card.done ? 'Reopen' : 'Complete'} ${card.title}`}><Check />{card.done ? 'Reopen' : 'Done'}</button><div aria-label={`Move ${card.title}`}>{stages.map((destination) => <button type="button" key={destination} className={card.stage === destination ? 'active' : ''} onClick={() => placeCard(card.id, destination)} aria-label={`Move to ${destination}`} aria-pressed={card.stage === destination}>{destination.charAt(0)}</button>)}</div></div>
+            </article>)}</div></section>;
+          })}</div>
+        </section>
+
+        <section className="lumen-decision">
+          <div><span>ONE DECISION ON THE TABLE</span><h3>What should the first session optimize for?</h3><p>Choose the principle the team will use when tradeoffs appear. One decision stays visible until it is resolved.</p></div>
+          <div className="lumen-decision-options">{['Speed to value', 'Confidence', 'Exploration'].map((option, index) => <button type="button" key={option} className={decision === option ? 'active' : ''} onClick={() => setDecision(option)} aria-pressed={decision === option}><span>0{index + 1}</span><strong>{option}</strong><i>{decision === option ? 'On the table' : 'Choose'}</i></button>)}</div>
+          <output aria-live="polite">{decision ? <><Check /> The team is designing for <strong>{decision.toLowerCase()}</strong>.</> : 'Nothing chosen yet. The table can hold uncertainty.'}</output>
+        </section>
+
+        <section className="lumen-ritual">
+          <span>THE HUMAN SYSTEM</span><div><h3>Three questions.<br />Twelve minutes.<br />Then work.</h3><p>The interface does not imitate an office. It protects a durable collaboration loop: say what matters, divide the promises, return with evidence.</p></div><ol><li><b>01</b><strong>What are we promising today?</strong><small>Write one sentence everyone can repeat.</small></li><li><b>02</b><strong>Who carries each card?</strong><small>Initials create ownership without a status meeting.</small></li><li><b>03</b><strong>What did reality teach us?</strong><small>Move the card only when the evidence changes.</small></li></ol>
+        </section>
+
+        <section className="lumen-design-note"><span>MY DESIGN INTENT</span><blockquote>“Make coordination feel like gathering around a table, not operating a machine.”</blockquote><p>I removed cursors, canvases, toolbars, nested pages, notifications, and invented activity. The three-column constraint makes priority visible, the daily promise aligns the room, and every action is local, reversible, and understandable at a glance.</p></section>
+      </main>
+
+      <footer className="lumen-footer"><a href="#lumen-top">LUMEN / STUDY 10</a><span>CONCEPT AND INTERFACE BY USAMAH MOIN</span><a href={sitePath('/')}>All projects <ArrowRight /></a></footer>
     </div>
   );
 }

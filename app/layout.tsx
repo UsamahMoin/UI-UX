@@ -4,6 +4,7 @@ import './globals.css';
 import './civic.css';
 import './pantry.css';
 import './atelier.css';
+import './lumen.css';
 
 const siteOrigin = process.env.NEXT_PUBLIC_SITE_ORIGIN ?? 'https://atelier-index-ui-ux.usamahmoin.chatgpt.site';
 
