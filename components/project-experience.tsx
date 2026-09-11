@@ -289,12 +289,86 @@ function Field() {
 }
 
 function Atelier() {
-  const [color, setColor] = useState('Ochre');
+  const looks = [
+    {
+      id: 'line-coat', number: '01', name: 'Line Coat', note: 'A boundary that moves.',
+      image: '/images/atelier-line-coat.jpg', alt: 'Model wearing a long architectural black wool coat with an asymmetric collar',
+      price: 1280, material: 'Double-face wool / horn closure', tone: '#24211f', text: '#f3eee5',
+    },
+    {
+      id: 'orbit-jacket', number: '02', name: 'Orbit Jacket', note: 'Volume without noise.',
+      image: '/images/atelier-orbit-jacket.jpg', alt: 'Model wearing an ivory sculptural jacket with curved sleeves and a charcoal column skirt',
+      price: 860, material: 'Brushed wool / cotton structure', tone: '#d9d2c7', text: '#171513',
+    },
+    {
+      id: 'bias-drape', number: '03', name: 'Bias Drape', note: 'Movement writes the silhouette.',
+      image: '/images/atelier-bias-drape.jpg', alt: 'Model wearing an oxblood draped satin top with wide black trousers',
+      price: 640, material: 'Washed satin / wool trouser', tone: '#52201f', text: '#f5eee5',
+    },
+  ];
+  const [lookIndex, setLookIndex] = useState(0);
+  const [size, setSize] = useState('02');
   const [saved, setSaved] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [bagOpen, setBagOpen] = useState(false);
+  const [bag, setBag] = useState<Record<string, { quantity: number; size: string }>>({});
+  const selected = looks[lookIndex];
+  const bagItems = looks.filter((look) => (bag[look.id]?.quantity ?? 0) > 0);
+  const bagCount = Object.values(bag).reduce((total, item) => total + item.quantity, 0);
+  const subtotal = bagItems.reduce((total, look) => total + look.price * bag[look.id].quantity, 0);
+  const addSelected = () => {
+    setBag((current) => ({ ...current, [selected.id]: { quantity: (current[selected.id]?.quantity ?? 0) + 1, size } }));
+    setBagOpen(true);
+  };
+  const updateBag = (id: string, amount: number) => {
+    setBag((current) => {
+      const item = current[id];
+      if (!item) return current;
+      const quantity = Math.max(0, item.quantity + amount);
+      const next = { ...current };
+      if (quantity === 0) delete next[id];
+      else next[id] = { ...item, quantity };
+      return next;
+    });
+  };
   return (
-    <div className="demo atelier-demo">
-      <nav><Menu aria-hidden="true" /><b>ATELIER<br/>OBJECTS</b><span>Edition 05&nbsp;&nbsp;&nbsp; Journal&nbsp;&nbsp;&nbsp; About</span><div><button onClick={() => setSaved(!saved)} aria-label="Save object" aria-pressed={saved}><Heart fill={saved ? 'currentColor' : 'none'} /></button><button aria-label="Shopping bag, 0 items"><ShoppingBag /><i>0</i></button></div></nav>
-      <main><div className={`object-stage ${color.toLowerCase()}`}><span className="edition-stamp">05 / 100</span><div className="object-chair" aria-hidden="true"><i/><b/><em/></div><span className="material">SOLID ASH / HAND OILED</span></div><section><small>NUMBERED EDITION / 2025</small><h2>Fold Chair<br/>No. 05</h2><p>A study in balance and restraint. Three planes meet without visible hardware, allowing the grain to draw the final line.</p><div className="object-price"><b>$1,480</b><span>Made to order · 6 weeks</span></div><div className="swatches"><span>FINISH</span>{['Ochre','Ink','Natural'].map(item => <button key={item} className={`${item.toLowerCase()} ${color === item ? 'active' : ''}`} onClick={() => setColor(item)} aria-label={`${item} finish`} aria-pressed={color === item}/>)}</div><button className="acquire">Acquire this edition <ArrowRight /></button></section></main>
+    <div className="demo atelier-demo" id="atelier-top">
+      <header className="atelier-nav">
+        <button className="atelier-menu-button" type="button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle ATELIER navigation" aria-expanded={menuOpen}><Menu aria-hidden="true" /></button>
+        <a className="atelier-wordmark" href="#atelier-top"><span>ATELIER</span><small>STUDY 07 / CHICAGO</small></a>
+        <nav className={menuOpen ? 'open' : ''} aria-label="ATELIER sections"><a href="#atelier-collection" onClick={() => setMenuOpen(false)}>Collection</a><a href="#atelier-philosophy" onClick={() => setMenuOpen(false)}>Philosophy</a><a href="#atelier-journal" onClick={() => setMenuOpen(false)}>Journal</a></nav>
+        <div className="atelier-nav-actions"><button type="button" onClick={() => setSaved(!saved)} aria-label={saved ? 'Remove selected look from saved' : 'Save selected look'} aria-pressed={saved}><Heart fill={saved ? 'currentColor' : 'none'} aria-hidden="true" /></button><button type="button" onClick={() => setBagOpen(true)} aria-label={`Open fitting bag, ${bagCount} items`}><ShoppingBag aria-hidden="true" /><i>{bagCount}</i></button></div>
+      </header>
+
+      <main>
+        <section className="atelier-hero">
+          <Image src={sitePath('/images/atelier-motion-hero.jpg')} alt="Model in an ivory coat and black tailoring standing in a quiet stone interior" fill priority unoptimized sizes="(max-width: 700px) 100vw, 1440px" />
+          <div className="atelier-hero-shade" aria-hidden="true" />
+          <div className="atelier-hero-copy"><span>CHAPTER I / AUTUMN STUDY</span><h2>Dress is<br /><em>architecture</em><br />in motion.</h2><p>Cut creates space. Cloth records movement. What we repeat becomes identity.</p><a href="#atelier-collection">Enter the study <ArrowRight aria-hidden="true" /></a></div>
+          <div className="atelier-hero-index"><span>01</span><i /><span>03</span></div>
+          <small className="atelier-hero-caption">A FICTIONAL FASHION COMMERCE PROTOTYPE<br />CONCEPT AND DIRECTION BY USAMAH MOIN</small>
+        </section>
+
+        <section className="atelier-collection" id="atelier-collection">
+          <header><span>01 / THE COLLECTION</span><h3>Three gestures.<br />One vocabulary.</h3><p>Each look begins with a single spatial idea: boundary, volume, or flow. Nothing is added unless it changes how the body occupies a room.</p></header>
+          <div className="atelier-look-grid">{looks.map((look, index) => <button type="button" key={look.id} className={lookIndex === index ? 'active' : ''} onClick={() => { setLookIndex(index); setSize('02'); }} aria-pressed={lookIndex === index}><span>{look.number}</span><Image src={sitePath(look.image)} alt={look.alt} width={1024} height={1536} loading="lazy" unoptimized sizes="(max-width: 700px) 86vw, 30vw" /><div><strong>{look.name}</strong><small>{look.note}</small></div><ArrowRight aria-hidden="true" /></button>)}</div>
+        </section>
+
+        <section className="atelier-fitting" style={{ '--atelier-tone': selected.tone, '--atelier-look-text': selected.text } as React.CSSProperties}>
+          <figure key={selected.id}><Image src={sitePath(selected.image)} alt={selected.alt} width={1024} height={1536} loading="lazy" unoptimized sizes="(max-width: 800px) 100vw, 58vw" /><figcaption>LOOK {selected.number} / FRONT STUDY</figcaption></figure>
+          <div className="atelier-fitting-copy" aria-live="polite"><span>SELECTED FORM / {selected.number}</span><h3>{selected.name}</h3><blockquote>“{selected.note}”</blockquote><p>{selected.material}</p><dl><div><dt>Cut</dt><dd>{selected.id === 'line-coat' ? 'Long, asymmetric, protective' : selected.id === 'orbit-jacket' ? 'Cropped, curved, suspended' : 'Bias cut, released at the hip'}</dd></div><div><dt>Gesture</dt><dd>{selected.id === 'line-coat' ? 'Boundary' : selected.id === 'orbit-jacket' ? 'Volume' : 'Flow'}</dd></div><div><dt>Prototype price</dt><dd>${selected.price.toLocaleString()}</dd></div></dl><fieldset><legend>SELECT A PROTOTYPE SIZE</legend>{['00','01','02','03','04'].map((item) => <button type="button" key={item} className={size === item ? 'active' : ''} onClick={() => setSize(item)} aria-pressed={size === item}>{item}</button>)}</fieldset><button className="atelier-add" type="button" onClick={addSelected}>Add look {selected.number}, size {size} <ArrowRight aria-hidden="true" /></button><button className="atelier-save" type="button" onClick={() => setSaved(!saved)} aria-pressed={saved}><Heart fill={saved ? 'currentColor' : 'none'} aria-hidden="true" />{saved ? 'Saved to your study' : 'Save for later'}</button><small>No order or payment is created. This is an interaction study.</small></div>
+        </section>
+
+        <section className="atelier-philosophy" id="atelier-philosophy"><span>02 / PHILOSOPHY</span><div><h3>Not fashion<br />as novelty.<br /><em>Dress as practice.</em></h3><p>A useful wardrobe is not a stream of replacements. It is a small language learned through repetition. Proportion gives confidence. Material creates memory. Wear makes the object more specific to its person.</p></div><ol><li><b>01</b><strong>Form follows movement.</strong><p>A silhouette is finished by the body, never by the hanger.</p></li><li><b>02</b><strong>Restraint creates recognition.</strong><p>One decisive line is remembered longer than ten decorative ideas.</p></li><li><b>03</b><strong>Attachment precedes longevity.</strong><p>We keep what becomes part of how we understand ourselves.</p></li></ol></section>
+
+        <section className="atelier-construction"><div><span>03 / CONSTRUCTION NOTES</span><h3>The inside<br />must deserve<br />the outside.</h3></div><div className="atelier-construction-notes"><details open><summary>01 / PROPORTION <Plus aria-hidden="true" /></summary><p>The shoulder establishes the room around the body. The hem answers only after movement begins.</p></details><details><summary>02 / MATERIAL <Plus aria-hidden="true" /></summary><p>Material descriptions are sample specifications for this fictional collection. No environmental performance claim is implied.</p></details><details><summary>03 / REPAIR <Plus aria-hidden="true" /></summary><p>Seams, closures, and panels remain legible so care can be understood as part of ownership, not an afterthought.</p></details></div></section>
+
+        <section className="atelier-journal" id="atelier-journal"><span>04 / FIELD NOTES</span><div className="atelier-journal-grid"><figure><Image src={sitePath('/images/atelier-orbit-jacket.jpg')} alt="Detail study of the ivory Orbit Jacket silhouette" width={1024} height={1536} loading="lazy" unoptimized sizes="(max-width: 700px) 100vw, 44vw" /></figure><article><small>NOTE 07 / VOLUME</small><h3>The space<br />between cloth<br />and skin.</h3><p>Fashion becomes interesting when it stops decorating the body and starts negotiating with it. The Orbit Jacket holds a quiet perimeter, giving posture a shape without forcing performance.</p><a href="#atelier-collection">Return to the collection <ArrowRight aria-hidden="true" /></a></article></div></section>
+      </main>
+
+      <footer className="atelier-footer"><a href="#atelier-top">ATELIER / STUDY 07</a><span>ENGINEERING JUDGMENT / FASHION POINT OF VIEW</span><a href={sitePath('/')}>Portfolio index <ArrowRight aria-hidden="true" /></a></footer>
+
+      {bagOpen && <><button className="atelier-bag-scrim" type="button" onClick={() => setBagOpen(false)} aria-label="Close fitting bag" /><aside className="atelier-bag" aria-label="Fitting bag" aria-live="polite"><header><div><span>FITTING BAG</span><b>{bagCount} {bagCount === 1 ? 'LOOK' : 'LOOKS'}</b></div><button type="button" onClick={() => setBagOpen(false)} aria-label="Close fitting bag"><X aria-hidden="true" /></button></header>{bagItems.length ? <><div className="atelier-bag-list">{bagItems.map((look) => <article key={look.id}><Image src={sitePath(look.image)} alt="" width={1024} height={1536} loading="lazy" unoptimized sizes="88px" /><div><b>{look.name}</b><span>Prototype size {bag[look.id].size}</span><small>${look.price.toLocaleString()}</small><div><button type="button" onClick={() => updateBag(look.id, -1)} aria-label={`Remove one ${look.name}`}><Minus aria-hidden="true" /></button><output aria-label={`${bag[look.id].quantity} in fitting bag`}>{bag[look.id].quantity}</output><button type="button" onClick={() => updateBag(look.id, 1)} aria-label={`Add one ${look.name}`}><Plus aria-hidden="true" /></button></div></div></article>)}</div><div className="atelier-bag-total"><span>PROTOTYPE SUBTOTAL</span><b>${subtotal.toLocaleString()}</b></div><button className="atelier-bag-action" type="button" onClick={() => setBagOpen(false)}>Return to the study <ArrowRight aria-hidden="true" /></button><p>This bag stays in the current browser view. No checkout is connected.</p></> : <div className="atelier-bag-empty"><ShoppingBag aria-hidden="true" /><h3>The fitting room is open.</h3><p>Select a look and size to begin.</p><button type="button" onClick={() => setBagOpen(false)}>View the collection</button></div>}</aside></>}
     </div>
   );
 }
