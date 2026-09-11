@@ -3,11 +3,11 @@
 import { useEffect, useRef, useState } from 'react';
 import type { PointerEvent as ReactPointerEvent } from 'react';
 import {
-  ArrowRight, Bike, Bookmark,
+  ArrowRight, Bookmark,
   Check, ChevronRight, CircleDollarSign, Coffee,
   CreditCard, Download, Headphones, Heart, Info, Leaf, MapPin, Menu, Minus, Moon,
-  MousePointer2, Move, Pause, PenTool, Play, Plus, Search, ShoppingBag, Sun,
-  Sparkles, Star, TrainFront, TrendingUp, Type, WandSparkles, ZoomIn,
+  MousePointer2, Move, Pause, PenTool, Plus, Search, ShoppingBag, Sun,
+  Sparkles, Star, TrendingUp, Type, WandSparkles, ZoomIn,
 } from 'lucide-react';
 
 import { NovaDashboard } from '@/components/nova-dashboard';
@@ -312,12 +312,40 @@ function Signal() {
 }
 
 function Civic() {
-  const [mode, setMode] = useState('Train');
+  const [requestFilter, setRequestFilter] = useState<'All' | 'In progress' | 'Resolved'>('All');
+  const [issueType, setIssueType] = useState('Streetlight');
+  const [submitted, setSubmitted] = useState(false);
+  const [priority, setPriority] = useState('Safe crossings');
+  const requests = [
+    { id: 'CHI—4821', category: 'Streetlight', title: 'Lamp out beside Palmer Square', place: '2200 N Kedzie Ave', status: 'In progress', age: '2 days', color: '#ff4f38' },
+    { id: 'CHI—4774', category: 'Sidewalk', title: 'Broken curb at accessible crossing', place: 'Milwaukee + California', status: 'In progress', age: '4 days', color: '#1747d1' },
+    { id: 'CHI—4688', category: 'Tree', title: 'Storm branch blocking the path', place: 'Humboldt Blvd + Wabansia', status: 'Resolved', age: 'Closed today', color: '#15875c' },
+    { id: 'CHI—4590', category: 'Water', title: 'Hydrant leak near school entrance', place: 'Armitage + Richmond', status: 'Resolved', age: 'Closed Sep 8', color: '#8f4bd8' },
+  ];
+  const visibleRequests = requestFilter === 'All' ? requests : requests.filter((item) => item.status === requestFilter);
   return (
-    <div className="demo civic-demo">
-      <header><b>CIVIC<span>GO</span></b><nav>Plan&nbsp;&nbsp;&nbsp; Service alerts&nbsp;&nbsp;&nbsp; Accessibility</nav><button>EN · <strong>中文</strong></button></header>
-      <main><section><small>CHICAGO, 8:42 AM</small><h2>Move through<br/>your city.</h2><div className="journey"><label><i>A</i><input defaultValue="Logan Square" aria-label="Starting point"/></label><label><i>B</i><input defaultValue="Art Institute of Chicago" aria-label="Destination"/></label><button aria-label="Plan route"><ArrowRight /></button></div><div className="mode-tabs">{['Train','Bike','Walk'].map(item => <button key={item} onClick={() => setMode(item)} className={mode === item ? 'active' : ''} aria-pressed={mode === item}>{item === 'Train' ? <TrainFront/> : item === 'Bike' ? <Bike/> : <MousePointer2/>}{item}</button>)}</div></section><aside><div className="civic-route"><span>56</span><i/><b>18</b><i/><span>4</span></div><div><small>FASTEST ROUTE · {mode.toUpperCase()}</small><h3>{mode === 'Train' ? '32' : mode === 'Bike' ? '27' : '68'} min</h3><p>Blue Line to Monroe, then a 7-minute walk.</p><div className="arrival"><span><TrainFront/> Forest Park</span><b>3 min</b></div><div className="arrival"><span><MapPin/> Monroe</span><b>22 min</b></div></div></aside></main>
-      <footer><span><Check /> Elevators working</span><span><Check /> Low-floor access</span><span><Check /> Live arrival data</span></footer>
+    <div className="demo civic-demo" id="civic-top">
+      <header className="civic-nav"><a href="#civic-top" className="civic-brand">CIVIC<span>/COMMONS</span></a><nav aria-label="Civic Commons navigation"><a href="#services">Services</a><a href="#requests">Requests</a><a href="#priorities">Priorities</a></nav><a className="civic-report-link" href="#report">Report an issue <ArrowRight /></a></header>
+
+      <main>
+        <section className="civic-hero">
+          <div className="civic-hero-copy"><span>CHICAGO / PUBLIC-SERVICE PROTOTYPE</span><h2>The city is<br />a shared <em>interface.</em></h2><p>See what is working, report what is not, and understand what happens next—without learning how government is organized first.</p><a href="#report">Start a request <ArrowRight /></a></div>
+          <div className="civic-bulletin"><div><span>RIGHT NOW</span><i>Wed / 10 Sep</i></div><strong>3</strong><h3>services need attention</h3><ul><li><b>Blue Line</b><span>Minor delays</span></li><li><b>Ward 32 pickup</b><span>1 day late</span></li><li><b>Cooling centers</b><span>Open until 7 PM</span></li></ul><small>Illustrative service data</small></div>
+          <div className="civic-street-grid" aria-hidden="true"><i/><i/><i/><i/><i/><i/><i/><i/><span>●</span><b>+</b></div>
+        </section>
+
+        <section className="civic-services" id="services"><header><span>01 / SERVICE HEALTH</span><h3>Know before<br />you need it.</h3><p>Plain-language status across the systems that shape an ordinary day.</p></header><div className="civic-service-grid"><article><span>TRANSIT</span><b>● GOOD</b><strong>96%</strong><p>Scheduled service currently operating.</p></article><article><span>STREETS</span><b>▲ WATCH</b><strong>14</strong><p>Active maintenance zones in this sample.</p></article><article><span>WATER</span><b>● GOOD</b><strong>02</strong><p>Localized advisories in the prototype.</p></article><article><span>PUBLIC SPACE</span><b>● GOOD</b><strong>318</strong><p>Parks shown as open in sample data.</p></article></div></section>
+
+        <section className="civic-requests" id="requests"><div className="civic-section-heading"><span>02 / OPEN REQUESTS</span><h3>Visible work.<br />Clear ownership.</h3><div>{(['All','In progress','Resolved'] as const).map((item) => <button type="button" key={item} className={requestFilter === item ? 'active' : ''} onClick={() => setRequestFilter(item)} aria-pressed={requestFilter === item}>{item}</button>)}</div></div><div className="civic-request-list">{visibleRequests.map((item) => <article key={item.id}><i style={{background: item.color}} /><span>{item.id}<small>{item.category}</small></span><h4>{item.title}<small><MapPin />{item.place}</small></h4><b>{item.status}</b><time>{item.age}</time></article>)}</div><p className="civic-data-note">Sample requests created for this interaction prototype. No real resident or city records are shown.</p></section>
+
+        <section className="civic-report" id="report"><div className="civic-report-intro"><span>03 / MAKE A REQUEST</span><h3>One form.<br />No department maze.</h3><p>Describe the public-space problem. The interface handles the category; you keep the confirmation number.</p><div><b>1</b>Choose the issue <i /> <b>2</b>Add the place <i /> <b>3</b>Track the work</div></div><form onSubmit={(event) => { event.preventDefault(); setSubmitted(true); }}><fieldset><legend>What needs attention?</legend><div>{['Streetlight','Sidewalk','Tree','Water'].map((item) => <button type="button" key={item} className={issueType === item ? 'active' : ''} onClick={() => setIssueType(item)} aria-pressed={issueType === item}>{item}</button>)}</div></fieldset><label>Location<input required defaultValue="Palmer Square, Chicago" /></label><label>What did you notice?<textarea required defaultValue="The light beside the northeast path has been out for two nights." /></label><button className="civic-submit" type="submit">Create prototype request <ArrowRight /></button><small>Prototype only—this form does not transmit personal information or contact the city.</small>{submitted && <output className="civic-confirmation"><Check /> Request drafted locally <b>CHI—DEMO</b><button type="button" onClick={() => setSubmitted(false)}>Dismiss</button></output>}</form></section>
+
+        <section className="civic-priorities" id="priorities"><header><span>04 / NEIGHBORHOOD PRIORITIES</span><h3>What should<br />move first?</h3><p>This local-only simulator demonstrates transparent participation without pretending to cast a real vote.</p></header><div>{['Safe crossings','More tree canopy','Late-night transit'].map((item, index) => <button type="button" key={item} className={priority === item ? 'active' : ''} onClick={() => setPriority(item)} aria-pressed={priority === item}><span>0{index + 1}</span><strong>{item}</strong><i>{priority === item ? 'Your priority' : 'Select'}</i><ArrowRight /></button>)}</div></section>
+
+        <section className="civic-principle"><span>DESIGN PRINCIPLE</span><blockquote>“A public interface should explain the institution through the next useful action.”</blockquote><p>I used high contrast, plain language, visible status and reversible local interactions so the concept demonstrates trust—not just civic-looking colors.</p></section>
+      </main>
+
+      <footer className="civic-footer"><a className="civic-brand" href="#civic-top">CIVIC<span>/COMMONS</span></a><p>Concept and interface design by Usamah Moin.<br />Sample data only.</p><a href={sitePath('/work')}>Back to index <ArrowRight /></a></footer>
     </div>
   );
 }
