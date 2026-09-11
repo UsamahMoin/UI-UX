@@ -52,7 +52,7 @@ export default function ResidencePage() {
         <blockquote>“Luxury is not more to look at. It is less to look past.”</blockquote>
         <div><p>SEREIN is a fictional hospitality study about making digital experiences feel unhurried. The concept uses readable hierarchy, tactile imagery, and quiet transitions to express a point of view, not fictional performance claims.</p><a href={sitePath('/work/serein')}>Return to the interactive concept <ArrowRight /></a></div>
       </section>
-      <footer className="residence-footer"><span>SEREIN · KISO VALLEY</span><span>ENGINEERED WITH TASTE BY USAMAH MOIN</span><a href={sitePath('/work')}>View all work <ArrowRight /></a></footer>
+      <footer className="residence-footer"><span>SEREIN · KISO VALLEY</span><span>ENGINEERED WITH TASTE BY USAMAH MOIN</span><a href={sitePath('/')}>View all work <ArrowRight /></a></footer>
     </main>
   );
 }

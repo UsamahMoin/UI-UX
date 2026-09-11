@@ -40,7 +40,7 @@ export function FormArchive() {
         <section className="form-empty"><span>NOTHING FILED HERE YET.</span><h2>Try a broader word<br />or clear the filter.</h2><button onClick={() => { setQuery(''); setCategory('All'); }}>Reset the archive</button></section>
       )}
       <section className="form-manifesto"><span>FORM / NOTE 01</span><blockquote>“An archive should not tell you what matters. It should make you want to look again.”</blockquote><p>FORM is a fictional editorial concept created by Usamah Moin to demonstrate information architecture, visual direction, interaction design, accessibility, and responsive front-end craft.</p></section>
-      <footer className="form-site-footer"><span>FORM · ISSUE 14</span><a href={sitePath('/work')}>All portfolio projects <ArrowRight /></a></footer>
+      <footer className="form-site-footer"><span>FORM · ISSUE 14</span><a href={sitePath('/')}>All portfolio projects <ArrowRight /></a></footer>
     </main>
   );
 }

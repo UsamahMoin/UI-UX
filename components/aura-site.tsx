@@ -48,7 +48,7 @@ export function AuraSite({ section }: { section: AuraSection }) {
         {section === 'library' && <AuraLibrary />}
         {section === 'rituals' && <AuraRituals />}
         {section === 'about' && <AuraAbout />}
-        <footer className="aura-site-footer"><span>AURA · A CONCEPT BY USAMAH MOIN</span><a href={sitePath('/work')}>All portfolio projects <ArrowRight /></a></footer>
+        <footer className="aura-site-footer"><span>AURA · A CONCEPT BY USAMAH MOIN</span><a href={sitePath('/')}>All portfolio projects <ArrowRight /></a></footer>
       </div>
     </main>
   );

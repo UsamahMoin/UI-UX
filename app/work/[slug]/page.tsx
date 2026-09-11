@@ -23,7 +23,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   const next = projects[(current + 1) % projects.length];
   return (
     <main className={`case-page case-${project.slug} ${project.dark ? 'case-dark' : ''}`} style={{ '--case-bg': project.palette, '--case-accent': project.accent } as React.CSSProperties}>
-      <nav className="case-nav"><a href={sitePath('/work')}><ArrowLeft /> All projects</a><a href={sitePath('/')}>Usamah Moin <Asterisk /></a><a href={sitePath(`/work/${next.slug}`)}>Next: {next.name} <ArrowRight /></a></nav>
+      <nav className="case-nav"><a href={sitePath('/')}><ArrowLeft /> All projects</a><a href={sitePath('/')}>Usamah Moin <Asterisk /></a><a href={sitePath(`/work/${next.slug}`)}>Next: {next.name} <ArrowRight /></a></nav>
       <header className="case-hero">
         <div><span>{project.index} / 11</span><span>{project.category}</span><span>{project.year}</span></div>
         <h1>{project.name}<small>{project.descriptor}</small></h1>

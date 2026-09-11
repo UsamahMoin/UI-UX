@@ -240,7 +240,7 @@ function Vernacular() {
         </section>
       </main>
 
-      <footer className="vnl-footer"><a className="vnl-logo" href="#vernacular-top">VNL<span>/</span>PAPER</a><p>Vernacular is a speculative product-design study by Usamah Moin, combining engineering discipline with visual taste.</p><a href={sitePath('/work')}>Back to index <ArrowRight aria-hidden="true" /></a></footer>
+      <footer className="vnl-footer"><a className="vnl-logo" href="#vernacular-top">VNL<span>/</span>PAPER</a><p>Vernacular is a speculative product-design study by Usamah Moin, combining engineering discipline with visual taste.</p><a href={sitePath('/')}>Back to index <ArrowRight aria-hidden="true" /></a></footer>
     </div>
   );
 }
@@ -259,7 +259,7 @@ function Field() {
   const layerLegend = { Terrain: 'Contour / 40 ft', Water: 'Creek + spring', Shelter: 'Camp access' }[layer];
   return (
     <div className={`demo field-demo field-${layer.toLowerCase()}`}>
-      <header className="field-topbar"><a href={sitePath('/work')} aria-label="Back to portfolio index">FIELD<span>/06</span></a><div><i aria-hidden="true" /> Olympic Peninsula · 47.8021° N</div><span>58° / LIGHT RAIN</span></header>
+      <header className="field-topbar"><a href={sitePath('/')} aria-label="Back to portfolio index">FIELD<span>/06</span></a><div><i aria-hidden="true" /> Olympic Peninsula · 47.8021° N</div><span>58° / LIGHT RAIN</span></header>
       <main className="field-explorer">
         <section className="field-map-stage" aria-label={`${route.name} topographic route preview`}>
           <div className="field-map-heading"><span>ROUTE READER / {layer.toUpperCase()}</span><strong>{route.code}</strong></div>
@@ -346,7 +346,7 @@ function Civic() {
         <section className="civic-principle"><span>DESIGN PRINCIPLE</span><blockquote>“A public interface should explain the institution through the next useful action.”</blockquote><p>I used high contrast, plain language, visible status, and reversible local interactions so the concept demonstrates trust instead of relying on civic-looking colors.</p></section>
       </main>
 
-      <footer className="civic-footer"><a className="civic-brand" href="#civic-top">CIVIC<span>/COMMONS</span></a><p>Concept and interface design by Usamah Moin.<br />Sample data only.</p><a href={sitePath('/work')}>Back to index <ArrowRight /></a></footer>
+      <footer className="civic-footer"><a className="civic-brand" href="#civic-top">CIVIC<span>/COMMONS</span></a><p>Concept and interface design by Usamah Moin.<br />Sample data only.</p><a href={sitePath('/')}>Back to index <ArrowRight /></a></footer>
     </div>
   );
 }
@@ -446,7 +446,7 @@ function Pantry() {
         </section>
       </main>
 
-      <footer className="pantry-footer"><a href="#pantry-top">PANTRY / SKETCH MARKET</a><span>Concept, interface, and art direction by Usamah Moin</span><a href={sitePath('/work')}>Portfolio index <ArrowRight aria-hidden="true" /></a></footer>
+      <footer className="pantry-footer"><a href="#pantry-top">PANTRY / SKETCH MARKET</a><span>Concept, interface, and art direction by Usamah Moin</span><a href={sitePath('/')}>Portfolio index <ArrowRight aria-hidden="true" /></a></footer>
 
       {bagOpen && <><button className="pantry-bag-scrim" type="button" onClick={() => setBagOpen(false)} aria-label="Close market bag" /><aside className="pantry-bag-drawer" aria-label="Market bag" aria-live="polite"><header><div><span>YOUR MARKET BAG</span><b>{bagCount} {bagCount === 1 ? 'kit' : 'kits'}</b></div><button type="button" onClick={() => setBagOpen(false)} aria-label="Close bag"><X aria-hidden="true" /></button></header>{bagItems.length > 0 ? <><div className="pantry-bag-list">{bagItems.map((product) => <article key={product.id}><Image src={sitePath(product.image)} alt="" width={1120} height={1400} loading="lazy" unoptimized sizes="94px" /><div><b>{product.name}</b><span>${product.price} each</span><div><button type="button" onClick={() => updateBag(product.id, -1)} aria-label={`Remove one ${product.name}`}><Minus aria-hidden="true" /></button><output aria-label={`${bag[product.id]} in bag`}>{bag[product.id]}</output><button type="button" onClick={() => updateBag(product.id, 1)} aria-label={`Add one ${product.name}`}><Plus aria-hidden="true" /></button></div></div></article>)}</div><div className="pantry-bag-total"><span>Prototype subtotal</span><b>${subtotal}</b></div><button className="pantry-prepare" type="button" onClick={() => setOrderReady(true)}>{orderReady ? <><Check aria-hidden="true" /> Demo order prepared</> : <>Prepare demo order <ArrowRight aria-hidden="true" /></>}</button>{orderReady && <p className="pantry-order-note">Saved in this browser view only. No payment or delivery request was sent.</p>}</> : <div className="pantry-bag-empty"><ShoppingBag aria-hidden="true" /><h4>The page is still clean.</h4><p>Add a recipe sketch and it will appear here.</p><button type="button" onClick={() => setBagOpen(false)}>Keep looking</button></div>}</aside></>}
     </div>
