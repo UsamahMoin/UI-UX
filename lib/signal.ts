@@ -34,16 +34,41 @@ export function summary(data: SignalData, today = dateKey()) {
   return { balance, income, spent, reserved, upcoming, available: balance - reserved - upcoming - data.buffer };
 }
 export function spending(data: SignalData, category: Category, today = dateKey()) { return -data.transactions.filter(t => t.amount < 0 && t.category === category && t.date.startsWith(today.slice(0, 7)) && t.date <= today).reduce((s, t) => s + t.amount, 0); }
-export function balanceSeries(data: SignalData, period: 'Week' | 'Month' | 'Year', today = dateKey()) {
-  const start = period === 'Week' ? shiftDate(today, -6) : period === 'Month' ? `${today.slice(0, 7)}-01` : `${today.slice(0, 4)}-01-01`;
-  const days = Math.round((new Date(`${today}T12:00:00`).getTime() - new Date(`${start}T12:00:00`).getTime()) / 86400000);
+export type BalancePeriod = 'Week' | 'Month' | 'Year';
+export const balanceDays: Record<BalancePeriod, number> = { Week: 7, Month: 30, Year: 365 };
+
+// All ranges are slices of this daily ledger, including the closing balance
+// immediately before the requested days. No aggregation drops recent movement.
+export function balanceSeries(data: SignalData, period: BalancePeriod, today = dateKey()) {
+  const start = shiftDate(today, -balanceDays[period]);
   let balance = data.accounts.reduce((sum, a) => sum + a.opening, 0);
   const daily = new Map<string, number>();
   for (const t of data.transactions) {
     if (t.date < start) balance += t.amount;
     else daily.set(t.date, (daily.get(t.date) ?? 0) + t.amount);
   }
-  return Array.from({ length: days + 1 }, (_, i) => { const date = shiftDate(start, i); balance += daily.get(date) ?? 0; return { date, balance }; });
+  return Array.from({ length: balanceDays[period] + 1 }, (_, i) => {
+    const date = shiftDate(start, i);
+    balance += daily.get(date) ?? 0;
+    return { date, balance };
+  });
+}
+
+export function balanceChartModel(data: SignalData, period: BalancePeriod, today = dateKey()) {
+  const history = balanceSeries(data, 'Year', today);
+  const points = history.slice(-(balanceDays[period] + 1));
+  const low = Math.min(...history.map(point => point.balance));
+  const high = Math.max(...history.map(point => point.balance));
+  const padding = Math.max(100, Math.ceil((high - low) * 0.08));
+  const change = points[points.length - 1].balance - points[0].balance;
+  const zoomPeriod: BalancePeriod | null = period === 'Year' ? 'Month' : period === 'Month' ? 'Week' : null;
+  return {
+    points, days: balanceDays[period], change,
+    trend: change > 0 ? 'up' : change < 0 ? 'down' : 'flat',
+    // Preserve dollar positions between views; only the time axis zooms.
+    scale: { min: low - padding, max: high + padding },
+    zoom: zoomPeriod ? { period: zoomPeriod, days: balanceDays[zoomPeriod], startIndex: points.length - balanceDays[zoomPeriod] - 1 } : null,
+  };
 }
 export function parseMoney(value: string, allowNegative = false) {
   if (!(allowNegative ? /^-?\d+(\.\d{1,2})?$/ : /^\d+(\.\d{1,2})?$/).test(value)) throw new Error('Enter an amount with at most two decimal places.');

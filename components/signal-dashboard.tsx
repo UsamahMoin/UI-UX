@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import { ArrowDownLeft, ArrowUpRight, Check, ChevronRight, Download, Plus, Search, Settings2, Target, Trash2, Upload, Wallet, X, Pencil, Undo2 } from 'lucide-react';
-import { accountBalance, balanceSeries, blankData, categories, dateKey, money, parseMoney, seedData, spending, summary, validateData, type Category, type SignalData, type Transaction } from '@/lib/signal';
+import { accountBalance, balanceChartModel, blankData, categories, dateKey, money, parseMoney, seedData, spending, summary, validateData, type BalancePeriod, type Category, type SignalData, type Transaction } from '@/lib/signal';
 
 const STORAGE_KEY = 'signal-money-v1';
 type View = 'Overview' | 'Activity' | 'Plan' | 'Accounts';
@@ -60,6 +60,7 @@ export function SignalDashboard() {
   if (!data) return <div className="signal-app signal-loading">{storageError ? <><h2>Let’s recover your data.</h2><p role="alert">{storageError}</p><div className="sg-actions"><button onClick={() => savedRaw.current && download('signal-recovery.json', savedRaw.current, 'application/json')}>Download saved file</button><button onClick={() => backupInput.current?.click()}>Restore backup</button><button onClick={() => { if (window.confirm('Replace the saved data with a blank tracker? Download the saved file first if you need it.')) commit(blankData(), 'Started a blank tracker.'); }}>Start fresh</button></div>{restoreInput}</> : <p>Opening your money overview…</p>}</div>;
   const today = dateKey();
   const totals = summary(data, today);
+  const chart = balanceChartModel(data, period, today);
   const transactions = [...data.transactions].sort((a, b) => b.date.localeCompare(a.date));
   const visible = transactions.filter(t => (!query || `${t.name} ${t.category} ${data.accounts.find(a => a.id === t.accountId)?.name}`.toLowerCase().includes(query.toLowerCase())) && (filter === 'All' || filter === 'Income' && t.amount > 0 || filter === 'Expenses' && t.amount < 0 || t.category === filter) && (!month || t.date.startsWith(month)));
   const pending = [...data.bills].filter(b => !b.transactionId).sort((a, b) => a.date.localeCompare(b.date));
@@ -76,7 +77,7 @@ export function SignalDashboard() {
     <fieldset className="sg-workspace" id="signal-workspace" disabled={conflict}>
       <div className="sg-page-title"><div><small>{new Date(`${today}T12:00:00`).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</small><h2>{view === 'Overview' ? 'A little clarity. A lot of calm.' : view === 'Activity' ? 'Every move, in one place.' : view === 'Plan' ? 'Make room for what matters.' : 'Your money, accounted for.'}</h2></div><button className="sg-primary" onClick={() => setEditor({ kind: 'transaction' })}><Plus /> Add transaction</button></div>
       {view === 'Overview' && <>
-        <section className="sg-balance-layout"><div className="sg-balance-panel"><div className="sg-balance-heading"><div><small>TOTAL BALANCE</small><h3>{money(totals.balance)}</h3><p className={totals.income - totals.spent >= 0 ? 'sg-positive' : ''}>{totals.income - totals.spent >= 0 ? '+' : '−'}{money(Math.abs(totals.income - totals.spent))} net this month</p></div><div className="sg-period" aria-label="Balance period">{(['Week', 'Month', 'Year'] as const).map(p => <button key={p} aria-pressed={p === period} onClick={() => setPeriod(p)}>{p}</button>)}</div></div><BalanceChart key={period} data={data} period={period} today={today} /></div>
+        <section className="sg-balance-layout"><div className="sg-balance-panel"><div className="sg-balance-heading"><div><small>TOTAL BALANCE</small><h3>{money(totals.balance)}</h3><p className={`sg-trend sg-trend-${chart.trend}`} aria-live="polite">{chart.trend === 'up' ? '↑ Up' : chart.trend === 'down' ? '↓ Down' : '— No change'}{chart.change !== 0 && ` ${money(Math.abs(chart.change))}`} over {chart.days} days</p></div><div className="sg-period" aria-label="Balance period">{(['Week', 'Month', 'Year'] as const).map(p => <button key={p} aria-pressed={p === period} onClick={() => setPeriod(p)}>{p}</button>)}</div></div><BalanceChart key={period} model={chart} period={period} onPeriodChange={setPeriod} /></div>
         <aside className="sg-available"><div><Wallet /><small>AVAILABLE AFTER RESERVES</small></div><strong>{money(totals.available)}</strong><p>{totals.available < 0 ? 'Your planned reserves exceed your balance.' : 'A clearer view of what’s unreserved.'}</p><dl><div><dt>Total balance</dt><dd>{money(totals.balance)}</dd></div><div><dt>Bills due within 30 days*</dt><dd>−{money(totals.upcoming)}</dd></div><div><dt>Set aside for goals</dt><dd>−{money(totals.reserved)}</dd></div><div><dt>Your buffer</dt><dd>−{money(data.buffer)}</dd></div></dl><small>*Includes overdue bills. Only reflects what you’ve entered.</small><button onClick={() => navigation('Plan')}>Adjust your plan <ChevronRight /></button></aside></section>
         <section className="sg-stats"><article><span><ArrowDownLeft /> Income this month</span><strong>{money(totals.income)}</strong></article><article><span><ArrowUpRight /> Spending this month</span><strong>{money(totals.spent)}</strong></article><article><span><Target /> Set aside for goals</span><strong>{money(totals.reserved)}</strong></article></section>
         <div className="sg-two-columns"><section className="sg-panel"><div className="sg-section-heading"><h3>Recent activity</h3><button onClick={() => navigation('Activity')}>View all <ChevronRight /></button></div>{rows(transactions.slice(0, 5))}</section><section className="sg-panel"><div className="sg-section-heading"><h3>Coming up</h3><button onClick={() => navigation('Plan')}>View plan <ChevronRight /></button></div>{pending.length ? pending.slice(0, 3).map(b => <button className="sg-upcoming" key={b.id} onClick={() => setEditor({ kind: 'bill', id: b.id })}><span className="sg-date-tile">{new Date(`${b.date}T12:00:00`).toLocaleDateString('en-US', { month: 'short' })}<b>{b.date.slice(-2)}</b></span><span><strong>{b.name}</strong><small>{b.date < today ? 'Overdue' : b.date === today ? 'Due today' : friendlyDate(b.date)}</small></span><b>{money(b.amount)}</b></button>) : <div className="sg-empty"><Check /><h3>Nothing coming up</h3><p>Add a bill to include it in your plan.</p><button onClick={() => setEditor({ kind: 'bill' })}>Add bill</button></div>}<div className="sg-goal-preview">{data.goals.slice(0, 1).map(goalCard)}</div></section></div>
@@ -93,18 +94,39 @@ export function SignalDashboard() {
   </div>;
 }
 
-function BalanceChart({ data, period, today }: { data: SignalData; period: 'Week' | 'Month' | 'Year'; today: string }) {
-  const points = balanceSeries(data, period, today);
+function BalanceChart({ model, period, onPeriodChange }: { model: ReturnType<typeof balanceChartModel>; period: BalancePeriod; onPeriodChange: (period: BalancePeriod) => void }) {
+  const { points, scale, zoom, trend } = model;
   const [selected, setSelected] = useState<number | null>(null);
   const selectedIndex = Math.min(selected ?? points.length - 1, points.length - 1);
-  const minimum = Math.min(...points.map(p => p.balance));
-  const maximum = Math.max(...points.map(p => p.balance));
-  const range = maximum - minimum || 10000;
-  const x = (index: number) => 15 + (index / Math.max(1, points.length - 1)) * 770;
-  const y = (balance: number) => 170 - ((balance - minimum) / range) * 130;
-  const path = points.map((p, i) => `${i ? 'L' : 'M'}${x(i)},${y(p.balance)}`).join(' ');
+  const x = (index: number) => 15 + index / (points.length - 1) * 770;
+  const y = (balance: number) => 190 - (balance - scale.min) / (scale.max - scale.min) * 170;
+  const path = points.map((point, i) => `${i ? 'L' : 'M'}${x(i)},${y(point.balance)}`).join(' ');
   const point = points[selectedIndex];
-  return <div className="sg-chart"><div className="sg-chart-readout"><span>{friendlyDate(point.date)}</span><b>{money(point.balance)}</b><small>{period === 'Week' ? 'Last 7 days' : period === 'Month' ? 'Month to date' : 'Year to date'}</small></div><svg viewBox="0 0 800 200" role="img" aria-label={`${period} balance from ${money(points[0].balance)} to ${money(points[points.length - 1].balance)}`}><defs><linearGradient id="signal-area" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#ff7a54" stopOpacity=".2" /><stop offset="100%" stopColor="#ff7a54" stopOpacity="0" /></linearGradient></defs>{[40, 105, 170].map(v => <line key={v} x1="15" y1={v} x2="785" y2={v} stroke="#34312e" strokeDasharray="3 6" />)}<path d={`${path} L${x(points.length - 1)},195 L15,195Z`} fill="url(#signal-area)" /><path d={path} fill="none" stroke="#ff7a54" strokeWidth="3" strokeLinejoin="round" /><line x1={x(selectedIndex)} y1="20" x2={x(selectedIndex)} y2="195" stroke="#aaa098" strokeDasharray="4 5" /><circle cx={x(selectedIndex)} cy={y(point.balance)} r="5" fill="#ff7a54" stroke="#121110" strokeWidth="3" /></svg><input type="range" min="0" max={Math.max(0, points.length - 1)} value={selectedIndex} onChange={e => setSelected(Number(e.target.value))} aria-label="Explore daily balance" aria-valuetext={`${friendlyDate(point.date)}: ${money(point.balance)}`} /><div className="sg-chart-dates"><span>{friendlyDate(points[0].date)}</span><span>{friendlyDate(today)}</span></div></div>;
+  const first = points[0];
+  const last = points[points.length - 1];
+  const fullDate = (date: string) => new Date(`${date}T12:00:00`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  const axisMoney = (cents: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: scale.max - scale.min < 10000 ? 2 : 0 }).format((cents || 0) / 100);
+  return <div className={`sg-chart sg-trend-${trend}`}>
+    <div className="sg-chart-readout"><time dateTime={point.date}>{fullDate(point.date)}</time><b>{money(point.balance)}</b><small>Last {model.days} days</small></div>
+    <div className="sg-chart-plot">
+      <div className="sg-chart-axis" aria-label="Shared balance scale">{[scale.max, (scale.max + scale.min) / 2, scale.min].map((value, i) => <span key={i} title={money(Math.round(value))}>{axisMoney(value)}</span>)}</div>
+      <svg viewBox="0 0 800 210" preserveAspectRatio="none" role="img" aria-label={`${period} balance from ${money(first.balance)} on ${fullDate(first.date)} to ${money(last.balance)} on ${fullDate(last.date)}. ${trend === 'flat' ? 'No change' : trend === 'up' ? 'Increased' : 'Decreased'} over ${model.days} days.`}
+        onPointerMove={event => { const box = event.currentTarget.getBoundingClientRect(); const fraction = ((event.clientX - box.left) / box.width * 800 - 15) / 770; setSelected(Math.round(Math.max(0, Math.min(1, fraction)) * (points.length - 1))); }} onPointerLeave={() => setSelected(null)}>
+        <defs><linearGradient id="signal-area" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="currentColor" stopOpacity=".18" /><stop offset="100%" stopColor="currentColor" stopOpacity="0" /></linearGradient></defs>
+        {zoom && <rect className="sg-chart-window" x={x(zoom.startIndex)} y="10" width={785 - x(zoom.startIndex)} height="190" rx="3" />}
+        {[20, 105, 190].map(v => <line key={v} x1="15" y1={v} x2="785" y2={v} stroke="#454039" strokeDasharray="3 6" />)}
+        <path d={`${path} L785,200 L15,200Z`} fill="url(#signal-area)" />
+        <path className="sg-balance-line" d={path} fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
+        <line x1={x(selectedIndex)} y1="10" x2={x(selectedIndex)} y2="200" stroke="#aaa098" strokeDasharray="4 5" />
+        <circle cx={x(selectedIndex)} cy={y(point.balance)} r="4" fill="currentColor" />
+      </svg>
+    </div>
+    <div className="sg-chart-controls"><input type="range" min="0" max={points.length - 1} value={selectedIndex} onChange={e => setSelected(Number(e.target.value))} aria-label="Explore daily balance" aria-valuetext={`${fullDate(point.date)}: ${money(point.balance)}`} />
+      <div className="sg-chart-dates">{[0, Math.round((points.length - 1) / 2), points.length - 1].map(i => <time key={i} dateTime={points[i].date} title={fullDate(points[i].date)}>{period === 'Year' ? new Date(`${points[i].date}T12:00:00`).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : friendlyDate(points[i].date)}</time>)}</div>
+    </div>
+    <div className="sg-chart-context"><span>Same dollar scale in all views.</span>{zoom && <button onClick={() => onPeriodChange(zoom.period)}><i /> Shaded: last {zoom.days} days <ChevronRight /></button>}</div>
+    <p className="sg-chart-note">Daily balances from your recorded transactions. {zoom ? 'Zoom into the shaded area to follow the same pattern.' : 'This is the final 7-day segment of Month and Year.'}</p>
+  </div>;
 }
 
 function EditorDialog({ data, editor, close, save, removeGoal, startFresh, backup }: { data: SignalData; editor: Editor; close: () => void; save: (next: SignalData, text: string) => void; removeGoal: (id: string) => void; startFresh: () => void; backup: () => void }) {
