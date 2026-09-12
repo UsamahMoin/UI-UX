@@ -119,7 +119,7 @@ export const projects: Project[] = [
     intentHeadline: 'A money interface built around comprehension, not intimidation.',
     colorRationale: 'Near-black gives balances visual stability without default banking blue. Coral marks the active period and chart, bringing warmth to an anxious category; restrained green is reserved for verified positive movement.',
     systemRationale: 'Large numerals establish balance first, followed by plain-language concepts such as “safe to spend.” Cards use consistent reading order and muted support text, separating current truth from future planning.',
-    interactionRationale: 'Time-range controls update the chart focus, while goal and scheduled-payment cards show how today connects to what comes next. The interface avoids celebratory animation or red-alert theatrics that could distort financial meaning.',
+    interactionRationale: 'A working local ledger connects transactions, account balances, monthly budgets, savings reserves, and bill reminders. Time ranges draw from recorded activity; edits recalculate the overview, while backup, restore, and undo keep personal planning recoverable.',
     paletteColors: [{ name: 'Night ledger', value: '#121110' }, { name: 'Active coral', value: '#ff7a54' }, { name: 'Paper', value: '#f5f1e8' }, { name: 'Positive', value: '#7bd49c' }],
     principles: ['Plain language before jargon', 'Color never fabricates urgency', 'Present and future stay connected'],
     palette: '#ff7a54', accent: '#24100a', dark: true,

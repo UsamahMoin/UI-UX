@@ -6,11 +6,12 @@ import Image from 'next/image';
 import {
   ArrowRight, Bookmark,
   Check, ChevronRight, CircleDollarSign,
-  CreditCard, Download, Headphones, Heart, Info, MapPin, Menu, Minus, Moon,
+  Download, Headphones, Heart, Info, MapPin, Menu, Minus, Moon,
   Pause, Plus, Search, ShoppingBag, Sun,
-  Sparkles, TrendingUp, X,
+  Sparkles, X,
 } from 'lucide-react';
 
+import { SignalDashboard } from '@/components/signal-dashboard';
 import { NovaDashboard } from '@/components/nova-dashboard';
 import { sitePath } from '@/lib/site-path';
 
@@ -23,7 +24,7 @@ export function ProjectExperience({ slug }: { slug: string }) {
     case 'vernacular': return <Vernacular />;
     case 'field': return <Field />;
     case 'atelier': return <Atelier />;
-    case 'signal': return <Signal />;
+    case 'signal': return <SignalDashboard />;
     case 'civic': return <Civic />;
     case 'lumen': return <Lumen />;
     case 'pantry': return <Pantry />;
@@ -377,19 +378,6 @@ function Atelier() {
       <footer className="atelier-footer"><a href="#atelier-top">ATELIER / STUDY 07</a><span>ENGINEERING JUDGMENT / FASHION POINT OF VIEW</span><a href={sitePath('/')}>Portfolio index <ArrowRight aria-hidden="true" /></a></footer>
 
       {bagOpen && <><button className="atelier-bag-scrim" type="button" onClick={() => setBagOpen(false)} aria-label="Close fitting bag" /><aside className="atelier-bag" aria-label="Fitting bag" aria-live="polite"><header><div><span>FITTING BAG</span><b>{bagCount} {bagCount === 1 ? 'LOOK' : 'LOOKS'}</b></div><button type="button" onClick={() => setBagOpen(false)} aria-label="Close fitting bag"><X aria-hidden="true" /></button></header>{bagItems.length ? <><div className="atelier-bag-list">{bagItems.map((look) => <article key={look.id}><Image src={sitePath(look.image)} alt="" width={1024} height={1536} loading="lazy" unoptimized sizes="88px" /><div><b>{look.name}</b><span>Prototype size {bag[look.id].size}</span><small>${look.price.toLocaleString()}</small><div><button type="button" onClick={() => updateBag(look.id, -1)} aria-label={`Remove one ${look.name}`}><Minus aria-hidden="true" /></button><output aria-label={`${bag[look.id].quantity} in fitting bag`}>{bag[look.id].quantity}</output><button type="button" onClick={() => updateBag(look.id, 1)} aria-label={`Add one ${look.name}`}><Plus aria-hidden="true" /></button></div></div></article>)}</div><div className="atelier-bag-total"><span>PROTOTYPE SUBTOTAL</span><b>${subtotal.toLocaleString()}</b></div><button className="atelier-bag-action" type="button" onClick={() => setBagOpen(false)}>Return to the study <ArrowRight aria-hidden="true" /></button><p>This bag stays in the current browser view. No checkout is connected.</p></> : <div className="atelier-bag-empty"><ShoppingBag aria-hidden="true" /><h3>The fitting room is open.</h3><p>Select a look and size to begin.</p><button type="button" onClick={() => setBagOpen(false)}>View the collection</button></div>}</aside></>}
-    </div>
-  );
-}
-
-function Signal() {
-  const [period, setPeriod] = useState('Month');
-  return (
-    <div className="demo signal-demo">
-      <nav><b>signal</b><span>Overview</span><span>Activity</span><span>Plan</span><button><CreditCard /> Cards</button></nav>
-      <main><header><div><small>YOUR BALANCE</small><h2>$24,680<span>.42</span></h2><em><TrendingUp /> +$1,842 this month</em></div><div className="signal-tabs">{['Week','Month','Year'].map(item => <button key={item} className={period === item ? 'active' : ''} onClick={() => setPeriod(item)} aria-pressed={period === item}>{item}</button>)}</div></header>
-        <div className="signal-chart"><svg viewBox="0 0 800 210" preserveAspectRatio="none" aria-label={`${period} balance trend`}><path d="M0 188 C90 174 105 88 190 122 S312 168 365 96 S470 54 525 83 S652 130 800 18"/><path className="fill" d="M0 188 C90 174 105 88 190 122 S312 168 365 96 S470 54 525 83 S652 130 800 18 L800 210 L0 210Z"/></svg><i style={{left: period === 'Week' ? '28%' : period === 'Month' ? '64%' : '88%'}}><span>{period}<b>+$612</b></span></i></div>
-        <section className="signal-bottom"><article><div><small>SAFE TO SPEND</small><CircleDollarSign /></div><strong>$3,240</strong><p>After bills, goals, and your usual buffer.</p></article><article><div><small>SEPTEMBER GOAL</small><span>72%</span></div><strong>Lake house weekend</strong><div className="goal-bar"><i /></div><p>$1,440 of $2,000</p></article><article><div><small>UP NEXT</small><span>SEP 12</span></div><strong>Studio rent</strong><p>$1,850 scheduled</p><button>View plan <ChevronRight /></button></article></section>
-      </main>
     </div>
   );
 }
