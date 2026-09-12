@@ -11,8 +11,8 @@ const friendlyDate = (date: string) => new Date(`${date}T12:00:00`).toLocaleDate
 function download(name: string, text: string, type: string) { const url = URL.createObjectURL(new Blob([text], { type })); const a = document.createElement('a'); a.href = url; a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); }
 function csvCell(value: string | number) { const text = String(value); return `"${(typeof value === 'string' && /^[=+\-@\t\r]/.test(text) ? "'" : '') + text.replaceAll('"', '""')}"`; }
 
-export function SignalDashboard() {
-  const [data, setData] = useState<SignalData | null>(null);
+export function SignalDashboard({ preview = false }: { preview?: boolean }) {
+  const [data, setData] = useState<SignalData | null>(() => preview ? seedData('2026-09-12') : null);
   const [view, setView] = useState<View>('Overview');
   const [period, setPeriod] = useState<'Week' | 'Month' | 'Year'>('Month');
   const [query, setQuery] = useState('');
@@ -26,6 +26,7 @@ export function SignalDashboard() {
   const backupInput = useRef<HTMLInputElement>(null);
   const savedRaw = useRef<string | null>(null);
   useEffect(() => {
+    if (preview) return;
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       savedRaw.current = raw;
@@ -35,7 +36,7 @@ export function SignalDashboard() {
     const onStorage = (event: StorageEvent) => { if (event.key === STORAGE_KEY || event.key === null) { setConflict(true); setEditor(null); } };
     window.addEventListener('storage', onStorage);
     return () => window.removeEventListener('storage', onStorage);
-  }, []);
+  }, [preview]);
   function commit(next: SignalData, text: string, remember = true) {
     if (conflict) return;
     if (!validateData(next)) { setMessage('Unable to save these values. Please check the amounts and dates.'); return; }
@@ -58,7 +59,7 @@ export function SignalDashboard() {
   }
   const restoreInput = <input ref={backupInput} type="file" accept="application/json,.json" hidden onChange={event => void restore(event.target.files?.[0])} />;
   if (!data) return <div className="signal-app signal-loading">{storageError ? <><h2>Let’s recover your data.</h2><p role="alert">{storageError}</p><div className="sg-actions"><button onClick={() => savedRaw.current && download('signal-recovery.json', savedRaw.current, 'application/json')}>Download saved file</button><button onClick={() => backupInput.current?.click()}>Restore backup</button><button onClick={() => { if (window.confirm('Replace the saved data with a blank tracker? Download the saved file first if you need it.')) commit(blankData(), 'Started a blank tracker.'); }}>Start fresh</button></div>{restoreInput}</> : <p>Opening your money overview…</p>}</div>;
-  const today = dateKey();
+  const today = preview ? '2026-09-12' : dateKey();
   const totals = summary(data, today);
   const chart = balanceChartModel(data, period, today);
   const transactions = [...data.transactions].sort((a, b) => b.date.localeCompare(a.date));

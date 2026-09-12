@@ -86,3 +86,13 @@ test('rejects corrupt backups, duplicate ids, broken links, impossible dates, an
   assert.equal(parseMoney('0.29'), 29); assert.equal(parseMoney('-12.34', true), -1234);
   for (const value of ['1.234', '-1', 'Infinity', '1e4', '', '1000000001']) assert.throws(() => parseMoney(value));
 });
+
+test('bill links must be unique matching expenses, never unrelated income or payments', () => {
+  for (const mutate of [
+    d => { d.bills[0].transactionId = 't1'; },
+    d => { d.bills[0].transactionId = 't3'; },
+    d => { d.bills[0].transactionId = 't2'; d.bills[0].accountId = 'savings'; },
+    d => { d.bills[0].transactionId = 't2'; d.bills[0].category = 'Other'; },
+    d => { d.bills[0].transactionId = 't2'; d.bills.push({ ...d.bills[0], id: 'duplicate-payment' }); },
+  ]) { const d = seedData(today); mutate(d); assert.equal(validateData(d), false); }
+});

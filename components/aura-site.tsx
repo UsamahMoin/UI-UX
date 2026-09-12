@@ -34,7 +34,7 @@ export function AuraSite({ section }: { section: AuraSection }) {
     <main className={`aura-site aura-site-${section}`}>
       <nav className="aura-site-nav">
         <a className="aura-site-mark" href={sitePath('/work/aura')}>aura°</a>
-        <div className="aura-site-status"><span>LISTENING SYSTEM</span><i aria-hidden="true" /> <span>ONLINE</span></div>
+        <div className="aura-site-status"><span>VISUAL DEMO</span><i aria-hidden="true" /> <span>NO AUDIO</span></div>
         <a className="aura-site-back" href={sitePath('/work/aura')}><ArrowLeft /> Listening room</a>
       </nav>
       <aside className="aura-os-rail" aria-label="AURA navigation">
@@ -78,14 +78,14 @@ function AuraLibrary() {
       <div className="aura-os-stage-copy">
         <span>CURATED LISTENING / {active.tone.toUpperCase()} / {active.duration}</span>
         <h1 id="aura-library-title">{active.title}</h1>
-        <p>{active.note}</p>
+        <p>{active.note}</p><p>Visual playback demo · audio is not connected.</p>
         <div className="aura-os-stage-actions">
-          <button className="primary" onClick={() => togglePlaying(active.title)}>{playing === active.title ? <Pause /> : <Play />}{playing === active.title ? 'Pause session' : 'Begin session'}</button>
+          <button className="primary" onClick={() => togglePlaying(active.title)}>{playing === active.title ? <Pause /> : <Play />}{playing === active.title ? 'Pause preview' : 'Begin preview'}</button>
           <button onClick={() => toggleSaved(active.title)} aria-pressed={saved.includes(active.title)}><Bookmark fill={saved.includes(active.title) ? 'currentColor' : 'none'} />{saved.includes(active.title) ? 'Saved' : 'Save'}</button>
         </div>
       </div>
       <aside className="aura-now-card" aria-live="polite">
-        <div><span>ENVIRONMENT</span><strong>{playing === active.title ? 'Playing' : 'Ready'}</strong></div>
+        <div><span>ENVIRONMENT</span><strong>{playing === active.title ? 'Previewing' : 'Ready'}</strong></div>
         <div className={`aura-waveform ${playing === active.title ? 'active' : ''}`} aria-hidden="true">{[3, 7, 5, 10, 6, 12, 8, 5, 9, 4, 7, 3].map((height, index) => <i key={index} style={{ height: `${height * 2}px` }} />)}</div>
         <small>{active.tone} · {active.duration}</small>
       </aside>
@@ -97,8 +97,8 @@ function AuraLibrary() {
     </section>
     <section className="aura-session-grid" aria-label="Listening sessions">
       {visible.length ? visible.map((session, index) => <article key={session.title} className={`aura-session-card ${session.color} ${selected === session.title ? 'selected' : ''}`}>
-        <button className="aura-session-art" onClick={() => setSelected(session.title)} aria-label={`Preview ${session.title}`}><i aria-hidden="true" /><b aria-hidden="true" /><span>{String(index + 1).padStart(2, '0')}</span><small>Preview</small></button>
-        <div className="aura-session-copy"><span>{session.tone.toUpperCase()} · {session.duration}</span><h3>{session.title}</h3><p>{session.note}</p><div><button className="aura-session-play" onClick={() => togglePlaying(session.title)} aria-label={`${playing === session.title ? 'Pause' : 'Play'} ${session.title}`}>{playing === session.title ? <Pause /> : <Play />}{playing === session.title ? 'Playing' : 'Listen'}</button><button className="aura-session-save" onClick={() => toggleSaved(session.title)} aria-label={`${saved.includes(session.title) ? 'Remove' : 'Save'} ${session.title}`} aria-pressed={saved.includes(session.title)}><Bookmark fill={saved.includes(session.title) ? 'currentColor' : 'none'} /></button></div></div>
+        <button className="aura-session-art" onClick={() => { setSelected(session.title); setPlaying(null); }} aria-label={`Preview ${session.title}`}><i aria-hidden="true" /><b aria-hidden="true" /><span>{String(index + 1).padStart(2, '0')}</span><small>Preview</small></button>
+        <div className="aura-session-copy"><span>{session.tone.toUpperCase()} · {session.duration}</span><h3>{session.title}</h3><p>{session.note}</p><div><button className="aura-session-play" onClick={() => togglePlaying(session.title)} aria-label={`${playing === session.title ? 'Pause' : 'Play'} ${session.title}`}>{playing === session.title ? <Pause /> : <Play />}{playing === session.title ? 'Previewing' : 'Preview'}</button><button className="aura-session-save" onClick={() => toggleSaved(session.title)} aria-label={`${saved.includes(session.title) ? 'Remove' : 'Save'} ${session.title}`} aria-pressed={saved.includes(session.title)}><Bookmark fill={saved.includes(session.title) ? 'currentColor' : 'none'} /></button></div></div>
       </article>) : <p className="aura-empty-state">No sessions match that search. Try another feeling or title.</p>}
     </section>
   </>;
@@ -115,7 +115,7 @@ function AuraRituals() {
     <header className="aura-site-hero ritual-hero"><span>THREE WAYS TO ARRIVE</span><h1>Small rituals,<br />practiced slowly.</h1><p>A ritual is simply a reliable transition. Choose the threshold you need and let the interface become quiet.</p></header>
     <section className="aura-ritual-layout">
       <div className="aura-ritual-list">{rituals.map((item, index) => <button key={item.name} className={selected === index ? 'active' : ''} onClick={() => choose(index)} aria-pressed={selected === index}><span>0{index + 1} / {item.time}</span><strong>{item.name}</strong><small>{item.description}</small><ArrowRight /></button>)}</div>
-      <div className={`aura-ritual-player ${started ? 'started' : ''}`}><span>NOW PRACTICING / {ritual.time}</span><h2>{ritual.name}</h2><div className="aura-ritual-pulse" aria-hidden="true"><i/><b>{started ? 'stay' : 'ready'}</b></div><ol>{ritual.steps.map((item, index) => <li className={step === index ? 'active' : step > index ? 'complete' : ''} key={item}><span>{step > index ? <Check /> : index + 1}</span>{item}</li>)}</ol><div className="aura-ritual-actions"><button onClick={() => setStarted(!started)}>{started ? <Pause /> : <Play />}{started ? 'Pause ritual' : 'Begin ritual'}</button><button disabled={!started} onClick={() => setStep((current) => (current + 1) % ritual.steps.length)}>Next step <ArrowRight /></button></div></div>
+      <div className={`aura-ritual-player ${started ? 'started' : ''}`}><span>NOW PRACTICING / {ritual.time}</span><h2>{ritual.name}</h2><div className="aura-ritual-pulse" aria-hidden="true"><i/><b>{step === ritual.steps.length ? 'complete' : started ? 'stay' : 'ready'}</b></div><ol>{ritual.steps.map((item, index) => <li className={step === index ? 'active' : step > index ? 'complete' : ''} key={item}><span>{step > index ? <Check /> : index + 1}</span>{item}</li>)}</ol><div className="aura-ritual-actions"><button onClick={() => { if (step === ritual.steps.length) setStep(0); setStarted(!started); }}>{started ? <Pause /> : <Play />}{step === ritual.steps.length ? 'Restart ritual' : started ? 'Pause ritual' : 'Begin ritual'}</button><button disabled={!started} onClick={() => { setStep(current => Math.min(current + 1, ritual.steps.length)); if (step === ritual.steps.length - 1) setStarted(false); }}>{step === ritual.steps.length - 1 ? 'Complete ritual' : 'Next step'} <ArrowRight /></button></div></div>
     </section>
   </>;
 }

@@ -13,9 +13,10 @@ import {
 
 import { SignalDashboard } from '@/components/signal-dashboard';
 import { NovaDashboard } from '@/components/nova-dashboard';
+import { PrototypeDrawer } from '@/components/prototype-drawer';
 import { sitePath } from '@/lib/site-path';
 
-export function ProjectExperience({ slug }: { slug: string }) {
+export function ProjectExperience({ slug, preview = false }: { slug: string; preview?: boolean }) {
   switch (slug) {
     case 'nova': return <Nova />;
     case 'serein': return <Serein />;
@@ -24,7 +25,7 @@ export function ProjectExperience({ slug }: { slug: string }) {
     case 'vernacular': return <Vernacular />;
     case 'field': return <Field />;
     case 'atelier': return <Atelier />;
-    case 'signal': return <SignalDashboard />;
+    case 'signal': return <SignalDashboard preview={preview} />;
     case 'civic': return <Civic />;
     case 'lumen': return <Lumen />;
     case 'pantry': return <Pantry />;
@@ -84,7 +85,7 @@ function Aura() {
   const [saved, setSaved] = useState(false);
   const [tone, setTone] = useState('Still');
   const [elapsed, setElapsed] = useState(0);
-  const totalSeconds = 24 * 60;
+  const totalSeconds = ({ Still: 24, Open: 32, Warm: 18 }[tone] ?? 24) * 60;
   const session = {
     Still: { title: 'Blue Hour, Slowly', cue: 'A steady field for settling in' },
     Open: { title: 'Air Between Cedars', cue: 'A spacious field for clear attention' },
@@ -166,15 +167,15 @@ function Aura() {
   };
   return (
     <div className={`demo aura-demo tone-${tone.toLowerCase()} ${playing ? 'is-playing' : ''}`}>
-      <nav className="aura-demo-top"><a href={sitePath('/work/aura')} aria-label="AURA home"><b>aura°</b></a><span className="aura-demo-status"><i aria-hidden="true" /> LISTENING SYSTEM · ONLINE</span><button onClick={() => setSaved(!saved)} aria-label={saved ? 'Remove listening session from saved' : 'Save listening session'} aria-pressed={saved}><Bookmark fill={saved ? 'currentColor' : 'none'} /></button></nav>
+      <nav className="aura-demo-top"><a href={sitePath('/work/aura')} aria-label="AURA home"><b>aura°</b></a><span className="aura-demo-status"><i aria-hidden="true" /> VISUAL SESSION DEMO</span><button onClick={() => setSaved(!saved)} aria-label={saved ? 'Remove listening session from saved' : 'Save listening session'} aria-pressed={saved}><Bookmark fill={saved ? 'currentColor' : 'none'} /></button></nav>
       <aside className="aura-demo-rail" aria-label="Explore AURA"><a href={sitePath('/work/aura/library')} aria-label="Library"><Headphones /><span>Library</span></a><a href={sitePath('/work/aura/rituals')} aria-label="Rituals"><Sparkles /><span>Rituals</span></a><a href={sitePath('/work/aura/about')} aria-label="About"><Info /><span>About</span></a></aside>
       <main>
         <div className={`aura-lightscape ${playing ? 'playing' : ''}`} aria-hidden="true"><span className="aura-wash"/><span className="aura-veil aura-veil-one"/><span className="aura-veil aura-veil-two"/></div>
-        <section className="aura-demo-copy"><small>GENERATIVE SESSION / 24 MIN</small><h2>Make space<br />for <em>{tone.toLowerCase()}.</em></h2>
+        <section className="aura-demo-copy"><small>VISUAL SESSION / {totalSeconds / 60} MIN</small><h2>Make space<br />for <em>{tone.toLowerCase()}.</em></h2>
           <div className="aura-breath-cue" aria-live="polite"><span>{playing ? 'Let the room move slowly around you' : session.cue}</span><small>{playing ? 'Slow light · one unhurried cycle every 11 seconds' : 'The room stays still until you begin'}</small></div>
-          <div className="aura-player"><div className="aura-player-info"><b>{session.title}</b><div className={`aura-wave-tracker ${dragging ? 'is-dragging' : ''}`} ref={trackerRef}><svg viewBox={`0 0 ${trackerWidth} 64`} preserveAspectRatio="none" aria-hidden="true"><path className="track" d={wavePath}/></svg><input style={{left: `${waveRadius}px`, right: `${waveRadius}px`, width: 'auto'}} type="range" min="0" max={totalSeconds} step="0.1" value={elapsed} onPointerDown={() => setDragging(true)} onPointerUp={() => setDragging(false)} onPointerCancel={() => setDragging(false)} onChange={(event) => setElapsed(Number(event.target.value))} aria-label={`Seek ${session.title}`} /><button type="button" className={`aura-playhead-button ${playing ? 'playing' : ''}`} style={{left: `${playheadX}px`}} onPointerDown={beginPlayheadDrag} onPointerMove={movePlayhead} onPointerUp={endPlayheadDrag} onPointerCancel={() => { dragStartX.current = null; setDragging(false); }} onClick={() => { if (suppressPlayheadClick.current) { suppressPlayheadClick.current = false; return; } setPlaying(!playing); }} aria-label={playing ? 'Pause session or drag to seek' : 'Play session or drag to seek'} aria-pressed={playing}>{playing ? <Pause aria-hidden="true" /> : <span className="sr-only">Play</span>}</button></div><div className="aura-player-times"><time>{minutes}:{seconds}</time><span>AURA SPATIAL</span><time>-{remainingMinutes}:{remainingSeconds}</time></div></div></div>
+          <div className="aura-player"><div className="aura-player-info"><b>{session.title}</b><div className={`aura-wave-tracker ${dragging ? 'is-dragging' : ''}`} ref={trackerRef}><svg viewBox={`0 0 ${trackerWidth} 64`} preserveAspectRatio="none" aria-hidden="true"><path className="track" d={wavePath}/></svg><input style={{left: `${waveRadius}px`, right: `${waveRadius}px`, width: 'auto'}} type="range" min="0" max={totalSeconds} step="0.1" value={elapsed} onPointerDown={() => setDragging(true)} onPointerUp={() => setDragging(false)} onPointerCancel={() => setDragging(false)} onChange={(event) => setElapsed(Number(event.target.value))} aria-label={`Seek ${session.title}`} /><button type="button" className={`aura-playhead-button ${playing ? 'playing' : ''}`} style={{left: `${playheadX}px`}} onPointerDown={beginPlayheadDrag} onPointerMove={movePlayhead} onPointerUp={endPlayheadDrag} onPointerCancel={() => { dragStartX.current = null; setDragging(false); }} onClick={() => { if (suppressPlayheadClick.current) { suppressPlayheadClick.current = false; return; } if (!playing && elapsed >= totalSeconds) setElapsed(0); setPlaying(!playing); }} aria-label={playing ? 'Pause session or drag to seek' : 'Play session or drag to seek'} aria-pressed={playing}>{playing ? <Pause aria-hidden="true" /> : <span className="sr-only">Play</span>}</button></div><div className="aura-player-times"><time>{minutes}:{seconds}</time><span>NO AUDIO CONNECTED</span><time>-{remainingMinutes}:{remainingSeconds}</time></div></div></div>
         </section>
-        <aside className="aura-demo-context" aria-live="polite"><div><span>ENVIRONMENT</span><strong>{playing ? 'Playing' : 'Ready'}</strong></div><div className={`aura-demo-wave ${playing ? 'active' : ''}`} aria-hidden="true">{[4,8,5,11,7,13,9,5,10,6,8,4].map((height, index) => <i key={index} style={{height: `${height * 2}px`}} />)}</div><small>{tone} · {session.title}</small><a href={sitePath('/work/aura/library')}>Open library <ArrowRight /></a></aside>
+        <aside className="aura-demo-context" aria-live="polite"><div><span>ENVIRONMENT</span><strong>{playing ? 'Previewing' : 'Ready'}</strong></div><div className={`aura-demo-wave ${playing ? 'active' : ''}`} aria-hidden="true">{[4,8,5,11,7,13,9,5,10,6,8,4].map((height, index) => <i key={index} style={{height: `${height * 2}px`}} />)}</div><small>{tone} · {session.title}</small><a href={sitePath('/work/aura/library')}>Open library <ArrowRight /></a></aside>
       </main>
       <footer><span>Choose your environment</span><div>{['Still','Open','Warm'].map(item => <button key={item} onClick={() => { setTone(item); setPlaying(false); setElapsed(0); }} className={tone === item ? 'active' : ''} aria-pressed={tone === item}>{item}</button>)}</div></footer>
     </div>
@@ -189,10 +190,12 @@ function Vernacular() {
   ];
   const [pack, setPack] = useState(packs[1]);
   const [quantity, setQuantity] = useState(1);
-  const [bagQuantity, setBagQuantity] = useState(0);
+  const [bag, setBag] = useState<Record<number, number>>({});
+  const bagQuantity = Object.values(bag).reduce((sum, count) => sum + count, 0);
+  const bagTotal = packs.reduce((sum, item) => sum + item.price * (bag[item.count] ?? 0), 0);
   const [added, setAdded] = useState(false);
   const addToBag = () => {
-    setBagQuantity((current) => current + quantity);
+    setBag(current => ({ ...current, [pack.count]: (current[pack.count] ?? 0) + quantity }));
     setAdded(true);
     window.setTimeout(() => setAdded(false), 1800);
   };
@@ -235,9 +238,10 @@ function Vernacular() {
           <div><span>PLATE 02 / DINNER</span><h3>Build your stack.</h3><p>Concept configuration for a future product system. Pricing is illustrative and not a live offer.</p></div>
           <div className="vnl-buy-controls">
             <fieldset><legend>Pack size</legend><div>{packs.map((item) => <button type="button" key={item.count} className={pack.count === item.count ? 'active' : ''} onClick={() => setPack(item)} aria-pressed={pack.count === item.count}>{item.count}</button>)}</div></fieldset>
-            <div className="vnl-quantity"><span>Quantity</span><div><button type="button" onClick={() => setQuantity(Math.max(1, quantity - 1))} aria-label="Decrease quantity"><Minus aria-hidden="true" /></button><output aria-live="polite">{String(quantity).padStart(2, '0')}</output><button type="button" onClick={() => setQuantity(quantity + 1)} aria-label="Increase quantity"><Plus aria-hidden="true" /></button></div></div>
+            <div className="vnl-quantity"><span>Quantity</span><div><button type="button" onClick={() => setQuantity(Math.max(1, quantity - 1))} aria-label="Decrease quantity"><Minus aria-hidden="true" /></button><output aria-live="polite">{String(quantity).padStart(2, '0')}</output><button type="button" onClick={() => setQuantity(Math.min(99, quantity + 1))} aria-label="Increase quantity"><Plus aria-hidden="true" /></button></div></div>
             <button className={`vnl-add ${added ? 'added' : ''}`} type="button" onClick={addToBag}>{added ? <><Check aria-hidden="true" /> Added to bag</> : <>Add concept · ${pack.price * quantity} <ArrowRight aria-hidden="true" /></>}</button>
           </div>
+          {bagQuantity > 0 && <div className="vnl-bag-summary"><h4>Concept bag · ${bagTotal}</h4>{packs.filter(item => bag[item.count]).map(item => <div key={item.count}><span>{bag[item.count]} × pack of {item.count} · ${bag[item.count] * item.price}</span><button type="button" aria-label={`Remove one pack of ${item.count}`} onClick={() => setBag(current => ({ ...current, [item.count]: Math.max(0, (current[item.count] ?? 0) - 1) }))}>Remove one</button></div>)}<p>Local demo · resets on reload. No order is placed.</p></div>}
         </section>
       </main>
 
@@ -249,18 +253,29 @@ function Vernacular() {
 function Field() {
   const [trail, setTrail] = useState(0);
   const [layer, setLayer] = useState<'Terrain' | 'Water' | 'Shelter'>('Terrain');
-  const [saved, setSaved] = useState(false);
-  const [offline, setOffline] = useState(false);
+  const [savedRoutes, setSavedRoutes] = useState<string[]>([]);
   const routes = [
     { code: 'R-01', name: 'Fern Canyon Loop', miles: '6.8 MI', time: '3H 20M', gain: '1,240 FT', grade: 'MODERATE', color: '#ff5b38', path: 'M 86 548 C 152 505 184 454 246 447 C 316 438 330 361 397 346 C 468 330 464 260 536 246 C 621 229 655 164 731 191 C 808 218 835 148 914 112', points: [[86,548],[397,346],[731,191],[914,112]], note: 'Old-growth cedar, a narrow creek crossing, and a quiet final ridge.' },
     { code: 'R-02', name: 'Juniper Ridge', miles: '4.2 MI', time: '2H 05M', gain: '860 FT', grade: 'STEADY', color: '#214fd1', path: 'M 104 144 C 183 158 208 213 276 229 C 348 246 351 319 429 333 C 517 349 551 416 633 408 C 724 400 765 475 886 536', points: [[104,144],[276,229],[633,408],[886,536]], note: 'Exposed stone, dry juniper, and long western views at the turn.' },
     { code: 'R-03', name: 'Bear Lake Path', miles: '8.1 MI', time: '4H 10M', gain: '1,680 FT', grade: 'CHALLENGING', color: '#e04482', path: 'M 84 498 C 143 423 213 490 272 406 C 331 323 389 378 452 292 C 518 202 592 268 654 180 C 720 87 806 172 916 82', points: [[84,498],[272,406],[654,180],[916,82]], note: 'A longer ascent through spruce shade to an open alpine basin.' },
   ];
   const route = routes[trail];
+  const saved = savedRoutes.includes(route.code);
+  const downloadRoute = () => {
+    const notes = `FIELD / ILLUSTRATIVE ROUTE NOTES
+${route.code} — ${route.name}
+${route.miles} · ${route.gain} gain · ${route.time}
+${route.note}
+
+Fictional map concept. Not for navigation. No offline map is included.`;
+    const url = URL.createObjectURL(new Blob([notes], { type: 'text/plain' }));
+    const link = document.createElement('a'); link.href = url; link.download = `field-${route.code.toLowerCase()}.txt`; link.click();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
   const layerLegend = { Terrain: 'Contour / 40 ft', Water: 'Creek + spring', Shelter: 'Camp access' }[layer];
   return (
     <div className={`demo field-demo field-${layer.toLowerCase()}`}>
-      <header className="field-topbar"><a href={sitePath('/')} aria-label="Back to portfolio index">FIELD<span>/06</span></a><div><i aria-hidden="true" /> Olympic Peninsula · 47.8021° N</div><span>58° / LIGHT RAIN</span></header>
+      <header className="field-topbar"><a href={sitePath('/')} aria-label="Back to portfolio index">FIELD<span>/06</span></a><div><i aria-hidden="true" /> Olympic Peninsula · 47.8021° N</div><span>SAMPLE / 58° / LIGHT RAIN</span></header>
       <main className="field-explorer">
         <section className="field-map-stage" aria-label={`${route.name} topographic route preview`}>
           <div className="field-map-heading"><span>ROUTE READER / {layer.toUpperCase()}</span><strong>{route.code}</strong></div>
@@ -281,7 +296,7 @@ function Field() {
           <div className="field-panel-heading"><span>CHOOSE A LINE</span><small>Three routes / one weather window</small></div>
           <div className="field-route-list">{routes.map((item, index) => <button type="button" key={item.code} className={trail === index ? 'active' : ''} onClick={() => setTrail(index)} aria-pressed={trail === index}><span>{item.code}</span><strong>{item.name}</strong><small>{item.miles} · {item.grade}</small><i style={{background: item.color}} /></button>)}</div>
           <article className="field-route-detail" aria-live="polite"><span>{route.grade} / SELECTED</span><h2>{route.name}</h2><p>{route.note}</p><div><span><b>{route.miles}</b>Distance</span><span><b>{route.gain}</b>Gain</span><span><b>{route.time}</b>Time</span></div></article>
-          <div className="field-actions"><button type="button" className={saved ? 'active' : ''} onClick={() => setSaved(!saved)} aria-pressed={saved}><Bookmark fill={saved ? 'currentColor' : 'none'} />{saved ? 'Route saved' : 'Save route'}</button><button type="button" className={offline ? 'active' : ''} onClick={() => setOffline(!offline)} aria-pressed={offline}><Download />{offline ? 'Available offline' : 'Make offline'}</button></div>
+          <div className="field-actions"><button type="button" className={saved ? 'active' : ''} onClick={() => setSavedRoutes(current => saved ? current.filter(code => code !== route.code) : [...current, route.code])} aria-pressed={saved}><Bookmark fill={saved ? 'currentColor' : 'none'} />{saved ? 'Route saved' : 'Save route'}</button><button type="button" onClick={downloadRoute}><Download />Download notes</button></div>
         </aside>
       </main>
       <footer className="field-footer"><span>Map concept / not for navigation</span><div><i style={{background: route.color}} /><b>{route.name}</b> is ready to read.</div><button type="button" onClick={() => setTrail((trail + 1) % routes.length)}>Next route <ArrowRight /></button></footer>
@@ -313,16 +328,18 @@ function Atelier() {
   const [lookIndex, setLookIndex] = useState(0);
   const [lens, setLens] = useState<'editorial' | 'design'>('editorial');
   const [size, setSize] = useState('02');
-  const [saved, setSaved] = useState(false);
+  const [savedLooks, setSavedLooks] = useState<string[]>([]);
   const [menuOpen, setMenuOpen] = useState(false);
   const [bagOpen, setBagOpen] = useState(false);
-  const [bag, setBag] = useState<Record<string, { quantity: number; size: string }>>({});
+  const [bag, setBag] = useState<Record<string, { lookId: string; quantity: number; size: string }>>({});
   const selected = looks[lookIndex];
-  const bagItems = looks.filter((look) => (bag[look.id]?.quantity ?? 0) > 0);
+  const saved = savedLooks.includes(selected.id);
+  const bagItems = Object.entries(bag).map(([key, item]) => ({ ...looks.find(look => look.id === item.lookId)!, ...item, key }));
   const bagCount = Object.values(bag).reduce((total, item) => total + item.quantity, 0);
-  const subtotal = bagItems.reduce((total, look) => total + look.price * bag[look.id].quantity, 0);
+  const subtotal = bagItems.reduce((total, look) => total + look.price * look.quantity, 0);
   const addSelected = () => {
-    setBag((current) => ({ ...current, [selected.id]: { quantity: (current[selected.id]?.quantity ?? 0) + 1, size } }));
+    const key = `${selected.id}:${size}`;
+    setBag((current) => ({ ...current, [key]: { lookId: selected.id, quantity: (current[key]?.quantity ?? 0) + 1, size } }));
     setBagOpen(true);
   };
   const updateBag = (id: string, amount: number) => {
@@ -354,7 +371,7 @@ function Atelier() {
           <figure key={`${selected.id}-${lens}`}><Image src={sitePath(selected.image)} alt={selected.alt} width={1024} height={1536} priority unoptimized sizes="(max-width: 700px) 72vw, 44vw" /><figcaption>FORM {selected.number} / {selected.gesture.toUpperCase()}</figcaption>{lens === 'design' && <div className="atelier-annotations" aria-label="Design annotations">{selected.notes.map((note, index) => <span key={note} className={`note-${index + 1}`}><i />0{index + 1} / {note}</span>)}</div>}</figure>
           <div className="atelier-stage-copy" aria-live="polite"><span>ACTIVE GESTURE / {selected.number}</span><h2>{selected.name}</h2><blockquote>“{selected.note}”</blockquote><dl><div><dt>Cut</dt><dd>{selected.cut}</dd></div><div><dt>Material</dt><dd>{selected.material}</dd></div><div><dt>Prototype</dt><dd>${selected.price.toLocaleString()}</dd></div></dl></div>
           <div className="atelier-look-score" role="group" aria-label="Choose a garment gesture">{looks.map((look, index) => <button type="button" key={look.id} className={lookIndex === index ? 'active' : ''} onClick={() => { setLookIndex(index); setSize('02'); }} aria-pressed={lookIndex === index}><span>{look.number}</span><i /><strong>{look.gesture}</strong><small>{look.word}</small></button>)}</div>
-          <div className="atelier-stage-actions"><fieldset><legend>PROTOTYPE SIZE</legend>{['00','01','02','03','04'].map((item) => <button type="button" key={item} className={size === item ? 'active' : ''} onClick={() => setSize(item)} aria-pressed={size === item}>{item}</button>)}</fieldset><button className="atelier-add" type="button" onClick={addSelected}>Add form {selected.number}, size {size} <ArrowRight aria-hidden="true" /></button><button className="atelier-save" type="button" onClick={() => setSaved(!saved)} aria-pressed={saved}><Heart fill={saved ? 'currentColor' : 'none'} aria-hidden="true" />{saved ? 'Saved as reference' : 'Save the reference'}</button></div>
+          <div className="atelier-stage-actions"><fieldset><legend>PROTOTYPE SIZE</legend>{['00','01','02','03','04'].map((item) => <button type="button" key={item} className={size === item ? 'active' : ''} onClick={() => setSize(item)} aria-pressed={size === item}>{item}</button>)}</fieldset><button className="atelier-add" type="button" onClick={addSelected}>Add form {selected.number}, size {size} <ArrowRight aria-hidden="true" /></button><button className="atelier-save" type="button" onClick={() => setSavedLooks(current => saved ? current.filter(id => id !== selected.id) : [...current, selected.id])} aria-pressed={saved}><Heart fill={saved ? 'currentColor' : 'none'} aria-hidden="true" />{saved ? 'Saved as reference' : 'Save the reference'}</button></div>
           <small className="atelier-stage-disclaimer">FICTIONAL COMMERCE FLOW / NO PAYMENT CONNECTED</small>
         </section>
 
@@ -377,7 +394,7 @@ function Atelier() {
 
       <footer className="atelier-footer"><a href="#atelier-top">ATELIER / STUDY 07</a><span>ENGINEERING JUDGMENT / FASHION POINT OF VIEW</span><a href={sitePath('/')}>Portfolio index <ArrowRight aria-hidden="true" /></a></footer>
 
-      {bagOpen && <><button className="atelier-bag-scrim" type="button" onClick={() => setBagOpen(false)} aria-label="Close fitting bag" /><aside className="atelier-bag" aria-label="Fitting bag" aria-live="polite"><header><div><span>FITTING BAG</span><b>{bagCount} {bagCount === 1 ? 'LOOK' : 'LOOKS'}</b></div><button type="button" onClick={() => setBagOpen(false)} aria-label="Close fitting bag"><X aria-hidden="true" /></button></header>{bagItems.length ? <><div className="atelier-bag-list">{bagItems.map((look) => <article key={look.id}><Image src={sitePath(look.image)} alt="" width={1024} height={1536} loading="lazy" unoptimized sizes="88px" /><div><b>{look.name}</b><span>Prototype size {bag[look.id].size}</span><small>${look.price.toLocaleString()}</small><div><button type="button" onClick={() => updateBag(look.id, -1)} aria-label={`Remove one ${look.name}`}><Minus aria-hidden="true" /></button><output aria-label={`${bag[look.id].quantity} in fitting bag`}>{bag[look.id].quantity}</output><button type="button" onClick={() => updateBag(look.id, 1)} aria-label={`Add one ${look.name}`}><Plus aria-hidden="true" /></button></div></div></article>)}</div><div className="atelier-bag-total"><span>PROTOTYPE SUBTOTAL</span><b>${subtotal.toLocaleString()}</b></div><button className="atelier-bag-action" type="button" onClick={() => setBagOpen(false)}>Return to the study <ArrowRight aria-hidden="true" /></button><p>This bag stays in the current browser view. No checkout is connected.</p></> : <div className="atelier-bag-empty"><ShoppingBag aria-hidden="true" /><h3>The fitting room is open.</h3><p>Select a look and size to begin.</p><button type="button" onClick={() => setBagOpen(false)}>View the collection</button></div>}</aside></>}
+      {bagOpen && <PrototypeDrawer label="Fitting bag" onClose={() => setBagOpen(false)}><aside className="atelier-bag" aria-label="Fitting bag" aria-live="polite"><header><div><span>FITTING BAG</span><b>{bagCount} {bagCount === 1 ? 'LOOK' : 'LOOKS'}</b></div><button type="button" onClick={() => setBagOpen(false)} aria-label="Close fitting bag"><X aria-hidden="true" /></button></header>{bagItems.length ? <><div className="atelier-bag-list">{bagItems.map((look) => <article key={look.key}><Image src={sitePath(look.image)} alt="" width={1024} height={1536} loading="lazy" unoptimized sizes="88px" /><div><b>{look.name}</b><span>Prototype size {look.size}</span><small>${look.price.toLocaleString()}</small><div><button type="button" onClick={() => updateBag(look.key, -1)} aria-label={`Remove one ${look.name}, size ${look.size}`}><Minus aria-hidden="true" /></button><output aria-label={`${look.quantity} in fitting bag`}>{look.quantity}</output><button type="button" onClick={() => updateBag(look.key, 1)} aria-label={`Add one ${look.name}, size ${look.size}`}><Plus aria-hidden="true" /></button></div></div></article>)}</div><div className="atelier-bag-total"><span>PROTOTYPE SUBTOTAL</span><b>${subtotal.toLocaleString()}</b></div><button className="atelier-bag-action" type="button" onClick={() => setBagOpen(false)}>Return to the study <ArrowRight aria-hidden="true" /></button><p>This bag stays in the current browser view. No checkout is connected.</p></> : <div className="atelier-bag-empty"><ShoppingBag aria-hidden="true" /><h3>The fitting room is open.</h3><p>Select a look and size to begin.</p><button type="button" onClick={() => setBagOpen(false)}>View the collection</button></div>}</aside></PrototypeDrawer>}
     </div>
   );
 }
@@ -385,14 +402,14 @@ function Atelier() {
 function Civic() {
   const [requestFilter, setRequestFilter] = useState<'All' | 'In progress' | 'Resolved'>('All');
   const [issueType, setIssueType] = useState('Streetlight');
-  const [submitted, setSubmitted] = useState(false);
+  const [submitted, setSubmitted] = useState('');
   const [priority, setPriority] = useState('Safe crossings');
-  const requests = [
+  const [requests, setRequests] = useState([
     { id: 'CHI-4821', category: 'Streetlight', title: 'Lamp out beside Palmer Square', place: '2200 N Kedzie Ave', status: 'In progress', age: '2 days', color: '#ff4f38' },
     { id: 'CHI-4774', category: 'Sidewalk', title: 'Broken curb at accessible crossing', place: 'Milwaukee + California', status: 'In progress', age: '4 days', color: '#1747d1' },
     { id: 'CHI-4688', category: 'Tree', title: 'Storm branch blocking the path', place: 'Humboldt Blvd + Wabansia', status: 'Resolved', age: 'Closed today', color: '#15875c' },
     { id: 'CHI-4590', category: 'Water', title: 'Hydrant leak near school entrance', place: 'Armitage + Richmond', status: 'Resolved', age: 'Closed Sep 8', color: '#8f4bd8' },
-  ];
+  ]);
   const visibleRequests = requestFilter === 'All' ? requests : requests.filter((item) => item.status === requestFilter);
   return (
     <div className="demo civic-demo" id="civic-top">
@@ -401,15 +418,23 @@ function Civic() {
       <main>
         <section className="civic-hero">
           <div className="civic-hero-copy"><span>CHICAGO / PUBLIC-SERVICE PROTOTYPE</span><h2>The city is<br />a shared <em>interface.</em></h2><p>See what is working, report what is not, and understand what happens next without learning how government is organized first.</p><a href="#report">Start a request <ArrowRight /></a></div>
-          <div className="civic-bulletin"><div><span>RIGHT NOW</span><i>Wed / 10 Sep</i></div><strong>3</strong><h3>services need attention</h3><ul><li><b>Blue Line</b><span>Minor delays</span></li><li><b>Ward 32 pickup</b><span>1 day late</span></li><li><b>Cooling centers</b><span>Open until 7 PM</span></li></ul><small>Illustrative service data</small></div>
+          <div className="civic-bulletin"><div><span>SAMPLE BULLETIN</span><i>10 Sep</i></div><strong>3</strong><h3>services need attention</h3><ul><li><b>Blue Line</b><span>Minor delays</span></li><li><b>Ward 32 pickup</b><span>1 day late</span></li><li><b>Cooling centers</b><span>Open until 7 PM</span></li></ul><small>Illustrative service data</small></div>
           <div className="civic-street-grid" aria-hidden="true"><i/><i/><i/><i/><i/><i/><i/><i/><span>●</span><b>+</b></div>
         </section>
 
         <section className="civic-services" id="services"><header><span>01 / SERVICE HEALTH</span><h3>Know before<br />you need it.</h3><p>Plain-language status across the systems that shape an ordinary day.</p></header><div className="civic-service-grid"><article><span>TRANSIT</span><b>● GOOD</b><strong>96%</strong><p>Scheduled service currently operating.</p></article><article><span>STREETS</span><b>▲ WATCH</b><strong>14</strong><p>Active maintenance zones in this sample.</p></article><article><span>WATER</span><b>● GOOD</b><strong>02</strong><p>Localized advisories in the prototype.</p></article><article><span>PUBLIC SPACE</span><b>● GOOD</b><strong>318</strong><p>Parks shown as open in sample data.</p></article></div></section>
 
-        <section className="civic-requests" id="requests"><div className="civic-section-heading"><span>02 / OPEN REQUESTS</span><h3>Visible work.<br />Clear ownership.</h3><div>{(['All','In progress','Resolved'] as const).map((item) => <button type="button" key={item} className={requestFilter === item ? 'active' : ''} onClick={() => setRequestFilter(item)} aria-pressed={requestFilter === item}>{item}</button>)}</div></div><div className="civic-request-list">{visibleRequests.map((item) => <article key={item.id}><i style={{background: item.color}} /><span>{item.id}<small>{item.category}</small></span><h4>{item.title}<small><MapPin />{item.place}</small></h4><b>{item.status}</b><time>{item.age}</time></article>)}</div><p className="civic-data-note">Sample requests created for this interaction prototype. No real resident or city records are shown.</p></section>
+        <section className="civic-requests" id="requests"><div className="civic-section-heading"><span>02 / OPEN REQUESTS</span><h3>Visible work.<br />Clear ownership.</h3><div>{(['All','In progress','Resolved'] as const).map((item) => <button type="button" key={item} className={requestFilter === item ? 'active' : ''} onClick={() => setRequestFilter(item)} aria-pressed={requestFilter === item}>{item}</button>)}</div></div><div className="civic-request-list">{visibleRequests.map((item) => <article key={item.id}><i style={{background: item.color}} /><span>{item.id}<small>{item.category}</small></span><h4>{item.title}<small><MapPin />{item.place}</small></h4><b>{item.status}</b><time>{item.age}</time></article>)}</div><p className="civic-data-note">Sample requests and your local drafts. Drafts reset on reload; nothing is sent to the city.</p></section>
 
-        <section className="civic-report" id="report"><div className="civic-report-intro"><span>03 / MAKE A REQUEST</span><h3>One form.<br />No department maze.</h3><p>Describe the public-space problem. The interface handles the category; you keep the confirmation number.</p><div><b>1</b>Choose the issue <i /> <b>2</b>Add the place <i /> <b>3</b>Track the work</div></div><form onSubmit={(event) => { event.preventDefault(); setSubmitted(true); }}><fieldset><legend>What needs attention?</legend><div>{['Streetlight','Sidewalk','Tree','Water'].map((item) => <button type="button" key={item} className={issueType === item ? 'active' : ''} onClick={() => setIssueType(item)} aria-pressed={issueType === item}>{item}</button>)}</div></fieldset><label>Location<input required defaultValue="Palmer Square, Chicago" /></label><label>What did you notice?<textarea required defaultValue="The light beside the northeast path has been out for two nights." /></label><button className="civic-submit" type="submit">Create prototype request <ArrowRight /></button><small>Prototype only. This form does not transmit personal information or contact the city.</small>{submitted && <output className="civic-confirmation"><Check /> Request drafted locally <b>CHI-DEMO</b><button type="button" onClick={() => setSubmitted(false)}>Dismiss</button></output>}</form></section>
+        <section className="civic-report" id="report"><div className="civic-report-intro"><span>03 / MAKE A REQUEST</span><h3>One form.<br />No department maze.</h3><p>Describe the public-space problem. The interface handles the category; you keep the confirmation number.</p><div><b>1</b>Choose the issue <i /> <b>2</b>Add the place <i /> <b>3</b>Track the work</div></div><form onSubmit={(event) => { event.preventDefault();
+      const form = new FormData(event.currentTarget);
+      const locationValue = form.get('location'); const descriptionValue = form.get('description');
+      const place = typeof locationValue === 'string' ? locationValue.trim() : '';
+      const title = typeof descriptionValue === 'string' ? descriptionValue.trim() : '';
+      if (!place || !title) return;
+      const id = `DEMO-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
+      setRequests(current => [{ id, category: issueType, title, place, status: 'In progress', age: 'Just drafted', color: '#2146c7' }, ...current]);
+      setRequestFilter('All'); setSubmitted(id); }}><fieldset><legend>What needs attention?</legend><div>{['Streetlight','Sidewalk','Tree','Water'].map((item) => <button type="button" key={item} className={issueType === item ? 'active' : ''} onClick={() => setIssueType(item)} aria-pressed={issueType === item}>{item}</button>)}</div></fieldset><label>Location<input name="location" required maxLength={120} pattern=".*\S.*" defaultValue="Palmer Square, Chicago" /></label><label>What did you notice?<textarea name="description" required maxLength={300} defaultValue="The light beside the northeast path has been out for two nights." /></label><button className="civic-submit" type="submit">Create prototype request <ArrowRight /></button><small>Prototype only. This form does not transmit personal information or contact the city.</small>{submitted && <output className="civic-confirmation"><Check /> Request drafted locally <b>{submitted}</b><button type="button" onClick={() => setSubmitted('')}>Dismiss</button></output>}</form></section>
 
         <section className="civic-priorities" id="priorities"><header><span>04 / NEIGHBORHOOD PRIORITIES</span><h3>What should<br />move first?</h3><p>This local-only simulator demonstrates transparent participation without pretending to cast a real vote.</p></header><div>{['Safe crossings','More tree canopy','Late-night transit'].map((item, index) => <button type="button" key={item} className={priority === item ? 'active' : ''} onClick={() => setPriority(item)} aria-pressed={priority === item}><span>0{index + 1}</span><strong>{item}</strong><i>{priority === item ? 'Your priority' : 'Select'}</i><ArrowRight /></button>)}</div></section>
 
@@ -448,7 +473,7 @@ function Lumen() {
     <div className="demo lumen-demo" id="lumen-top">
       <header className="lumen-header">
         <a href="#lumen-top" className="lumen-mark"><b>LUMEN</b><span>boring on purpose</span></a>
-        <div className="lumen-room"><i /> SHARED WORKROOM / THURSDAY</div>
+        <div className="lumen-room"><i /> LOCAL DEMO / RESETS ON RELOAD</div>
         <a href={sitePath('/')}>Portfolio index <ArrowRight /></a>
       </header>
 
@@ -468,18 +493,18 @@ function Lumen() {
         <section className="lumen-worktable" id="lumen-table">
           <header><div><span>THE WORKTABLE / LIVE</span><h3>Now. Next. Later.</h3></div><p>No feeds. No folders. No status theater. If a card cannot earn a place on this table, it is not yet work.</p></header>
           <form className="lumen-new-card" onSubmit={(event) => { event.preventDefault(); addCard(); }}>
-            <label><span>WRITE ONE CARD</span><input value={draft} onChange={(event) => setDraft(event.target.value)} placeholder="A specific promise or action" aria-label="New work card" /></label>
+            <label><span>WRITE ONE CARD</span><input maxLength={140} value={draft} onChange={(event) => setDraft(event.target.value)} placeholder="A specific promise or action" aria-label="New work card" /></label>
             <label className="lumen-owner"><span>INITIALS</span><input value={draftOwner} maxLength={5} onChange={(event) => setDraftOwner(event.target.value)} aria-label="Owner initials" /></label>
             <button type="submit"><Plus /> Place in Now</button>
           </form>
-          <div className="lumen-board">{stages.map((stage, stageIndex) => {
+          <p className="lumen-local-note">Local demo · changes reset on reload.</p><div className="lumen-board">{stages.map((stage, stageIndex) => {
             const stageCards = cards.filter((card) => card.stage === stage);
             return <section className={`lumen-column lumen-${stage.toLowerCase()}`} key={stage} aria-labelledby={`lumen-${stage.toLowerCase()}-title`}><header><span>0{stageIndex + 1}</span><h4 id={`lumen-${stage.toLowerCase()}-title`}>{stage}</h4><output>{stageCards.length} {stageCards.length === 1 ? 'card' : 'cards'}</output></header><div>{stageCards.map((card) => <article className={card.done ? 'done' : ''} key={card.id}>
               <div className="lumen-card-pin" aria-hidden="true" />
               <span className="lumen-card-owner">{card.owner}</span>
               <h5>{card.title}</h5>
               <p>{card.note}</p>
-              <div className="lumen-card-actions"><button type="button" onClick={() => toggleCard(card.id)} aria-label={`${card.done ? 'Reopen' : 'Complete'} ${card.title}`}><Check />{card.done ? 'Reopen' : 'Done'}</button><div aria-label={`Move ${card.title}`}>{stages.map((destination) => <button type="button" key={destination} className={card.stage === destination ? 'active' : ''} onClick={() => placeCard(card.id, destination)} aria-label={`Move to ${destination}`} aria-pressed={card.stage === destination}>{destination.charAt(0)}</button>)}</div></div>
+              <div className="lumen-card-actions"><button type="button" onClick={() => toggleCard(card.id)} aria-label={`${card.done ? 'Reopen' : 'Complete'} ${card.title}`}><Check />{card.done ? 'Reopen' : 'Done'}</button><div aria-label={`Move ${card.title}`}>{stages.map((destination) => <button type="button" key={destination} className={card.stage === destination ? 'active' : ''} onClick={() => placeCard(card.id, destination)} aria-label={`Move to ${destination}`} aria-pressed={card.stage === destination}>{destination}</button>)}</div></div>
             </article>)}</div></section>;
           })}</div>
         </section>
@@ -561,7 +586,7 @@ function Pantry() {
         </section>
 
         <section className="pantry-market" id="pantry-market">
-          <div className="pantry-section-heading"><span>01 / PICK A FEELING</span><h3>Tonight&apos;s<br /><em>sketchbook.</em></h3><p>Four complete dinner ideas, drawn before they are boxed. Each serves real ingredients with the commitment visible up front.</p></div>
+          <div className="pantry-section-heading"><span>01 / PICK A FEELING</span><h3>Tonight&apos;s<br /><em>sketchbook.</em></h3><p>Four fictional meal kits to explore. Prices are illustrative; no payment or delivery is connected.</p></div>
           <div className="pantry-filter-row">
             <div className="pantry-cats" aria-label="Filter meals by mood">{['All', 'Bright', 'Comfort', 'Quick', 'Sweet'].map((item) => <button type="button" key={item} className={category === item ? 'active' : ''} onClick={() => setCategory(item)} aria-pressed={category === item}>{item}</button>)}</div>
             <output aria-live="polite">{visibleProducts.length} {visibleProducts.length === 1 ? 'idea' : 'ideas'} on the table</output>
@@ -585,7 +610,7 @@ function Pantry() {
 
       <footer className="pantry-footer"><a href="#pantry-top">PANTRY / SKETCH MARKET</a><span>Concept, interface, and art direction by Usamah Moin</span><a href={sitePath('/')}>Portfolio index <ArrowRight aria-hidden="true" /></a></footer>
 
-      {bagOpen && <><button className="pantry-bag-scrim" type="button" onClick={() => setBagOpen(false)} aria-label="Close market bag" /><aside className="pantry-bag-drawer" aria-label="Market bag" aria-live="polite"><header><div><span>YOUR MARKET BAG</span><b>{bagCount} {bagCount === 1 ? 'kit' : 'kits'}</b></div><button type="button" onClick={() => setBagOpen(false)} aria-label="Close bag"><X aria-hidden="true" /></button></header>{bagItems.length > 0 ? <><div className="pantry-bag-list">{bagItems.map((product) => <article key={product.id}><Image src={sitePath(product.image)} alt="" width={1120} height={1400} loading="lazy" unoptimized sizes="94px" /><div><b>{product.name}</b><span>${product.price} each</span><div><button type="button" onClick={() => updateBag(product.id, -1)} aria-label={`Remove one ${product.name}`}><Minus aria-hidden="true" /></button><output aria-label={`${bag[product.id]} in bag`}>{bag[product.id]}</output><button type="button" onClick={() => updateBag(product.id, 1)} aria-label={`Add one ${product.name}`}><Plus aria-hidden="true" /></button></div></div></article>)}</div><div className="pantry-bag-total"><span>Prototype subtotal</span><b>${subtotal}</b></div><button className="pantry-prepare" type="button" onClick={() => setOrderReady(true)}>{orderReady ? <><Check aria-hidden="true" /> Demo order prepared</> : <>Prepare demo order <ArrowRight aria-hidden="true" /></>}</button>{orderReady && <p className="pantry-order-note">Saved in this browser view only. No payment or delivery request was sent.</p>}</> : <div className="pantry-bag-empty"><ShoppingBag aria-hidden="true" /><h4>The page is still clean.</h4><p>Add a recipe sketch and it will appear here.</p><button type="button" onClick={() => setBagOpen(false)}>Keep looking</button></div>}</aside></>}
+      {bagOpen && <PrototypeDrawer label="Market bag" onClose={() => setBagOpen(false)}><aside className="pantry-bag-drawer" aria-label="Market bag" aria-live="polite"><header><div><span>YOUR MARKET BAG</span><b>{bagCount} {bagCount === 1 ? 'kit' : 'kits'}</b></div><button type="button" onClick={() => setBagOpen(false)} aria-label="Close bag"><X aria-hidden="true" /></button></header>{bagItems.length > 0 ? <><div className="pantry-bag-list">{bagItems.map((product) => <article key={product.id}><Image src={sitePath(product.image)} alt="" width={1120} height={1400} loading="lazy" unoptimized sizes="94px" /><div><b>{product.name}</b><span>${product.price} each</span><div><button type="button" onClick={() => updateBag(product.id, -1)} aria-label={`Remove one ${product.name}`}><Minus aria-hidden="true" /></button><output aria-label={`${bag[product.id]} in bag`}>{bag[product.id]}</output><button type="button" onClick={() => updateBag(product.id, 1)} aria-label={`Add one ${product.name}`}><Plus aria-hidden="true" /></button></div></div></article>)}</div><div className="pantry-bag-total"><span>Prototype subtotal</span><b>${subtotal}</b></div><button className="pantry-prepare" type="button" onClick={() => setOrderReady(true)}>{orderReady ? <><Check aria-hidden="true" /> Demo order prepared</> : <>Prepare demo order <ArrowRight aria-hidden="true" /></>}</button>{orderReady && <p className="pantry-order-note">Saved in this browser view only. No payment or delivery request was sent.</p>}</> : <div className="pantry-bag-empty"><ShoppingBag aria-hidden="true" /><h4>The page is still clean.</h4><p>Add a recipe sketch and it will appear here.</p><button type="button" onClick={() => setBagOpen(false)}>Keep looking</button></div>}</aside></PrototypeDrawer>}
     </div>
   );
 }

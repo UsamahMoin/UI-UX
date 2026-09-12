@@ -58,7 +58,7 @@ export default function Home() {
             <article className="gallery-card" key={project.slug}>
               <div className="gallery-visual" style={{ backgroundColor: project.palette }}>
                 <div className="gallery-preview" aria-hidden="true" inert>
-                  <ProjectExperience slug={project.slug} />
+                  <ProjectExperience preview slug={project.slug} />
                 </div>
                 <span className="gallery-number">{project.index}</span>
                 <a

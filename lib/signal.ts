@@ -89,6 +89,8 @@ export function validateData(value: unknown): value is SignalData {
   const account = (id: string) => d.accounts.some(a => a.id === id);
   if (!d.transactions.every(t => name(t.name) && cents(t.amount) && t.amount !== 0 && validDate(t.date) && t.date <= dateKey() && categories.includes(t.category) && account(t.accountId))) return false;
   if (!d.goals.every(g => name(g.name) && positive(g.target) && g.target > 0 && positive(g.saved) && g.saved <= g.target)) return false;
-  if (!d.bills.every(b => name(b.name) && positive(b.amount) && b.amount > 0 && validDate(b.date) && categories.includes(b.category) && account(b.accountId) && (!b.transactionId || d.transactions.some(t => t.id === b.transactionId)))) return false;
+  if (!d.bills.every(b => name(b.name) && positive(b.amount) && b.amount > 0 && validDate(b.date) && categories.includes(b.category) && account(b.accountId) && (!b.transactionId || d.transactions.some(t => t.id === b.transactionId && t.amount === -b.amount && t.accountId === b.accountId && t.category === b.category)))) return false;
+  const paymentIds = d.bills.flatMap(b => b.transactionId ? [b.transactionId] : []);
+  if (new Set(paymentIds).size !== paymentIds.length) return false;
   return !!d.budgets && categories.every(c => positive(d.budgets[c]));
 }
