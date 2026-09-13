@@ -5,6 +5,7 @@ import { sitePath } from '@/lib/site-path';
 // Purpose-built, inert covers: no ledger storage, effects, dialogs, or full apps.
 export function ProjectThumbnail({ slug, name }: { slug: string; name: string }) {
   return <div className={`project-cover cover-${slug}`}>
+    {slug === 'meridian' && <><Image unoptimized width={1024} height={1536} src={sitePath('/images/meridian-poster.png')} alt="" loading="lazy"/><h3>MIDNIGHT<small>ON MERIDIAN</small></h3><span className="cover-caption">THREE CLUES. ONE LAST TRAM.</span></>}
     <div className="cover-brand"><BrandMark slug={slug}/><b>{name}</b></div>
     {slug === 'nova' && <div className="cover-console"><span>THE DAILY PICTURE</span><h3>Clarity at a glance.</h3><div className="cover-metrics"><b>$469K<small>Pipeline</small></b><b>66.3%<small>Activation</small></b><b>03<small>To review</small></b></div><div className="cover-bars">{[58,44,70,48,62,85,56,73,65,91,74,82].map((n,i)=><i key={i} style={{height:`${n}%`}} />)}</div></div>}
     {slug === 'serein' && <><Image unoptimized width={1200} height={900} src={sitePath('/images/serein-human.webp')} alt="" loading="lazy"/><div className="cover-editorial"><span>KISO VALLEY / A CEDAR REFUGE</span><h3>Return to<br/><em>the quiet.</em></h3></div></>}

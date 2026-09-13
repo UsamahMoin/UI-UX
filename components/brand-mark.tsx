@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 
 const marks: Record<string, ReactNode> = {
+  meridian: <><path d="M8 40V8l16 19L40 8v32M5 45h38"/><circle cx="24" cy="9" r="4" fill="currentColor" stroke="none"/></>,
   nova: <><path d="M5 5h12v12H5zM31 5h12v12H31zM5 31h12v12H5zM31 31h12v12H31z"/><path d="m19 24 5-5 5 5-5 5z" fill="currentColor" stroke="none"/></>,
   serein: <><ellipse cx="24" cy="26" rx="16" ry="19" strokeWidth="1"/><path d="M31 15c-3-5-15-4-15 3 0 8 17 6 17 15 0 8-14 10-19 3M15 35v5M32 12v5" strokeWidth="2"/><path d="m24 1 3 4-3 3-3-3z" fill="currentColor" stroke="none"/></>,
   form: <><path d="M6 5h12v38H6zM23 5h19v10H23zM23 22h13v10H23z" fill="currentColor" stroke="none"/></>,

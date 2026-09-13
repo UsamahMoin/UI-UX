@@ -217,5 +217,25 @@ export const projectProcess: Record<string, ProjectProcess> = {
     "evidence": "Search, filters, bag quantities, subtotal, and simulated checkout are implemented. There is no fulfillment service or validated dietary-matching model.",
     "method": "Search-language research + task testing",
     "plan": "Ask prospective shoppers to describe a recent dinner decision and the words they would search for. Compare those terms with recipe labels before changing filters. Test a constrained shopping task and check whether people can explain the quantity and total; investigate dietary information separately before claiming suitability."
+  },
+  "meridian": {
+    "focus": "Let the audience enter the image.",
+    "audience": "Working audience assumption: a curious film or illustration fan arriving for the artwork, with only a short time to explore. A keyboard visitor needs the same story access as someone using the image markers.",
+    "hypothesis": "An illustrated poster may become more memorable when its details reveal a connected mystery. The risk is making people search for controls before they understand what the experience offers.",
+    "artifact": {
+      "kind": "NARRATIVE FLOW",
+      "title": "Look → discover → tune → reveal",
+      "body": "The sequence was designed for this original fictional film concept. It does not promote an existing release or imply audience research has occurred.",
+      "steps": [
+        "Choose a numbered detail in the poster or its equivalent text list.",
+        "Read the evidence and tune to its radio frequency.",
+        "Collect all three clues to unlock the final notebook page.",
+        "Reset the investigation to explore again."
+      ]
+    },
+    "decision": "The poster uses original AI-assisted illustration with live HTML title lettering and controls. The radio delivers written transmissions; it does not advertise a trailer or imply an audio recording exists.",
+    "evidence": "The implementation connects clue selection, discovery count, tuning, the final reveal, ink treatment, and reset in local page state. It is a high-fidelity narrative prototype, not a tested film-marketing campaign.",
+    "method": "First-click testing + narrative comprehension",
+    "plan": "Ask viewers what they expect to happen before touching the poster, then let them explore without guidance. Check whether the numbered details are discoverable, whether the dial makes sense, and whether the final reveal connects the clues. Repeat with keyboard and narrow-screen use; revise the invitations before adding more story branches."
   }
 };

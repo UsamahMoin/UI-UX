@@ -6,7 +6,7 @@ The public case studies now distinguish assumptions, implemented behavior, docum
 
 | Area | Strongest current examples | What is still missing |
 | --- | --- | --- |
-| Project introduction, user-centered framing, segmentation, hypothesis | All eleven case studies | Recruit against the proposed audience segments; validate the assumptions. |
+| Project introduction, user-centered framing, segmentation, hypothesis | All twelve case studies | Recruit against the proposed audience segments; validate the assumptions. |
 | Iteration and evaluation | AURA, SIGNAL, NOVA | Existing corrections came from portfolio review; collect task-based participant evidence next. |
 | Research methods | A tailored proposed study on every case study | Research plans are not research findings. |
 | Competitive/comparative analysis | SEREIN and ATELIER study plans | Select comparable sites, record dated observations and sources against explicit tasks, then draw supported conclusions. |
@@ -37,3 +37,7 @@ Interviews can explore a recent concrete decision; contextual inquiry can reveal
 ## Evidence record for future studies
 
 For each study, retain: the question, method and rationale, recruitment criteria, consent and privacy arrangements, protocol, raw observations, synthesis, design implications, alternatives considered, prototype changes, evaluation tasks, outcomes, and limitations. Separate what participants did from the designer's interpretation. Preserve unsuccessful iterations as well as the final design. Never retrofit a fabricated discovery phase around finished visuals.
+
+## Narrative interaction addition
+
+MERIDIAN adds an original film-poster experience: image-based discovery with a text-list alternative, connected story fragments, a tunable text receiver, and a gated ending. Its case study distinguishes implemented interaction from proposed first-click and comprehension testing. This broadens interaction design without filling the participant-research gap described above.

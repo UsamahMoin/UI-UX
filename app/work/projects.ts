@@ -163,6 +163,47 @@ export const projects: Project[] = [
     principles: ['Illustration creates appetite', 'Structure keeps the play legible', 'Every action explains its state'],
     palette: '#f0523a', accent: '#17130f', dark: false,
   },
+  {
+    "slug": "meridian",
+    "index": "12",
+    "name": "MERIDIAN",
+    "descriptor": "An Interactive Film Poster",
+    "category": "Cinema / Storytelling",
+    "year": "2026",
+    "philosophy": "A poster can hold a story before the first frame.",
+    "summary": "An original midnight mystery told through an illustrated city, three discoverable clues, and a radio dial that reveals fragments of the story.",
+    "theme": "Midnight in print",
+    "intentHeadline": "A film poster that rewards a closer look.",
+    "colorRationale": "Aubergine supplies the night, amber lights the city, coral picks out the last tram, and oxidized teal carries the architecture. Cream keeps the title and numbered clues legible against the illustration.",
+    "systemRationale": "Compressed uppercase film lettering sits inside the poster while serif story copy and monospaced evidence labels sit beside it. A text list offers the same discoveries as the illustrated hotspots, and the composition stacks on narrow screens.",
+    "interactionRationale": "Three numbered details reveal connected story fragments. Each clue supplies a radio frequency; tuning close to it reveals a written transmission. Finding all three opens the final dispatch. A reversible ink treatment and a reset control keep the exploration playful and recoverable.",
+    "paletteColors": [
+        {
+            "name": "Midnight ink",
+            "value": "#30152f"
+        },
+        {
+            "name": "Marquee amber",
+            "value": "#f5b83d"
+        },
+        {
+            "name": "Tram coral",
+            "value": "#ed694d"
+        },
+        {
+            "name": "Poster cream",
+            "value": "#fff0c9"
+        }
+    ],
+    "principles": [
+        "The illustration is the entrance",
+        "Curiosity has a keyboard path",
+        "Story rewards attention"
+    ],
+    "palette": "#f5b83d",
+    "accent": "#30152f",
+    "dark": false
+},
 ];
 
 export function getProject(slug: string) {

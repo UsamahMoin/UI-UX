@@ -4,7 +4,7 @@ Run before either production build. Only public project assets enter each ZIP.
 from pathlib import Path
 import json, re, zipfile
 root=Path(__file__).resolve().parent.parent
-slugs=['nova','serein','form','aura','vernacular','field','atelier','signal','civic','lumen','pantry']
+slugs=['nova','serein','form','aura','vernacular','field','atelier','signal','civic','lumen','pantry','meridian']
 names={s:s.upper() for s in slugs}; names['pantry']='SCRIBBLE'
 out=root/'public/downloads'; out.mkdir(exist_ok=True)
 package=json.loads((root/'package.json').read_text())

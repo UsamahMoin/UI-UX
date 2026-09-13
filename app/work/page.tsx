@@ -12,7 +12,7 @@ export default function WorkIndex() {
       </nav>
       <header className="work-list-header">
         <span className="eyebrow">Usamah Moin / Selected work</span>
-        <h1>Eleven projects.<br /><em>One point of view.</em></h1>
+        <h1>Twelve projects.<br /><em>One point of view.</em></h1>
         <p>This portfolio explores dashboards, culture, travel, finance, collaboration, and more. Each project shows how I adapt research, visual language, and interaction to a different human problem.</p>
       </header>
       <section className="work-list" aria-label="Project index">

@@ -9,6 +9,7 @@ import './lumen.css';
 import './identity.css';
 import './accessibility.css';
 import './experience.css';
+import './meridian.css';
 
 const siteOrigin = process.env.NEXT_PUBLIC_SITE_ORIGIN ?? 'https://atelier-index-ui-ux.usamahmoin.chatgpt.site';
 
@@ -28,13 +29,13 @@ export const metadata: Metadata = {
   description: 'The interface portfolio of Usamah Moin: an engineer exploring product thinking, technical prototypes, visual systems, and design critique.',
   openGraph: {
     title: 'Usamah Moin | Product Engineer',
-    description: 'Eleven working interface studies where engineering judgment meets a strong visual point of view.',
+    description: 'Twelve working interface studies where engineering judgment meets a strong visual point of view.',
     images: [],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Usamah Moin | Product Engineer',
-    description: 'Eleven working interface studies where engineering judgment meets a strong visual point of view.',
+    description: 'Twelve working interface studies where engineering judgment meets a strong visual point of view.',
     images: [],
   },
 };

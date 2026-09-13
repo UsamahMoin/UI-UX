@@ -19,7 +19,7 @@ export default function Home() {
         </div>
 
         <div className="gallery-nav-links">
-          <a href="#work">Work <span>11</span></a>
+          <a href="#work">Work <span>{projects.length}</span></a>
           <a href="https://github.com/UsamahMoin">GitHub <ArrowUpRight /></a>
         </div>
       </nav>
@@ -50,7 +50,7 @@ export default function Home() {
             <h2 id="gallery-title">Working points of view.</h2>
           </div>
           <p>
-            Eleven live interface studies, each with its own visual language, interaction model, and design philosophy. Open any frame to explore the working prototype.
+            Twelve live interface studies, each with its own visual language, interaction model, and design philosophy. Open any frame to explore the working prototype.
           </p>
         </header>
 

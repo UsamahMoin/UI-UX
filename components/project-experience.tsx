@@ -11,6 +11,7 @@ import {
   Sparkles, X,
 } from 'lucide-react';
 
+import { MeridianPoster } from '@/components/meridian-poster';
 import { AuraNavigation } from '@/components/aura-navigation';
 import { BrandMark } from '@/components/brand-mark';
 import { SignalDashboard } from '@/components/signal-dashboard';
@@ -20,6 +21,7 @@ import { sitePath } from '@/lib/site-path';
 
 export function ProjectExperience({ slug, preview = false }: { slug: string; preview?: boolean }) {
   switch (slug) {
+    case 'meridian': return <MeridianPoster />;
     case 'nova': return <Nova />;
     case 'serein': return <Serein />;
     case 'form': return <Form />;
