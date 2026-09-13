@@ -22,7 +22,7 @@ export type Project = {
 export const projects: Project[] = [
   {
     slug: 'nova', index: '01', name: 'NOVA', descriptor: 'Intelligence Console', category: 'Product / Data', year: '2026',
-    philosophy: 'Complexity should feel composed, never concealed.',
+    philosophy: 'A clear view of what needs attention.',
     summary: 'A decision cockpit that turns noisy operations data into a calm daily rhythm for product leaders.',
     theme: 'Operational calm',
     intentHeadline: 'A dashboard that earns attention by rationing it.',
@@ -151,7 +151,7 @@ export const projects: Project[] = [
     palette: '#f1eadb', accent: '#d34832', dark: false,
   },
   {
-    slug: 'pantry', index: '11', name: 'PANTRY', descriptor: 'Sketch Market', category: 'Food / Marketplace', year: '2026',
+    slug: 'pantry', index: '11', name: 'SCRIBBLE', descriptor: 'Sketch Market', category: 'Food / Marketplace', year: '2026',
     philosophy: 'Choice feels good when it starts with appetite.',
     summary: 'A sketch-led meal market where loose marker drawings turn seasonal ingredients into clear, purchasable dinner ideas.',
     theme: 'The cook’s field notebook',

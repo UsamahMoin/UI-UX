@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { ArrowLeft, ArrowRight, Bookmark, Check, Headphones, Home, Info, Pause, Play, Search, Sparkles } from 'lucide-react';
 
+import { BrandMark } from '@/components/brand-mark';
 import { sitePath } from '@/lib/site-path';
 
 type AuraSection = 'library' | 'rituals' | 'about';
@@ -24,7 +25,7 @@ const rituals = [
 
 export function AuraSite({ section }: { section: AuraSection }) {
   const destinations = [
-    { label: 'Listening room', href: '/work/aura', icon: Home },
+    { label: 'Listening room', href: '/work/aura/experience', icon: Home },
     { label: 'Library', href: '/work/aura/library', icon: Headphones, section: 'library' },
     { label: 'Rituals', href: '/work/aura/rituals', icon: Sparkles, section: 'rituals' },
     { label: 'About', href: '/work/aura/about', icon: Info, section: 'about' },
@@ -33,9 +34,9 @@ export function AuraSite({ section }: { section: AuraSection }) {
   return (
     <main className={`aura-site aura-site-${section}`}>
       <nav className="aura-site-nav">
-        <a className="aura-site-mark" href={sitePath('/work/aura')}>aura°</a>
+        <a className="aura-site-mark" href={sitePath('/work/aura/experience')}><BrandMark slug="aura"/>aura</a>
         <div className="aura-site-status"><span>VISUAL DEMO</span><i aria-hidden="true" /> <span>NO AUDIO</span></div>
-        <a className="aura-site-back" href={sitePath('/work/aura')}><ArrowLeft /> Listening room</a>
+        <a className="aura-site-back" href={sitePath('/work/aura/experience')}><ArrowLeft /> Listening room</a>
       </nav>
       <aside className="aura-os-rail" aria-label="AURA navigation">
         {destinations.map((destination) => {
@@ -73,7 +74,7 @@ function AuraLibrary() {
   };
 
   return <>
-    <section className={`aura-os-stage ${active.color}`} aria-labelledby="aura-library-title">
+    <section className={`aura-os-stage ${active.color} ${playing === active.title ? 'is-previewing' : ''}`} aria-labelledby="aura-library-title">
       <div className="aura-os-scene" aria-hidden="true"><i /><b /><span /></div>
       <div className="aura-os-stage-copy">
         <span>CURATED LISTENING / {active.tone.toUpperCase()} / {active.duration}</span>
@@ -123,8 +124,8 @@ function AuraRituals() {
 function AuraAbout() {
   return <>
     <header className="aura-site-hero about-hero"><span>ABOUT THE LISTENING ROOM</span><h1>Technology can<br />leave room for silence.</h1><p>AURA explores what an audio product becomes when emotional intention, rather than catalog size, organizes the experience.</p></header>
-    <section className="aura-about-intro"><span>THE IDEA / 2025</span><p>AURA is a fictional product concept designed and built by <strong>Usamah Moin</strong>, an engineer with taste working across systems, interfaces, and human behavior.</p></section>
+    <section className="aura-about-intro"><span>THE IDEA / 2025</span><p>AURA is a fictional product concept designed and built by <strong>Usamah Moin</strong>, a product engineer working across systems, interfaces, and human behavior.</p></section>
     <section className="aura-about-grid"><article><span>01</span><h2>Emotion before genre</h2><p>Still, Open, and Warm are human descriptions of need. They help people begin with the state they want rather than the taxonomy of a music catalog.</p></article><article><span>02</span><h2>Motion stays peripheral</h2><p>The lightscape moves slowly, begins only after direct action, and never carries essential information. It supports atmosphere without competing with listening.</p></article><article><span>03</span><h2>Quiet is accessible</h2><p>High-contrast controls, visible focus states, large touch targets, clear playback labels, and reduced-motion support are part of the product’s calm, not additions after it.</p></article></section>
-    <section className="aura-about-note"><span>DESIGN INTENT</span><blockquote>“The best listening interface knows when to disappear.”</blockquote><a href={sitePath('/work/aura/library')}>Enter the library <ArrowRight /></a></section>
+    <section className="aura-about-note"><span>MAKE TIME TO LISTEN</span><blockquote>“The best listening interface knows when to disappear.”</blockquote><a href={sitePath('/work/aura/library')}>Enter the library <ArrowRight /></a></section>
   </>;
 }

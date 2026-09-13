@@ -4,7 +4,7 @@ import { FormArchive } from '@/components/form-archive';
 import { sitePath } from '@/lib/site-path';
 
 const siteOrigin = process.env.NEXT_PUBLIC_SITE_ORIGIN ?? 'https://atelier-index-ui-ux.usamahmoin.chatgpt.site';
-const previewImage = new URL(sitePath('/images/form-human.png'), siteOrigin).toString();
+const previewImage = new URL(sitePath('/images/form-human.webp'), siteOrigin).toString();
 
 export const metadata: Metadata = {
   title: 'FORM | Independent Culture Archive',

@@ -1,6 +1,7 @@
 import { ArrowDownRight, ArrowUpRight, Asterisk, Code } from 'lucide-react';
 
-import { ProjectExperience } from '@/components/project-experience';
+import { ProjectThumbnail } from '@/components/project-thumbnail';
+import { BrandMark } from '@/components/brand-mark';
 import { sitePath } from '@/lib/site-path';
 import { projects } from './work/projects';
 
@@ -26,7 +27,7 @@ export default function Home() {
       <header className="gallery-intro">
         <div>
           <span className="gallery-kicker"><Asterisk /> Engineering, interfaces &amp; ideas</span>
-          <h1>An engineer<br /><em>with taste.</em></h1>
+          <h1>Ideas, built<br /><em>to be used.</em></h1>
         </div>
 
         <div className="gallery-intro-copy">
@@ -58,7 +59,7 @@ export default function Home() {
             <article className="gallery-card" key={project.slug}>
               <div className="gallery-visual" style={{ backgroundColor: project.palette }}>
                 <div className="gallery-preview" aria-hidden="true" inert>
-                  <ProjectExperience preview slug={project.slug} />
+                  <ProjectThumbnail slug={project.slug} name={project.name} />
                 </div>
                 <span className="gallery-number">{project.index}</span>
                 <a
@@ -73,7 +74,7 @@ export default function Home() {
 
               <div className="gallery-card-meta">
                 <a href={sitePath(`/work/${project.slug}`)}>
-                  <span className="gallery-avatar">{project.name.slice(0, 1)}</span>
+                  <span className="gallery-avatar"><BrandMark slug={project.slug} /></span>
                   <span><strong>{project.name}</strong><small>{project.descriptor}</small></span>
                 </a>
                 <span>{project.category}<small>{project.year}</small></span>
@@ -85,7 +86,7 @@ export default function Home() {
 
       <section className="gallery-statement" aria-labelledby="statement-title">
         <span>Position / practice</span>
-        <h2 id="statement-title">I work where engineering judgment meets interface taste.</h2>
+        <h2 id="statement-title">I turn product questions into working interfaces.</h2>
         <div>
           <p>
             These studies show how I frame problems, establish a visual point of view, and turn ideas into working prototypes. They create useful ground for UI/UX consulting, product engineering, and teaching.
@@ -96,7 +97,7 @@ export default function Home() {
 
       <footer className="gallery-footer">
         <strong>Usamah Moin</strong>
-        <span>Engineer with taste · Chicago</span>
+        <span>Product engineering · Chicago</span>
         <a href="#top">Back to top ↑</a>
       </footer>
     </main>

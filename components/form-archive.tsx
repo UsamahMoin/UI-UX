@@ -1,9 +1,11 @@
 'use client';
+import Image from 'next/image';
 
 import { useMemo, useState } from 'react';
 import { ArrowLeft, ArrowRight, Search, X } from 'lucide-react';
 
 import { formStories } from '@/app/work/form/archive/content';
+import { BrandMark } from '@/components/brand-mark';
 import { sitePath } from '@/lib/site-path';
 
 const categories = ['All', 'Objects', 'People', 'Ideas'];
@@ -19,9 +21,9 @@ export function FormArchive() {
   return (
     <main className="form-site">
       <nav className="form-site-nav">
-        <a className="form-site-wordmark" href={sitePath('/work/form/archive')}>FORM</a>
+        <a className="form-site-wordmark" href={sitePath('/work/form/archive')}><BrandMark slug="form"/>FORM</a>
         <span>INDEPENDENT CULTURE · ISSUE 14</span>
-        <a href={sitePath('/work/form')}><ArrowLeft /> Portfolio view</a>
+        <a href={sitePath('/work/form/experience')}><ArrowLeft /> Home</a>
       </nav>
       <header className="form-site-hero">
         <div><span>AN EXPANDING ARCHIVE OF</span><h1>Things worth<br /><em>keeping.</em></h1></div>
@@ -34,7 +36,7 @@ export function FormArchive() {
       </section>
       {results.length ? (
         <section className="form-archive-grid">
-          {results.map((story, index) => <article className={`form-archive-item form-archive-item-${index + 1}`} key={story.slug} style={{ '--form-story-color': story.color } as React.CSSProperties}><a href={sitePath(`/work/form/archive/${story.slug}`)}><figure><img src={sitePath(story.image)} alt={story.alt} /><span>{story.number}</span></figure><div><span>{story.format} · {story.readTime}</span><h2>{story.title}</h2><p>{story.dek}</p><span className="form-read-link">Open story <ArrowRight /></span></div></a></article>)}
+          {results.map((story, index) => <article className={`form-archive-item form-archive-item-${index + 1}`} key={story.slug} style={{ '--form-story-color': story.color } as React.CSSProperties}><a href={sitePath(`/work/form/archive/${story.slug}`)}><figure><Image unoptimized width={1536} height={1024} src={sitePath(story.image)} alt={story.alt} /><span>{story.number}</span></figure><div><span>{story.format} · {story.readTime}</span><h2>{story.title}</h2><p>{story.dek}</p><span className="form-read-link">Open story <ArrowRight /></span></div></a></article>)}
         </section>
       ) : (
         <section className="form-empty"><span>NOTHING FILED HERE YET.</span><h2>Try a broader word<br />or clear the filter.</h2><button onClick={() => { setQuery(''); setCategory('All'); }}>Reset the archive</button></section>

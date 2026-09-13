@@ -1,16 +1,17 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { PointerEvent as ReactPointerEvent } from 'react';
 import Image from 'next/image';
 import {
   ArrowRight, Bookmark,
-  Check, ChevronRight, CircleDollarSign,
+  Check,
   Download, Headphones, Heart, Info, MapPin, Menu, Minus, Moon,
   Pause, Plus, Search, ShoppingBag, Sun,
   Sparkles, X,
 } from 'lucide-react';
 
+import { BrandMark } from '@/components/brand-mark';
 import { SignalDashboard } from '@/components/signal-dashboard';
 import { NovaDashboard } from '@/components/nova-dashboard';
 import { PrototypeDrawer } from '@/components/prototype-drawer';
@@ -42,11 +43,11 @@ function Serein() {
   const isNight = season === 'night';
   return (
     <div className={`demo serein-demo ${season}`}>
-      <nav><b>SEREIN</b><span>Field notes&nbsp;&nbsp; Residences&nbsp;&nbsp; Our way</span><button className="serein-season-toggle" onClick={() => setSeason(isNight ? 'day' : 'night')} aria-pressed={isNight} aria-label={`Switch to ${isNight ? 'dawn' : 'dusk'} scene`}><i>{isNight ? <Sun /> : <Moon />}</i><span><small>Switch to</small>{isNight ? 'Dawn' : 'Dusk'}</span></button></nav>
+      <nav><b className="brand-lockup"><BrandMark slug="serein"/>SEREIN</b><span>Field notes&nbsp;&nbsp; Residences&nbsp;&nbsp; Our way</span><button className="serein-season-toggle" onClick={() => setSeason(isNight ? 'day' : 'night')} aria-pressed={isNight} aria-label={`Switch to ${isNight ? 'dawn' : 'dusk'} scene`}><i>{isNight ? <Sun /> : <Moon />}</i><span><small>Switch to</small>{isNight ? 'Dawn' : 'Dusk'}</span></button></nav>
       <section><span className="serein-number">N° 03 / KISO VALLEY</span><h2>Return to<br /><em>the quiet.</em></h2><p>A cedar refuge shaped by mist, mountain water, and the restorative luxury of having nowhere else to be.</p><div className="serein-actions"><a href={sitePath('/work/serein/residence')}>Explore the residence <ArrowRight /></a></div></section>
       <div className="serein-landscape">
-        <img className={`serein-scene ${!isNight ? 'active' : ''}`} src={sitePath('/images/serein-human.png')} alt={isNight ? '' : 'Traveler having tea in a cedar retreat on a misty morning'} aria-hidden={isNight} />
-        <img className={`serein-scene serein-scene-dusk ${isNight ? 'active' : ''}`} src={sitePath('/images/serein-dusk-v2.png')} alt={isNight ? 'Traveler having tea in a cedar retreat at blue-hour dusk' : ''} aria-hidden={!isNight} />
+        <Image unoptimized width={1536} height={1024} className={`serein-scene ${!isNight ? 'active' : ''}`} src={sitePath('/images/serein-human.webp')} alt={isNight ? '' : 'Traveler having tea in a cedar retreat on a misty morning'} aria-hidden={isNight} />
+        <Image unoptimized width={1536} height={1024} className={`serein-scene serein-scene-dusk ${isNight ? 'active' : ''}`} src={sitePath('/images/serein-dusk-v2.webp')} alt={isNight ? 'Traveler having tea in a cedar retreat at blue-hour dusk' : ''} aria-hidden={!isNight} />
       </div>
       <div className="serein-coordinates" aria-label="Location: 35 degrees 51 minutes north, 137 degrees 41 minutes east"><small>Location</small><span>35°51′ N</span><span>137°41′ E</span></div>
       <footer><span>08 suites</span><span>Forest onsen</span><span>Seasonal table</span><span>Open Oct to May</span></footer>
@@ -57,19 +58,19 @@ function Serein() {
 function Form() {
   const [filter, setFilter] = useState('All matter');
   const items = [
-    { title: 'A chair that refuses to sit still', meta: 'OBJECT / 1984', tone: 'form-red', slug: 'kinetic-chair', group: 'Objects', image: '/images/form-kinetic-chair.png', alt: 'Kinetic postmodern chair displayed in a raw gallery workshop' },
-    { title: 'Dancing with the building', meta: 'FILM / 11:08', tone: 'form-yellow', slug: 'dancing-building', group: 'Ideas', image: '/images/form-dancing-building.png', alt: 'Contemporary dancer moving through severe concrete architecture' },
-    { title: 'The useful accident', meta: 'CONVERSATION / 042', tone: 'form-ink', slug: 'useful-accident', group: 'People', image: '/images/form-useful-accident.png', alt: 'Two designers in conversation across a material-covered studio table' },
-    { title: 'Soft architecture', meta: 'ESSAY / 8 MIN', tone: 'form-mint', slug: 'soft-architecture', group: 'Ideas', image: '/images/form-soft-architecture.png', alt: 'Translucent textile partitions shaping light around a small human silhouette' },
-    { title: 'Studio visit: Mina Park', meta: 'PLACE / SEOUL', tone: 'form-lilac', slug: 'mina-park', group: 'People', image: '/images/form-human.png', alt: 'Independent designer arranging work in a colorful studio' },
+    { title: 'A chair that refuses to sit still', meta: 'OBJECT / 1984', tone: 'form-red', slug: 'kinetic-chair', group: 'Objects', image: '/images/form-kinetic-chair.webp', alt: 'Kinetic postmodern chair displayed in a raw gallery workshop' },
+    { title: 'Dancing with the building', meta: 'FILM / 11:08', tone: 'form-yellow', slug: 'dancing-building', group: 'Ideas', image: '/images/form-dancing-building.webp', alt: 'Contemporary dancer moving through severe concrete architecture' },
+    { title: 'The useful accident', meta: 'CONVERSATION / 042', tone: 'form-ink', slug: 'useful-accident', group: 'People', image: '/images/form-useful-accident.webp', alt: 'Two designers in conversation across a material-covered studio table' },
+    { title: 'Soft architecture', meta: 'ESSAY / 8 MIN', tone: 'form-mint', slug: 'soft-architecture', group: 'Ideas', image: '/images/form-soft-architecture.webp', alt: 'Translucent textile partitions shaping light around a small human silhouette' },
+    { title: 'Studio visit: Mina Park', meta: 'PLACE / SEOUL', tone: 'form-lilac', slug: 'mina-park', group: 'People', image: '/images/form-human.webp', alt: 'Independent designer arranging work in a colorful studio' },
   ];
   const visibleItems = filter === 'All matter' ? items : items.filter((item) => item.group === filter);
   return (
     <div className="demo form-demo">
-      <header><b>FORM</b><a className="form-search-link" href={sitePath('/work/form/archive')}><Search /> Search the archive</a><a className="form-menu-link" href={sitePath('/work/form/archive')} aria-label="Open FORM archive"><Menu aria-hidden="true" /></a></header>
+      <header><b className="brand-lockup"><BrandMark slug="form"/>FORM</b><a className="form-search-link" href={sitePath('/work/form/archive')}><Search /> Search the archive</a><a className="form-menu-link" href={sitePath('/work/form/archive')} aria-label="Open FORM archive"><Menu aria-hidden="true" /></a></header>
       <div className="form-title"><span>INDEPENDENT CULTURE / ISSUE 14</span><h2>Things worth<br />keeping.</h2><p>An expanding archive of people and objects that alter how we see the everyday.</p></div>
       <div className="form-filters">{['All matter','Objects','People','Ideas'].map(item => <button key={item} className={filter === item ? 'active' : ''} onClick={() => setFilter(item)} aria-pressed={filter === item}>{item}</button>)}</div>
-      <div className="form-grid">{visibleItems.map((item) => { const i = items.findIndex((entry) => entry.slug === item.slug); return <article key={item.slug} className={`${item.tone} form-card-${item.slug}`}><a className="form-card-hit" href={sitePath(`/work/form/archive/${item.slug}`)} aria-label={`Read ${item.title}`} /><img className="form-card-image" src={sitePath(item.image)} alt={item.alt} /><span>{String(i+1).padStart(2,'0')}</span><small>{item.meta}</small><h3>{item.title}</h3><ArrowRight /></article>; })}</div>
+      <div className="form-grid">{visibleItems.map((item) => { const i = items.findIndex((entry) => entry.slug === item.slug); return <article key={item.slug} className={`${item.tone} form-card-${item.slug}`}><a className="form-card-hit" href={sitePath(`/work/form/archive/${item.slug}`)} aria-label={`Read ${item.title}`} /><Image unoptimized width={1536} height={1024} className="form-card-image" src={sitePath(item.image)} alt={item.alt} /><span>{String(i+1).padStart(2,'0')}</span><small>{item.meta}</small><h3>{item.title}</h3><ArrowRight /></article>; })}</div>
     </div>
   );
 }
@@ -84,7 +85,9 @@ function Aura() {
   const [playing, setPlaying] = useState(false);
   const [saved, setSaved] = useState(false);
   const [tone, setTone] = useState('Still');
-  const [elapsed, setElapsed] = useState(0);
+  const [elapsed, setElapsedState] = useState(0);
+  const elapsedRef = useRef(0);
+  const setElapsed = useCallback((value: number) => {elapsedRef.current = value; setElapsedState(value);}, []);
   const totalSeconds = ({ Still: 24, Open: 32, Warm: 18 }[tone] ?? 24) * 60;
   const session = {
     Still: { title: 'Blue Hour, Slowly', cue: 'A steady field for settling in' },
@@ -94,18 +97,19 @@ function Aura() {
 
   useEffect(() => {
     if (!playing) return;
-    const timer = window.setInterval(() => {
-      setElapsed((current) => {
-        if (current >= totalSeconds - 0.1) {
-          window.clearInterval(timer);
-          setPlaying(false);
-          return totalSeconds;
-        }
-        return Math.min(totalSeconds, current + 0.1);
-      });
-    }, 100);
-    return () => window.clearInterval(timer);
-  }, [playing, totalSeconds]);
+    let frame = 0;
+    let previous = performance.now();
+    const tick = (now: number) => {
+      const delta = Math.min((now - previous) / 1000, 0.1);
+      previous = now;
+      const next = Math.min(totalSeconds, elapsedRef.current + delta);
+      setElapsed(next);
+      if (next >= totalSeconds) setPlaying(false);
+      else frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [playing, totalSeconds, setElapsed]);
 
   useEffect(() => {
     const tracker = trackerRef.current;
@@ -167,16 +171,16 @@ function Aura() {
   };
   return (
     <div className={`demo aura-demo tone-${tone.toLowerCase()} ${playing ? 'is-playing' : ''}`}>
-      <nav className="aura-demo-top"><a href={sitePath('/work/aura')} aria-label="AURA home"><b>aura°</b></a><span className="aura-demo-status"><i aria-hidden="true" /> VISUAL SESSION DEMO</span><button onClick={() => setSaved(!saved)} aria-label={saved ? 'Remove listening session from saved' : 'Save listening session'} aria-pressed={saved}><Bookmark fill={saved ? 'currentColor' : 'none'} /></button></nav>
+      <nav className="aura-demo-top"><a href={sitePath('/work/aura/experience')} aria-label="AURA home"><b className="brand-lockup"><BrandMark slug="aura"/>aura</b></a><span className="aura-demo-status"><i aria-hidden="true" /> VISUAL SESSION DEMO</span><button onClick={() => setSaved(!saved)} aria-label={saved ? 'Remove listening session from saved' : 'Save listening session'} aria-pressed={saved}><Bookmark fill={saved ? 'currentColor' : 'none'} /></button></nav>
       <aside className="aura-demo-rail" aria-label="Explore AURA"><a href={sitePath('/work/aura/library')} aria-label="Library"><Headphones /><span>Library</span></a><a href={sitePath('/work/aura/rituals')} aria-label="Rituals"><Sparkles /><span>Rituals</span></a><a href={sitePath('/work/aura/about')} aria-label="About"><Info /><span>About</span></a></aside>
-      <main>
+      <div className="prototype-main">
         <div className={`aura-lightscape ${playing ? 'playing' : ''}`} aria-hidden="true"><span className="aura-wash"/><span className="aura-veil aura-veil-one"/><span className="aura-veil aura-veil-two"/></div>
         <section className="aura-demo-copy"><small>VISUAL SESSION / {totalSeconds / 60} MIN</small><h2>Make space<br />for <em>{tone.toLowerCase()}.</em></h2>
-          <div className="aura-breath-cue" aria-live="polite"><span>{playing ? 'Let the room move slowly around you' : session.cue}</span><small>{playing ? 'Slow light · one unhurried cycle every 11 seconds' : 'The room stays still until you begin'}</small></div>
-          <div className="aura-player"><div className="aura-player-info"><b>{session.title}</b><div className={`aura-wave-tracker ${dragging ? 'is-dragging' : ''}`} ref={trackerRef}><svg viewBox={`0 0 ${trackerWidth} 64`} preserveAspectRatio="none" aria-hidden="true"><path className="track" d={wavePath}/></svg><input style={{left: `${waveRadius}px`, right: `${waveRadius}px`, width: 'auto'}} type="range" min="0" max={totalSeconds} step="0.1" value={elapsed} onPointerDown={() => setDragging(true)} onPointerUp={() => setDragging(false)} onPointerCancel={() => setDragging(false)} onChange={(event) => setElapsed(Number(event.target.value))} aria-label={`Seek ${session.title}`} /><button type="button" className={`aura-playhead-button ${playing ? 'playing' : ''}`} style={{left: `${playheadX}px`}} onPointerDown={beginPlayheadDrag} onPointerMove={movePlayhead} onPointerUp={endPlayheadDrag} onPointerCancel={() => { dragStartX.current = null; setDragging(false); }} onClick={() => { if (suppressPlayheadClick.current) { suppressPlayheadClick.current = false; return; } if (!playing && elapsed >= totalSeconds) setElapsed(0); setPlaying(!playing); }} aria-label={playing ? 'Pause session or drag to seek' : 'Play session or drag to seek'} aria-pressed={playing}>{playing ? <Pause aria-hidden="true" /> : <span className="sr-only">Play</span>}</button></div><div className="aura-player-times"><time>{minutes}:{seconds}</time><span>NO AUDIO CONNECTED</span><time>-{remainingMinutes}:{remainingSeconds}</time></div></div></div>
+          <div className="aura-breath-cue" aria-live="polite"><span>{playing ? 'Let the room move slowly around you' : session.cue}</span><small>{playing ? 'Slow light · drifting behind frosted glass' : 'The room stays still until you begin'}</small></div>
+          <div className="aura-player"><div className="aura-player-info"><b>{session.title}</b><div className={`aura-wave-tracker ${dragging ? 'is-dragging' : ''}`} ref={trackerRef}><svg viewBox={`0 0 ${trackerWidth} 64`} preserveAspectRatio="none" aria-hidden="true"><path className="track" d={wavePath}/></svg><input style={{left: `${waveRadius}px`, right: `${waveRadius}px`, width: 'auto'}} type="range" min="0" max={totalSeconds} step="1" value={elapsed} onPointerDown={() => setDragging(true)} onPointerUp={() => setDragging(false)} onPointerCancel={() => setDragging(false)} onChange={(event) => setElapsed(Number(event.target.value))} aria-label={`Seek ${session.title}`} aria-valuetext={`${minutes}:${seconds} of ${totalSeconds / 60} minutes`} /><button type="button" className={`aura-playhead-button ${playing ? 'playing' : ''}`} style={{left: `${playheadX}px`}} onPointerDown={beginPlayheadDrag} onPointerMove={movePlayhead} onPointerUp={endPlayheadDrag} onPointerCancel={() => { dragStartX.current = null; setDragging(false); }} onClick={() => { if (suppressPlayheadClick.current) { suppressPlayheadClick.current = false; return; } if (!playing && elapsed >= totalSeconds) setElapsed(0); setPlaying(!playing); }} aria-label={playing ? 'Pause session or drag to seek' : 'Play session or drag to seek'} aria-pressed={playing}>{playing ? <Pause aria-hidden="true" /> : <span className="sr-only">Play</span>}</button></div><div className="aura-player-times"><time>{minutes}:{seconds}</time><span>NO AUDIO CONNECTED</span><time>-{remainingMinutes}:{remainingSeconds}</time></div></div></div>
         </section>
         <aside className="aura-demo-context" aria-live="polite"><div><span>ENVIRONMENT</span><strong>{playing ? 'Previewing' : 'Ready'}</strong></div><div className={`aura-demo-wave ${playing ? 'active' : ''}`} aria-hidden="true">{[4,8,5,11,7,13,9,5,10,6,8,4].map((height, index) => <i key={index} style={{height: `${height * 2}px`}} />)}</div><small>{tone} · {session.title}</small><a href={sitePath('/work/aura/library')}>Open library <ArrowRight /></a></aside>
-      </main>
+      </div>
       <footer><span>Choose your environment</span><div>{['Still','Open','Warm'].map(item => <button key={item} onClick={() => { setTone(item); setPlaying(false); setElapsed(0); }} className={tone === item ? 'active' : ''} aria-pressed={tone === item}>{item}</button>)}</div></footer>
     </div>
   );
@@ -202,14 +206,14 @@ function Vernacular() {
   return (
     <div className="demo vernacular-demo" id="vernacular-top">
       <header className="vnl-nav">
-        <a className="vnl-logo" href="#vernacular-top" aria-label="Vernacular Paper home">VNL<span>/</span>PAPER</a>
+        <a className="vnl-logo" href="#vernacular-top" aria-label="Vernacular Paper home"><BrandMark slug="vernacular"/>VNL<span>/</span>PAPER</a>
         <nav aria-label="Vernacular product navigation"><a href="#product">Product</a><a href="#material">Material</a><a href="#system">System</a></nav>
         <a className="vnl-bag" href="#buy" aria-label={`${bagQuantity} pack${bagQuantity === 1 ? '' : 's'} in bag`}><ShoppingBag aria-hidden="true" /> Bag <span>{String(bagQuantity).padStart(2, '0')}</span></a>
       </header>
 
-      <main>
+      <div className="prototype-main">
         <section className="vnl-hero" id="product">
-          <img src={sitePath('/images/vernacular-plates-hero.jpg')} alt="Stacked molded-fiber paper plates staged on cobalt and yellow blocks" />
+          <Image unoptimized width={1536} height={1024} src={sitePath('/images/vernacular-plates-hero.jpg')} alt="Stacked molded-fiber paper plates staged on cobalt and yellow blocks" />
           <div className="vnl-hero-copy">
             <span className="vnl-kicker">OBJECT 001 / MOLDED FIBER</span>
             <h2>Hold more.<br /><em>Waste less.</em></h2>
@@ -223,7 +227,7 @@ function Vernacular() {
         <div className="vnl-marquee" aria-label="Product principles"><div><span>NO SAD PLATES</span><i>●</i><span>PLANT FIBER</span><i>●</i><span>BUILT TO HOLD</span><i>●</i><span>NO SAD PLATES</span><i>●</i><span>PLANT FIBER</span></div></div>
 
         <section className="vnl-material" id="material">
-          <div className="vnl-material-image"><img src={sitePath('/images/vernacular-plates-detail.jpg')} alt="Macro view of thick molded-fiber plate rims and pressed reinforcement ribs" /><span>MACRO / 4×</span></div>
+          <div className="vnl-material-image"><Image unoptimized width={1536} height={1024} src={sitePath('/images/vernacular-plates-detail.jpg')} alt="Macro view of thick molded-fiber plate rims and pressed reinforcement ribs" /><span>MACRO / 4×</span></div>
           <div className="vnl-material-copy"><span>WHY THIS FORM</span><h3>Fiber has a<br />point of view.</h3><p>The rough edge stays visible. The ribs do the structural work. The warm-white surface avoids pretending to be porcelain. Every choice lets the material explain itself.</p><div className="vnl-spec-grid"><div><b>01</b><span>Pressed radial ribs</span></div><div><b>02</b><span>Deep spill-aware rim</span></div><div><b>03</b><span>Uncoated tactile finish</span></div><div><b>04</b><span>Stack-first geometry</span></div></div></div>
         </section>
 
@@ -243,9 +247,9 @@ function Vernacular() {
           </div>
           {bagQuantity > 0 && <div className="vnl-bag-summary"><h4>Concept bag · ${bagTotal}</h4>{packs.filter(item => bag[item.count]).map(item => <div key={item.count}><span>{bag[item.count]} × pack of {item.count} · ${bag[item.count] * item.price}</span><button type="button" aria-label={`Remove one pack of ${item.count}`} onClick={() => setBag(current => ({ ...current, [item.count]: Math.max(0, (current[item.count] ?? 0) - 1) }))}>Remove one</button></div>)}<p>Local demo · resets on reload. No order is placed.</p></div>}
         </section>
-      </main>
+      </div>
 
-      <footer className="vnl-footer"><a className="vnl-logo" href="#vernacular-top">VNL<span>/</span>PAPER</a><p>Vernacular is a speculative product-design study by Usamah Moin, combining engineering discipline with visual taste.</p><a href={sitePath('/')}>Back to index <ArrowRight aria-hidden="true" /></a></footer>
+
     </div>
   );
 }
@@ -255,9 +259,9 @@ function Field() {
   const [layer, setLayer] = useState<'Terrain' | 'Water' | 'Shelter'>('Terrain');
   const [savedRoutes, setSavedRoutes] = useState<string[]>([]);
   const routes = [
-    { code: 'R-01', name: 'Fern Canyon Loop', miles: '6.8 MI', time: '3H 20M', gain: '1,240 FT', grade: 'MODERATE', color: '#ff5b38', path: 'M 86 548 C 152 505 184 454 246 447 C 316 438 330 361 397 346 C 468 330 464 260 536 246 C 621 229 655 164 731 191 C 808 218 835 148 914 112', points: [[86,548],[397,346],[731,191],[914,112]], note: 'Old-growth cedar, a narrow creek crossing, and a quiet final ridge.' },
+    { code: 'R-01', name: 'Fern Canyon Loop', miles: '6.8 MI', time: '3H 20M', gain: '1,240 FT', grade: 'MODERATE', color: '#b5321b', path: 'M 86 548 C 152 505 184 454 246 447 C 316 438 330 361 397 346 C 468 330 464 260 536 246 C 621 229 655 164 731 191 C 808 218 835 148 914 112', points: [[86,548],[397,346],[731,191],[914,112]], note: 'Old-growth cedar, a narrow creek crossing, and a quiet final ridge.' },
     { code: 'R-02', name: 'Juniper Ridge', miles: '4.2 MI', time: '2H 05M', gain: '860 FT', grade: 'STEADY', color: '#214fd1', path: 'M 104 144 C 183 158 208 213 276 229 C 348 246 351 319 429 333 C 517 349 551 416 633 408 C 724 400 765 475 886 536', points: [[104,144],[276,229],[633,408],[886,536]], note: 'Exposed stone, dry juniper, and long western views at the turn.' },
-    { code: 'R-03', name: 'Bear Lake Path', miles: '8.1 MI', time: '4H 10M', gain: '1,680 FT', grade: 'CHALLENGING', color: '#e04482', path: 'M 84 498 C 143 423 213 490 272 406 C 331 323 389 378 452 292 C 518 202 592 268 654 180 C 720 87 806 172 916 82', points: [[84,498],[272,406],[654,180],[916,82]], note: 'A longer ascent through spruce shade to an open alpine basin.' },
+    { code: 'R-03', name: 'Bear Lake Path', miles: '8.1 MI', time: '4H 10M', gain: '1,680 FT', grade: 'CHALLENGING', color: '#a8275e', path: 'M 84 498 C 143 423 213 490 272 406 C 331 323 389 378 452 292 C 518 202 592 268 654 180 C 720 87 806 172 916 82', points: [[84,498],[272,406],[654,180],[916,82]], note: 'A longer ascent through spruce shade to an open alpine basin.' },
   ];
   const route = routes[trail];
   const saved = savedRoutes.includes(route.code);
@@ -275,8 +279,8 @@ Fictional map concept. Not for navigation. No offline map is included.`;
   const layerLegend = { Terrain: 'Contour / 40 ft', Water: 'Creek + spring', Shelter: 'Camp access' }[layer];
   return (
     <div className={`demo field-demo field-${layer.toLowerCase()}`}>
-      <header className="field-topbar"><a href={sitePath('/')} aria-label="Back to portfolio index">FIELD<span>/06</span></a><div><i aria-hidden="true" /> Olympic Peninsula · 47.8021° N</div><span>SAMPLE / 58° / LIGHT RAIN</span></header>
-      <main className="field-explorer">
+      <header className="field-topbar"><a href="#site-top" aria-label="FIELD home"><BrandMark slug="field"/>FIELD<span>/06</span></a><div><i aria-hidden="true" /> Olympic Peninsula · 47.8021° N</div><span>SAMPLE / 58° / LIGHT RAIN</span></header>
+      <div className="prototype-main field-explorer">
         <section className="field-map-stage" aria-label={`${route.name} topographic route preview`}>
           <div className="field-map-heading"><span>ROUTE READER / {layer.toUpperCase()}</span><strong>{route.code}</strong></div>
           <div className="field-layer-switch" aria-label="Map layer">{(['Terrain','Water','Shelter'] as const).map((item) => <button type="button" key={item} className={layer === item ? 'active' : ''} onClick={() => setLayer(item)} aria-pressed={layer === item}>{item}</button>)}</div>
@@ -298,7 +302,7 @@ Fictional map concept. Not for navigation. No offline map is included.`;
           <article className="field-route-detail" aria-live="polite"><span>{route.grade} / SELECTED</span><h2>{route.name}</h2><p>{route.note}</p><div><span><b>{route.miles}</b>Distance</span><span><b>{route.gain}</b>Gain</span><span><b>{route.time}</b>Time</span></div></article>
           <div className="field-actions"><button type="button" className={saved ? 'active' : ''} onClick={() => setSavedRoutes(current => saved ? current.filter(code => code !== route.code) : [...current, route.code])} aria-pressed={saved}><Bookmark fill={saved ? 'currentColor' : 'none'} />{saved ? 'Route saved' : 'Save route'}</button><button type="button" onClick={downloadRoute}><Download />Download notes</button></div>
         </aside>
-      </main>
+      </div>
       <footer className="field-footer"><span>Map concept / not for navigation</span><div><i style={{background: route.color}} /><b>{route.name}</b> is ready to read.</div><button type="button" onClick={() => setTrail((trail + 1) % routes.length)}>Next route <ArrowRight /></button></footer>
     </div>
   );
@@ -326,7 +330,6 @@ function Atelier() {
     },
   ];
   const [lookIndex, setLookIndex] = useState(0);
-  const [lens, setLens] = useState<'editorial' | 'design'>('editorial');
   const [size, setSize] = useState('02');
   const [savedLooks, setSavedLooks] = useState<string[]>([]);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -357,32 +360,29 @@ function Atelier() {
     <div className="demo atelier-demo" id="atelier-top">
       <header className="atelier-casebar">
         <button className="atelier-menu-button" type="button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle ATELIER navigation" aria-expanded={menuOpen}><Menu aria-hidden="true" /></button>
-        <a className="atelier-wordmark" href="#atelier-top"><span>ATELIER / 07</span><small>INTERACTION + ART DIRECTION</small></a>
-        <nav className={menuOpen ? 'open' : ''} aria-label="ATELIER study sections"><a href="#atelier-stage" onClick={() => setMenuOpen(false)}>Prototype</a><a href="#atelier-decisions" onClick={() => setMenuOpen(false)}>Decisions</a><a href="#atelier-philosophy" onClick={() => setMenuOpen(false)}>Philosophy</a></nav>
-        <div className="atelier-nav-actions"><span>CASE STUDY / 2026</span><button type="button" onClick={() => setBagOpen(true)} aria-label={`Open fitting bag, ${bagCount} items`}><ShoppingBag aria-hidden="true" /><i>{bagCount}</i></button></div>
+        <a className="atelier-wordmark" href="#atelier-top"><span className="brand-lockup"><BrandMark slug="atelier"/>ATELIER / 07</span><small>GARMENTS IN MOTION</small></a>
+        <nav className={menuOpen ? 'open' : ''} aria-label="ATELIER navigation"><a href="#atelier-stage" onClick={() => setMenuOpen(false)}>Collection</a><a href="#atelier-collection" onClick={() => setMenuOpen(false)}>All garments</a><a href="#atelier-philosophy" onClick={() => setMenuOpen(false)}>Philosophy</a></nav>
+        <div className="atelier-nav-actions"><span>COLLECTION / 2026</span><button type="button" onClick={() => setBagOpen(true)} aria-label={`Open fitting bag, ${bagCount} items`}><ShoppingBag aria-hidden="true" /><i>{bagCount}</i></button></div>
       </header>
 
-      <main>
-        <section className={`atelier-stage lens-${lens}`} id="atelier-stage" style={{ '--atelier-tone': selected.tone, '--atelier-look-text': selected.text } as React.CSSProperties}>
+      <div className="prototype-main">
+        <section className="atelier-stage" id="atelier-stage" style={{ '--atelier-tone': selected.tone, '--atelier-look-text': selected.text } as React.CSSProperties}>
           <div className="atelier-stage-grid" aria-hidden="true"><i /><i /><i /><i /><i /></div>
-          <div className="atelier-stage-intro"><span>PORTFOLIO PROTOTYPE / 01</span><p>A fashion interface that begins with a spatial gesture, not a product category.</p></div>
-          <div className="atelier-lens" role="group" aria-label="Choose presentation lens"><span>VIEW THROUGH</span><button type="button" className={lens === 'editorial' ? 'active' : ''} onClick={() => setLens('editorial')} aria-pressed={lens === 'editorial'}>Editorial</button><button type="button" className={lens === 'design' ? 'active' : ''} onClick={() => setLens('design')} aria-pressed={lens === 'design'}>Design notes</button></div>
+          <div className="atelier-stage-intro"><span>ATELIER / COLLECTION 01</span><p>Three garments. Three ways to move.</p></div>
+
           <div className="atelier-stage-word" aria-hidden="true">{selected.word}</div>
-          <figure key={`${selected.id}-${lens}`}><Image src={sitePath(selected.image)} alt={selected.alt} width={1024} height={1536} priority unoptimized sizes="(max-width: 700px) 72vw, 44vw" /><figcaption>FORM {selected.number} / {selected.gesture.toUpperCase()}</figcaption>{lens === 'design' && <div className="atelier-annotations" aria-label="Design annotations">{selected.notes.map((note, index) => <span key={note} className={`note-${index + 1}`}><i />0{index + 1} / {note}</span>)}</div>}</figure>
-          <div className="atelier-stage-copy" aria-live="polite"><span>ACTIVE GESTURE / {selected.number}</span><h2>{selected.name}</h2><blockquote>“{selected.note}”</blockquote><dl><div><dt>Cut</dt><dd>{selected.cut}</dd></div><div><dt>Material</dt><dd>{selected.material}</dd></div><div><dt>Prototype</dt><dd>${selected.price.toLocaleString()}</dd></div></dl></div>
+          <figure key={selected.id}><Image src={sitePath(selected.image)} alt={selected.alt} width={1024} height={1536} priority unoptimized sizes="(max-width: 700px) 72vw, 44vw" /><figcaption>FORM {selected.number} / {selected.gesture.toUpperCase()}</figcaption></figure>
+          <div className="atelier-stage-copy" aria-live="polite"><span>ACTIVE GESTURE / {selected.number}</span><h2>{selected.name}</h2><blockquote>“{selected.note}”</blockquote><dl><div><dt>Cut</dt><dd>{selected.cut}</dd></div><div><dt>Material</dt><dd>{selected.material}</dd></div><div><dt>Price</dt><dd>${selected.price.toLocaleString()}</dd></div></dl></div>
           <div className="atelier-look-score" role="group" aria-label="Choose a garment gesture">{looks.map((look, index) => <button type="button" key={look.id} className={lookIndex === index ? 'active' : ''} onClick={() => { setLookIndex(index); setSize('02'); }} aria-pressed={lookIndex === index}><span>{look.number}</span><i /><strong>{look.gesture}</strong><small>{look.word}</small></button>)}</div>
-          <div className="atelier-stage-actions"><fieldset><legend>PROTOTYPE SIZE</legend>{['00','01','02','03','04'].map((item) => <button type="button" key={item} className={size === item ? 'active' : ''} onClick={() => setSize(item)} aria-pressed={size === item}>{item}</button>)}</fieldset><button className="atelier-add" type="button" onClick={addSelected}>Add form {selected.number}, size {size} <ArrowRight aria-hidden="true" /></button><button className="atelier-save" type="button" onClick={() => setSavedLooks(current => saved ? current.filter(id => id !== selected.id) : [...current, selected.id])} aria-pressed={saved}><Heart fill={saved ? 'currentColor' : 'none'} aria-hidden="true" />{saved ? 'Saved as reference' : 'Save the reference'}</button></div>
+          <div className="atelier-stage-actions"><fieldset><legend>SELECT SIZE</legend>{['00','01','02','03','04'].map((item) => <button type="button" key={item} className={size === item ? 'active' : ''} onClick={() => setSize(item)} aria-pressed={size === item}>{item}</button>)}</fieldset><button className="atelier-add" type="button" onClick={addSelected}>Add form {selected.number}, size {size} <ArrowRight aria-hidden="true" /></button><button className="atelier-save" type="button" onClick={() => setSavedLooks(current => saved ? current.filter(id => id !== selected.id) : [...current, selected.id])} aria-pressed={saved}><Heart fill={saved ? 'currentColor' : 'none'} aria-hidden="true" />{saved ? 'Saved as reference' : 'Save the reference'}</button></div>
           <small className="atelier-stage-disclaimer">FICTIONAL COMMERCE FLOW / NO PAYMENT CONNECTED</small>
         </section>
 
-        <section className="atelier-thesis">
-          <span>THE THESIS / 07</span><h3>What if fashion commerce sold a <em>way of seeing</em> before it sold an object?</h3><p>The interface turns three garments into three spatial verbs. Switching looks changes type, color, annotations, and product logic as one system.</p>
-        </section>
 
-        <section className="atelier-decisions" id="atelier-decisions"><header><span>02 / DESIGN DECISIONS</span><h3>The portfolio<br />lens stays on.</h3><p>Visitors can experience the concept and inspect the thinking without leaving the prototype.</p></header><div><article><b>01</b><span>PROBLEM</span><h4>Product grids flatten point of view.</h4><p>A conventional category page would make the silhouettes feel interchangeable.</p></article><article><b>02</b><span>DESIGN MOVE</span><h4>Make gesture the navigation model.</h4><p>Boundary, volume, and flow become both the collection story and the interaction structure.</p></article><article><b>03</b><span>PROOF IN USE</span><h4>One state changes the whole composition.</h4><p>Image, field color, typography, annotations, details, and bag selection remain synchronized.</p></article></div>
-        </section>
 
-        <section className="atelier-sequence" id="atelier-collection"><header><span>03 / INTERACTION SCORE</span><h3>One collection.<br />Three tempos.</h3></header><div>{looks.map((look, index) => <button type="button" key={look.id} className={lookIndex === index ? 'active' : ''} onClick={() => { setLookIndex(index); setSize('02'); }} aria-pressed={lookIndex === index}><Image src={sitePath(look.image)} alt="" width={1024} height={1536} loading="lazy" unoptimized sizes="(max-width: 700px) 100vw, 32vw" /><span>{look.number}</span><strong>{look.word}</strong><small>{look.note}</small><i>SELECT GESTURE <ArrowRight aria-hidden="true" /></i></button>)}</div>
+
+
+        <section className="atelier-sequence" id="atelier-collection"><header><span>THE COLLECTION</span><h3>One collection.<br />Three tempos.</h3></header><div>{looks.map((look, index) => <button type="button" key={look.id} className={lookIndex === index ? 'active' : ''} onClick={() => { setLookIndex(index); setSize('02'); }} aria-pressed={lookIndex === index}><Image src={sitePath(look.image)} alt="" width={1024} height={1536} loading="lazy" unoptimized sizes="(max-width: 700px) 100vw, 32vw" /><span>{look.number}</span><strong>{look.word}</strong><small>{look.note}</small><i>SELECT GESTURE <ArrowRight aria-hidden="true" /></i></button>)}</div>
         </section>
 
         <section className="atelier-philosophy" id="atelier-philosophy"><span>04 / PHILOSOPHY</span><div><h3>Not fashion<br />as novelty.<br /><em>Dress as practice.</em></h3><p>A useful wardrobe is not a stream of replacements. It is a small language learned through repetition. Proportion gives confidence. Material creates memory. Wear makes the object more specific to its person.</p></div><ol><li><b>01</b><strong>Form follows movement.</strong><p>A silhouette is finished by the body, never by the hanger.</p></li><li><b>02</b><strong>Restraint creates recognition.</strong><p>One decisive line is remembered longer than ten decorative ideas.</p></li><li><b>03</b><strong>Attachment precedes longevity.</strong><p>We keep what becomes part of how we understand ourselves.</p></li></ol></section>
@@ -390,9 +390,9 @@ function Atelier() {
         <section className="atelier-construction"><div><span>05 / CONSTRUCTION NOTES</span><h3>The inside<br />must deserve<br />the outside.</h3></div><div className="atelier-construction-notes"><details open><summary>01 / PROPORTION <Plus aria-hidden="true" /></summary><p>The shoulder establishes the room around the body. The hem answers only after movement begins.</p></details><details><summary>02 / MATERIAL <Plus aria-hidden="true" /></summary><p>Material descriptions are sample specifications for this fictional collection. No environmental performance claim is implied.</p></details><details><summary>03 / REPAIR <Plus aria-hidden="true" /></summary><p>Seams, closures, and panels remain legible so care can be understood as part of ownership, not an afterthought.</p></details></div></section>
 
         <section className="atelier-journal" id="atelier-journal"><span>06 / FIELD NOTES</span><div className="atelier-journal-grid"><figure><Image src={sitePath('/images/atelier-orbit-jacket.jpg')} alt="Detail study of the ivory Orbit Jacket silhouette" width={1024} height={1536} loading="lazy" unoptimized sizes="(max-width: 700px) 100vw, 44vw" /></figure><article><small>NOTE 07 / VOLUME</small><h3>The space<br />between cloth<br />and skin.</h3><p>Fashion becomes interesting when it stops decorating the body and starts negotiating with it. The Orbit Jacket holds a quiet perimeter, giving posture a shape without forcing performance.</p><a href="#atelier-collection">Return to the collection <ArrowRight aria-hidden="true" /></a></article></div></section>
-      </main>
+      </div>
 
-      <footer className="atelier-footer"><a href="#atelier-top">ATELIER / STUDY 07</a><span>ENGINEERING JUDGMENT / FASHION POINT OF VIEW</span><a href={sitePath('/')}>Portfolio index <ArrowRight aria-hidden="true" /></a></footer>
+
 
       {bagOpen && <PrototypeDrawer label="Fitting bag" onClose={() => setBagOpen(false)}><aside className="atelier-bag" aria-label="Fitting bag" aria-live="polite"><header><div><span>FITTING BAG</span><b>{bagCount} {bagCount === 1 ? 'LOOK' : 'LOOKS'}</b></div><button type="button" onClick={() => setBagOpen(false)} aria-label="Close fitting bag"><X aria-hidden="true" /></button></header>{bagItems.length ? <><div className="atelier-bag-list">{bagItems.map((look) => <article key={look.key}><Image src={sitePath(look.image)} alt="" width={1024} height={1536} loading="lazy" unoptimized sizes="88px" /><div><b>{look.name}</b><span>Prototype size {look.size}</span><small>${look.price.toLocaleString()}</small><div><button type="button" onClick={() => updateBag(look.key, -1)} aria-label={`Remove one ${look.name}, size ${look.size}`}><Minus aria-hidden="true" /></button><output aria-label={`${look.quantity} in fitting bag`}>{look.quantity}</output><button type="button" onClick={() => updateBag(look.key, 1)} aria-label={`Add one ${look.name}, size ${look.size}`}><Plus aria-hidden="true" /></button></div></div></article>)}</div><div className="atelier-bag-total"><span>PROTOTYPE SUBTOTAL</span><b>${subtotal.toLocaleString()}</b></div><button className="atelier-bag-action" type="button" onClick={() => setBagOpen(false)}>Return to the study <ArrowRight aria-hidden="true" /></button><p>This bag stays in the current browser view. No checkout is connected.</p></> : <div className="atelier-bag-empty"><ShoppingBag aria-hidden="true" /><h3>The fitting room is open.</h3><p>Select a look and size to begin.</p><button type="button" onClick={() => setBagOpen(false)}>View the collection</button></div>}</aside></PrototypeDrawer>}
     </div>
@@ -413,9 +413,9 @@ function Civic() {
   const visibleRequests = requestFilter === 'All' ? requests : requests.filter((item) => item.status === requestFilter);
   return (
     <div className="demo civic-demo" id="civic-top">
-      <header className="civic-nav"><a href="#civic-top" className="civic-brand">CIVIC<span>/COMMONS</span></a><nav aria-label="Civic Commons navigation"><a href="#services">Services</a><a href="#requests">Requests</a><a href="#priorities">Priorities</a></nav><a className="civic-report-link" href="#report">Report an issue <ArrowRight /></a></header>
+      <header className="civic-nav"><a href="#civic-top" className="civic-brand"><BrandMark slug="civic"/>CIVIC<span>/COMMONS</span></a><nav aria-label="Civic Commons navigation"><a href="#services">Services</a><a href="#requests">Requests</a><a href="#priorities">Priorities</a></nav><a className="civic-report-link" href="#report">Report an issue <ArrowRight /></a></header>
 
-      <main>
+      <div className="prototype-main">
         <section className="civic-hero">
           <div className="civic-hero-copy"><span>CHICAGO / PUBLIC-SERVICE PROTOTYPE</span><h2>The city is<br />a shared <em>interface.</em></h2><p>See what is working, report what is not, and understand what happens next without learning how government is organized first.</p><a href="#report">Start a request <ArrowRight /></a></div>
           <div className="civic-bulletin"><div><span>SAMPLE BULLETIN</span><i>10 Sep</i></div><strong>3</strong><h3>services need attention</h3><ul><li><b>Blue Line</b><span>Minor delays</span></li><li><b>Ward 32 pickup</b><span>1 day late</span></li><li><b>Cooling centers</b><span>Open until 7 PM</span></li></ul><small>Illustrative service data</small></div>
@@ -438,10 +438,10 @@ function Civic() {
 
         <section className="civic-priorities" id="priorities"><header><span>04 / NEIGHBORHOOD PRIORITIES</span><h3>What should<br />move first?</h3><p>This local-only simulator demonstrates transparent participation without pretending to cast a real vote.</p></header><div>{['Safe crossings','More tree canopy','Late-night transit'].map((item, index) => <button type="button" key={item} className={priority === item ? 'active' : ''} onClick={() => setPriority(item)} aria-pressed={priority === item}><span>0{index + 1}</span><strong>{item}</strong><i>{priority === item ? 'Your priority' : 'Select'}</i><ArrowRight /></button>)}</div></section>
 
-        <section className="civic-principle"><span>DESIGN PRINCIPLE</span><blockquote>“A public interface should explain the institution through the next useful action.”</blockquote><p>I used high contrast, plain language, visible status, and reversible local interactions so the concept demonstrates trust instead of relying on civic-looking colors.</p></section>
-      </main>
 
-      <footer className="civic-footer"><a className="civic-brand" href="#civic-top">CIVIC<span>/COMMONS</span></a><p>Concept and interface design by Usamah Moin.<br />Sample data only.</p><a href={sitePath('/')}>Back to index <ArrowRight /></a></footer>
+      </div>
+
+
     </div>
   );
 }
@@ -472,12 +472,12 @@ function Lumen() {
   return (
     <div className="demo lumen-demo" id="lumen-top">
       <header className="lumen-header">
-        <a href="#lumen-top" className="lumen-mark"><b>LUMEN</b><span>boring on purpose</span></a>
+        <a href="#lumen-top" className="lumen-mark"><b className="brand-lockup"><BrandMark slug="lumen"/>LUMEN</b><span>boring on purpose</span></a>
         <div className="lumen-room"><i /> LOCAL DEMO / RESETS ON RELOAD</div>
         <a href={sitePath('/')}>Portfolio index <ArrowRight /></a>
       </header>
 
-      <main>
+      <div className="prototype-main">
         <section className="lumen-intro">
           <div className="lumen-intro-label"><span>COLLABORATION STUDY / 10</span><small>INSPIRED BY THE SHARED TABLE, THE INDEX CARD, AND THE DAILY PROMISE</small></div>
           <h2>We did not need<br />more <em>workspace.</em><br />We needed one table.</h2>
@@ -519,10 +519,10 @@ function Lumen() {
           <span>THE HUMAN SYSTEM</span><div><h3>Three questions.<br />Twelve minutes.<br />Then work.</h3><p>The interface does not imitate an office. It protects a durable collaboration loop: say what matters, divide the promises, return with evidence.</p></div><ol><li><b>01</b><strong>What are we promising today?</strong><small>Write one sentence everyone can repeat.</small></li><li><b>02</b><strong>Who carries each card?</strong><small>Initials create ownership without a status meeting.</small></li><li><b>03</b><strong>What did reality teach us?</strong><small>Move the card only when the evidence changes.</small></li></ol>
         </section>
 
-        <section className="lumen-design-note"><span>MY DESIGN INTENT</span><blockquote>“Make coordination feel like gathering around a table, not operating a machine.”</blockquote><p>I removed cursors, canvases, toolbars, nested pages, notifications, and invented activity. The three-column constraint makes priority visible, the daily promise aligns the room, and every action is local, reversible, and understandable at a glance.</p></section>
-      </main>
 
-      <footer className="lumen-footer"><a href="#lumen-top">LUMEN / STUDY 10</a><span>CONCEPT AND INTERFACE BY USAMAH MOIN</span><a href={sitePath('/')}>All projects <ArrowRight /></a></footer>
+      </div>
+
+
     </div>
   );
 }
@@ -560,12 +560,12 @@ function Pantry() {
   return (
     <div className="demo pantry-demo" id="pantry-top">
       <header className="pantry-nav">
-        <a className="pantry-wordmark" href="#pantry-top" aria-label="Pantry home"><span>PANTRY</span><i>sketch market</i></a>
-        <nav aria-label="Pantry sections"><a href="#pantry-market">Tonight</a><a href="#pantry-season">The harvest</a><a href="#pantry-method">How it works</a></nav>
+        <a className="pantry-wordmark" href="#pantry-top" aria-label="Scribble home"><span className="brand-lockup"><BrandMark slug="pantry"/>SCRIBBLE</span><i>sketch market</i></a>
+        <nav aria-label="Scribble sections"><a href="#pantry-market">Tonight</a><a href="#pantry-season">The harvest</a><a href="#pantry-method">How it works</a></nav>
         <button className="pantry-bag-button" type="button" onClick={() => setBagOpen(true)} aria-expanded={bagOpen}><ShoppingBag aria-hidden="true" /> Bag <span>{bagCount}</span></button>
       </header>
 
-      <main>
+      <div className="prototype-main">
         <section className="pantry-sketch-hero">
           <div className="pantry-hero-copy">
             <span className="pantry-kicker">SEPTEMBER 11 · FIELD SHEET 04</span>
@@ -606,9 +606,9 @@ function Pantry() {
           <header><span>03 / FROM PAGE TO PLATE</span><h3>Three marks.<br />Dinner handled.</h3></header>
           <div><article><b>01</b><h4>Follow the appetite</h4><p>Search by mood or scan the color-coded recipe sheets.</p></article><article><b>02</b><h4>Build your bag</h4><p>Add a complete kit, adjust quantities, and see the cost immediately.</p></article><article><b>03</b><h4>Cook the drawing</h4><p>Every kit arrives as measured ingredients plus the illustrated field sheet.</p></article></div>
         </section>
-      </main>
+      </div>
 
-      <footer className="pantry-footer"><a href="#pantry-top">PANTRY / SKETCH MARKET</a><span>Concept, interface, and art direction by Usamah Moin</span><a href={sitePath('/')}>Portfolio index <ArrowRight aria-hidden="true" /></a></footer>
+
 
       {bagOpen && <PrototypeDrawer label="Market bag" onClose={() => setBagOpen(false)}><aside className="pantry-bag-drawer" aria-label="Market bag" aria-live="polite"><header><div><span>YOUR MARKET BAG</span><b>{bagCount} {bagCount === 1 ? 'kit' : 'kits'}</b></div><button type="button" onClick={() => setBagOpen(false)} aria-label="Close bag"><X aria-hidden="true" /></button></header>{bagItems.length > 0 ? <><div className="pantry-bag-list">{bagItems.map((product) => <article key={product.id}><Image src={sitePath(product.image)} alt="" width={1120} height={1400} loading="lazy" unoptimized sizes="94px" /><div><b>{product.name}</b><span>${product.price} each</span><div><button type="button" onClick={() => updateBag(product.id, -1)} aria-label={`Remove one ${product.name}`}><Minus aria-hidden="true" /></button><output aria-label={`${bag[product.id]} in bag`}>{bag[product.id]}</output><button type="button" onClick={() => updateBag(product.id, 1)} aria-label={`Add one ${product.name}`}><Plus aria-hidden="true" /></button></div></div></article>)}</div><div className="pantry-bag-total"><span>Prototype subtotal</span><b>${subtotal}</b></div><button className="pantry-prepare" type="button" onClick={() => setOrderReady(true)}>{orderReady ? <><Check aria-hidden="true" /> Demo order prepared</> : <>Prepare demo order <ArrowRight aria-hidden="true" /></>}</button>{orderReady && <p className="pantry-order-note">Saved in this browser view only. No payment or delivery request was sent.</p>}</> : <div className="pantry-bag-empty"><ShoppingBag aria-hidden="true" /><h4>The page is still clean.</h4><p>Add a recipe sketch and it will appear here.</p><button type="button" onClick={() => setBagOpen(false)}>Keep looking</button></div>}</aside></PrototypeDrawer>}
     </div>

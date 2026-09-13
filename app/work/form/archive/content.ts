@@ -19,7 +19,7 @@ export type FormStory = {
 export const formStories: FormStory[] = [
   {
     slug: 'kinetic-chair', number: '01', title: 'A chair that refuses to sit still', category: 'Objects', format: 'Object study', year: '1984 to now', readTime: '6 min',
-    image: '/images/form-kinetic-chair.png', alt: 'Kinetic postmodern chair displayed in a raw gallery workshop', color: '#ff6d57',
+    image: '/images/form-kinetic-chair.webp', alt: 'Kinetic postmodern chair displayed in a raw gallery workshop', color: '#ff6d57',
     dek: 'What changes when furniture stops behaving like a polite background object?',
     introduction: 'This is less a chair than a negotiation between balance, posture, and play. Its angled frame makes sitting feel active and turns an ordinary room into a small stage.',
     pullquote: 'The object is finished only when somebody changes how it stands.',
@@ -30,7 +30,7 @@ export const formStories: FormStory[] = [
   },
   {
     slug: 'dancing-building', number: '02', title: 'Dancing with the building', category: 'Ideas', format: 'Short film', year: '11:08', readTime: 'Watch',
-    image: '/images/form-dancing-building.png', alt: 'Contemporary dancer moving through severe concrete architecture', color: '#f0ef4c',
+    image: '/images/form-dancing-building.webp', alt: 'Contemporary dancer moving through severe concrete architecture', color: '#f0ef4c',
     dek: 'A moving body finds the instructions hidden inside a building.',
     introduction: 'Architecture tells us where to pause, turn, gather, and look. Choreographer Aya Mori makes those quiet instructions visible by treating the building as a partner rather than a container.',
     pullquote: 'Every corridor proposes a tempo. Every threshold asks for a decision.',
@@ -41,7 +41,7 @@ export const formStories: FormStory[] = [
   },
   {
     slug: 'useful-accident', number: '03', title: 'The useful accident', category: 'People', format: 'Conversation', year: 'No. 042', readTime: '12 min',
-    image: '/images/form-useful-accident.png', alt: 'Two designers in conversation across a material-covered studio table', color: '#20201e',
+    image: '/images/form-useful-accident.webp', alt: 'Two designers in conversation across a material-covered studio table', color: '#20201e',
     dek: 'Two designers compare the mistakes they decided not to correct.',
     introduction: 'A crease, an off-register print, a model assembled backwards: the studio is full of events that were never in the brief. The question is whether we notice what they are offering.',
     pullquote: 'Taste is partly the ability to recognize when the wrong answer has more life.',
@@ -52,7 +52,7 @@ export const formStories: FormStory[] = [
   },
   {
     slug: 'soft-architecture', number: '04', title: 'Soft architecture', category: 'Ideas', format: 'Essay', year: 'Issue 14', readTime: '8 min',
-    image: '/images/form-soft-architecture.png', alt: 'Translucent textile partitions shaping light around a small human silhouette', color: '#a7ddb9',
+    image: '/images/form-soft-architecture.webp', alt: 'Translucent textile partitions shaping light around a small human silhouette', color: '#a7ddb9',
     dek: 'Curtains, air, sound, and light can organize space without pretending to be walls.',
     introduction: 'We often describe architecture through what resists us: structure, surface, boundary. Soft architecture begins somewhere else, with materials that move, filter, and make room negotiable.',
     pullquote: 'A boundary can guide us without becoming a barrier.',
@@ -63,7 +63,7 @@ export const formStories: FormStory[] = [
   },
   {
     slug: 'mina-park', number: '05', title: 'Studio visit: Mina Park', category: 'People', format: 'Place', year: 'Seoul', readTime: '9 min',
-    image: '/images/form-human.png', alt: 'Independent designer arranging work in a colorful studio', color: '#cbb8ff',
+    image: '/images/form-human.webp', alt: 'Independent designer arranging work in a colorful studio', color: '#cbb8ff',
     dek: 'Inside a studio where every material sample is allowed to become evidence.',
     introduction: 'Mina Park works between graphic design, objects, and exhibition space. Her Seoul studio is not organized by discipline, but by questions that remain active across projects.',
     pullquote: 'I keep the things that still know something I do not.',

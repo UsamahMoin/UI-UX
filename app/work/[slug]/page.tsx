@@ -2,7 +2,10 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, ArrowRight, Asterisk } from 'lucide-react';
 
-import { ProjectExperience } from '@/components/project-experience';
+import { ProjectThumbnail } from '@/components/project-thumbnail';
+import { experiencePath } from '@/lib/experience-path';
+import { BrandMark } from '@/components/brand-mark';
+import { identities } from '@/lib/project-identities';
 import { sitePath } from '@/lib/site-path';
 import { getProject, projects } from '../projects';
 
@@ -26,23 +29,24 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       <nav className="case-nav"><a href={sitePath('/')}><ArrowLeft /> All projects</a><a href={sitePath('/')}>Usamah Moin <Asterisk /></a><a href={sitePath(`/work/${next.slug}`)}>Next: {next.name} <ArrowRight /></a></nav>
       <header className="case-hero">
         <div><span>{project.index} / 11</span><span>{project.category}</span><span>{project.year}</span></div>
-        <h1>{project.name}<small>{project.descriptor}</small></h1>
+        <h1><BrandMark slug={slug} />{project.name}<small>{project.descriptor}</small></h1>
         <div className="case-hero-bottom">
           <section className="case-theme-note"><span>VISUAL THEME</span><strong>{project.theme}</strong><div aria-label={`${project.name} color palette`}>{project.paletteColors.map((color) => <i key={color.value} style={{ background: color.value }} title={`${color.name}: ${color.value}`}><span className="sr-only">{color.name}: {color.value}</span></i>)}</div></section>
-          <blockquote>“{project.philosophy}”</blockquote>
+          {slug !== 'nova' && <blockquote>“{project.philosophy}”</blockquote>}
         </div>
       </header>
-      <section className="experience-wrap"><div className="experience-label"><span>INTERACTIVE PROTOTYPE</span><span>Try the controls ↘</span></div><ProjectExperience slug={slug} /></section>
+      <section className="experience-wrap case-entry"><div className="experience-label"><span>EXPLORE THE WEBSITE</span><span>A separate, full-page experience</span></div><a className="experience-portal" href={sitePath(experiencePath(slug))}><div className="experience-art" aria-hidden="true" inert><ProjectThumbnail slug={slug} name={project.name}/></div><span className="experience-enter">Open {project.name}<ArrowRight /></span></a></section>
       <section className="case-story">
         <div><span>DESIGN RATIONALE</span><h2>{project.intentHeadline}</h2><p className="case-story-summary">{project.summary}</p></div>
         <div className="case-rationale">
+          <article className="case-identity"><h3>IDENTITY / {identities[slug].name}</h3><div className="identity-signature"><BrandMark slug={slug}/><strong>{project.name}</strong></div><p>{identities[slug].idea}</p><p><b>Voice.</b> {identities[slug].voice}</p><p><b>Visual signature.</b> {identities[slug].signature}</p></article>
           <article><h3>01 / COLOR STRATEGY</h3><p>{project.colorRationale}</p><div className="case-palette-detail">{project.paletteColors.map((color) => <span key={color.value}><i style={{ background: color.value }} />{color.name}<small>{color.value}</small></span>)}</div></article>
           <article><h3>02 / TYPE + STRUCTURE</h3><p>{project.systemRationale}</p></article>
           <article><h3>03 / BEHAVIOR</h3><p>{project.interactionRationale}</p></article>
-          <div className="case-principles"><h3>WORKING PRINCIPLES</h3>{project.principles.map((principle) => <span key={principle}>{principle}</span>)}</div>
+          <article><h3>04 / ACCESSIBILITY</h3><p>The implementation targets WCAG 2.2 AA: readable contrast, visible keyboard focus, labeled controls, reduced-motion support, and layouts that reflow on a 320-pixel viewport. Selection uses more than color. Chart values and changing states have text alternatives. These are implementation choices and verified checks, not a claim of complete conformance.</p></article><div className="case-principles"><h3>WORKING PRINCIPLES</h3>{project.principles.map((principle) => <span key={principle}>{principle}</span>)}</div>
         </div>
       </section>
-      <footer className="next-case"><span>NEXT PROJECT</span><a href={sitePath(`/work/${next.slug}`)}><strong>{next.name}</strong><small>{next.descriptor}</small><ArrowRight /></a></footer>
+      <section className="case-download" id="download"><div><span>MAKE IT YOUR OWN</span><h2>Build on {project.name}.</h2><p>Editable React and TypeScript source, styles, images, and setup instructions. Runs locally with Node.js. Demo interactions remain local; payments and external services are not connected.</p></div><a href={sitePath(`/downloads/${slug}-source.zip`)} download>Download {project.name} source <ArrowRight /></a></section><footer className="next-case"><span>NEXT PROJECT</span><a href={sitePath(`/work/${next.slug}`)}><strong>{next.name}</strong><small>{next.descriptor}</small><ArrowRight /></a></footer>
     </main>
   );
 }

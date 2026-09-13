@@ -2,6 +2,7 @@
 
 import { useMemo, useRef, useState, type ChangeEvent } from 'react';
 import { filterNovaRange, normalizeRows, parseCsv, rowsToCsv, type NovaRow, type Cell } from '@/lib/nova-data';
+import { BrandMark } from '@/components/brand-mark';
 import readXlsxFile from 'read-excel-file/browser';
 import {
   Activity,
@@ -53,7 +54,7 @@ function downloadCsv(rows: NovaRow[], filename: string) {
 
 function DataTable({ rows, caption }: { rows: NovaRow[]; caption: string }) {
   return (
-    <div className="nova-table-wrap">
+    <div className="nova-table-wrap" tabIndex={0} role="region" aria-label={caption}>
       <table className="nova-table">
         <caption>{caption}</caption>
         <thead><tr><th scope="col">Account</th><th scope="col">Owner</th><th scope="col">Revenue</th><th scope="col">Activation</th><th scope="col">Risk</th><th scope="col">Status</th></tr></thead>
@@ -112,7 +113,7 @@ export function NovaDashboard() {
   return (
     <div className="demo nova-demo">
       <aside className="nova-side">
-        <b>N.</b>
+        <b aria-label="NOVA"><BrandMark slug="nova"/></b>
         <nav aria-label="NOVA dashboard sections">{navItems.map(item => { const Icon = item.icon; return <button key={item.id} className={view === item.id ? 'active' : ''} onClick={() => setView(item.id)} aria-label={item.label} aria-current={view === item.id ? 'page' : undefined}><Icon /></button>; })}</nav>
         <div className="avatar" title="Sample persona: Sam Kim">SK</div>
       </aside>
@@ -139,7 +140,7 @@ export function NovaDashboard() {
           </div>
           <div className="nova-grid">
             <article className="nova-chart">
-              <div className="panel-title"><div><small>REVENUE VELOCITY</small><strong>${revenue.toLocaleString()}</strong></div><fieldset className="range-tabs" aria-label="Revenue date range">{['7 days', '30 days', '90 days'].map(item => <button key={item} className={range === item ? 'active' : ''} onClick={() => setRange(item)} disabled={!hasDates} aria-pressed={range === item}>{item}</button>)}</fieldset></div>
+              <div className="panel-title"><div><small>REVENUE VELOCITY</small><strong>${revenue.toLocaleString()}</strong></div><label className="nova-period"><span>Period</span><select aria-label="Revenue date range" value={range} disabled={!hasDates} onChange={event => setRange(event.target.value)}>{['7 days', '30 days', '90 days'].map(item => <option key={item}>{item}</option>)}</select></label></div>
               <figure className="bar-chart" aria-label={`Revenue chart for ${range}`}>{visibleRows.map((row, index) => <span key={`${row.account}-${index}`} style={{ height: `${row.revenue / maxRevenue * 100}%` }} title={`${row.account}: $${row.revenue.toLocaleString()}`}><i /></span>)}</figure>
               <div className="chart-labels"><span>{visibleRows[0]?.date || 'Start'}</span><span>{hasDates ? 'Window ends at latest record' : 'No complete dates — all records'}</span><span>{visibleRows.at(-1)?.date || 'Now'}</span></div>
             </article>
@@ -148,7 +149,7 @@ export function NovaDashboard() {
           <div className="activity-row"><div><Activity /><span><b>{visibleRows.at(-1)?.account || 'Data'} updated</b><small>{visibleRows.at(-1)?.status || 'Connected'} · ${(visibleRows.at(-1)?.revenue || 0).toLocaleString()}</small></span></div><span>Latest record</span></div>
         </>}
 
-        {view === 'revenue' && <section className="nova-view-panel"><div className="nova-view-heading"><div><small>REVENUE DETAILS</small><h3>${revenue.toLocaleString()} in the selected range</h3></div><fieldset className="range-tabs" aria-label="Revenue date range">{['7 days', '30 days', '90 days'].map(item => <button key={item} className={range === item ? 'active' : ''} onClick={() => setRange(item)} disabled={!hasDates} aria-pressed={range === item}>{item}</button>)}</fieldset></div><figure className="bar-chart large" aria-label={`Revenue chart for ${range}`}>{visibleRows.map((row, index) => <span key={`${row.account}-${index}`} style={{ height: `${row.revenue / maxRevenue * 100}%` }} title={`${row.account}: $${row.revenue.toLocaleString()}`}><i /></span>)}</figure><DataTable rows={visibleRows} caption={`Revenue records for ${range}`} /></section>}
+        {view === 'revenue' && <section className="nova-view-panel"><div className="nova-view-heading"><div><small>REVENUE DETAILS</small><h3>${revenue.toLocaleString()} in the selected range</h3></div><label className="nova-period"><span>Period</span><select aria-label="Revenue date range" value={range} disabled={!hasDates} onChange={event => setRange(event.target.value)}>{['7 days', '30 days', '90 days'].map(item => <option key={item}>{item}</option>)}</select></label></div><figure className="bar-chart large" aria-label={`Revenue chart for ${range}`}>{visibleRows.map((row, index) => <span key={`${row.account}-${index}`} style={{ height: `${row.revenue / maxRevenue * 100}%` }} title={`${row.account}: $${row.revenue.toLocaleString()}`}><i /></span>)}</figure><DataTable rows={visibleRows} caption={`Revenue records for ${range}`} /></section>}
 
         {view === 'accounts' && <section className="nova-view-panel"><div className="nova-view-heading"><div><small>ACCOUNT HEALTH</small><h3>{accountRows.length} accounts</h3></div><fieldset className="range-tabs" aria-label="Account filter"><button className={!atRiskOnly ? 'active' : ''} onClick={() => setAtRiskOnly(false)} aria-pressed={!atRiskOnly}>All</button><button className={atRiskOnly ? 'active' : ''} onClick={() => setAtRiskOnly(true)} aria-pressed={atRiskOnly}>At risk</button></fieldset></div><DataTable rows={accountRows} caption={atRiskOnly ? 'Accounts with high risk signals' : 'Accounts in the selected range'} /></section>}
 
