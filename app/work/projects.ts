@@ -113,7 +113,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'signal', index: '08', name: 'SIGNAL', descriptor: 'Money, Clearly', category: 'Finance / Mobile', year: '2024',
-    philosophy: 'Financial confidence begins with plain language.',
+    philosophy: 'Show what is available, and what is already committed.',
     summary: 'A humane money overview that replaces financial anxiety with clear choices and gentle momentum.',
     theme: 'Financial warmth',
     intentHeadline: 'A money interface built around comprehension, not intimidation.',
