@@ -28,3 +28,11 @@
 
 /* Keep the residence header below the portfolio breadcrumb. */
 .residence-nav,.residence-detail-nav{position:relative}.residence-nav{grid-template-columns:1fr auto}.residence-nav>a:last-child{justify-self:end}
+
+/* Process notes retain the existing case-study typography and ruled columns. */
+.case-process{border-bottom:1px solid #bdbab0}.case-dark .case-process{border-color:#474743}
+.case-process .case-rationale p+p{margin-top:18px}
+.case-process h4{margin:0 0 16px;font-size:clamp(20px,2.2vw,28px);font-weight:500;line-height:1.3;letter-spacing:-.025em}
+.case-process-steps{margin:24px 0 0;padding-left:24px;list-style:decimal}
+.case-process-steps li{padding-left:8px;font-size:16px;line-height:1.65;overflow-wrap:anywhere}
+.case-process-steps li+li{margin-top:16px}.case-process-steps li::marker{font-family:var(--font-geist-mono),monospace;font-size:13px}

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, ArrowRight, Asterisk } from 'lucide-react';
 
+import { CaseProcess } from '@/components/case-process';
 import { ProjectThumbnail } from '@/components/project-thumbnail';
 import { experiencePath } from '@/lib/experience-path';
 import { BrandMark } from '@/components/brand-mark';
@@ -36,6 +37,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         </div>
       </header>
       <section className="experience-wrap case-entry"><div className="experience-label"><span>EXPLORE THE WEBSITE</span><span>A separate, full-page experience</span></div><a className="experience-portal" href={sitePath(experiencePath(slug))}><div className="experience-art" aria-hidden="true" inert><ProjectThumbnail slug={slug} name={project.name}/></div><span className="experience-enter">Open {project.name}<ArrowRight /></span></a></section>
+      <CaseProcess slug={slug} />
       <section className="case-story">
         <div><span>DESIGN RATIONALE</span><h2>{project.intentHeadline}</h2><p className="case-story-summary">{project.summary}</p></div>
         <div className="case-rationale">
