@@ -29,11 +29,27 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       <nav className="case-nav"><a href={sitePath('/')}><ArrowLeft /> All projects</a><a href={sitePath('/')}>Usamah Moin <Asterisk /></a><a href={sitePath(`/work/${next.slug}`)}>Next: {next.name} <ArrowRight /></a></nav>
       <header className="case-hero">
         <div><span>{project.index} / 11</span><span>{project.category}</span><span>{project.year}</span></div>
+        {slug === 'signal' ? <>
+          <div className="signal-case-intro">
+            <div className="signal-case-title"><h1><BrandMark slug="signal" />SIGNAL<small>Money, clearly.</small></h1><p>A personal ledger that separates your balance from what’s available after bills, savings goals, and a buffer.</p></div>
+            <section className="signal-case-ledger" aria-label="Illustrative balance breakdown">
+              <span>THE QUESTION BEHIND THE INTERFACE</span><h2>What’s available<br />after commitments?</h2>
+              <dl><div><dt>In your accounts</dt><dd>$2,400</dd></div><div><dt>Reserved for plans</dt><dd>−$1,600</dd></div><div><dt>Available after reserves</dt><dd>$800</dd></div></dl>
+              <div className="signal-case-allocation" aria-hidden="true"><i /><b /></div><p>Illustrative amounts · every reserve stays visible.</p>
+            </section>
+          </div>
+          <section className="signal-case-language" aria-label="SIGNAL visual identity">
+            <div><i style={{background:'#121110'}} aria-hidden="true"/><span><strong>A steady foundation</strong><small>Warm charcoal keeps the figures in focus.</small></span></div>
+            <div><i style={{background:'#f5f1e8'}} aria-hidden="true"/><span><strong>A clear reading order</strong><small>Paper-toned text makes the ledger easy to scan.</small></span></div>
+            <div><i style={{background:'#7bd49c'}} aria-hidden="true"/><span><strong>Meaning before color</strong><small>Trend colors always appear with a written change.</small></span></div>
+          </section>
+        </> : <>
         <h1><BrandMark slug={slug} />{project.name}<small>{project.descriptor}</small></h1>
         <div className="case-hero-bottom">
           <section className="case-theme-note"><span>VISUAL THEME</span><strong>{project.theme}</strong><div aria-label={`${project.name} color palette`}>{project.paletteColors.map((color) => <i key={color.value} style={{ background: color.value }} title={`${color.name}: ${color.value}`}><span className="sr-only">{color.name}: {color.value}</span></i>)}</div></section>
           {slug !== 'nova' && <blockquote>“{project.philosophy}”</blockquote>}
         </div>
+        </>}
       </header>
       <section className="experience-wrap case-entry"><div className="experience-label"><span>EXPLORE THE WEBSITE</span><span>A separate, full-page experience</span></div><a className="experience-portal" href={sitePath(experiencePath(slug))}><div className="experience-art" aria-hidden="true" inert><ProjectThumbnail slug={slug} name={project.name}/></div><span className="experience-enter">Open {project.name}<ArrowRight /></span></a></section>
       <section className="case-story">

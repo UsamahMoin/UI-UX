@@ -33,3 +33,21 @@
 .sg-chart input[type=range]::-moz-range-track{height:2px;background:#999087}
 .sg-chart input[type=range]::-moz-range-thumb{width:16px;height:16px;border:2px solid #121110;border-radius:50%;background:#f5f1e8}
 .sg-chart-table{margin-top:16px;font-size:14px}.sg-chart-table summary{cursor:pointer;min-height:32px;padding:6px 0}.sg-chart-table>div{max-height:280px;overflow:auto;margin-top:10px}.sg-chart-table table{width:100%;border-collapse:collapse}.sg-chart-table :is(th,td){padding:8px;text-align:left;border-bottom:1px solid #665e55}.sg-chart-table td:last-child{text-align:right}
+
+/* SIGNAL case study: show the product idea through a readable ledger. */
+.case-signal .case-hero{min-height:auto;gap:48px;padding-bottom:40px}
+.case-signal .case-hero>.signal-case-intro{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,100px);align-items:center;padding-block:28px;font:inherit;letter-spacing:normal}
+.signal-case-title p{max-width:42ch;font-size:18px;line-height:1.6;margin:32px 0 0}
+.signal-case-title h1{margin:0}.signal-case-title h1 small{margin-left:0}
+.signal-case-ledger{background:#121110;color:#f5f1e8;padding:clamp(24px,3vw,48px);border-radius:4px}
+.signal-case-ledger>span{font:12px var(--font-geist-mono),monospace;letter-spacing:.08em;color:#d0c7bb}
+.signal-case-ledger h2{font-size:clamp(26px,3vw,42px);font-weight:500;line-height:1.15;letter-spacing:-.04em;margin:22px 0 32px}
+.signal-case-ledger dl{margin:0}.signal-case-ledger dl>div{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:16px 0;border-top:1px solid #51483f}
+.signal-case-ledger dt{font-size:14px;line-height:1.4}.signal-case-ledger dd{margin:0;font-size:24px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.signal-case-ledger dl>div:last-child{color:#7bd49c}.signal-case-ledger dl>div:last-child dd{font-size:36px}
+.signal-case-allocation{display:flex;height:8px;gap:4px;margin-top:20px}.signal-case-allocation i{width:66.666%;background:#a69a8c}.signal-case-allocation b{flex:1;background:#7bd49c}
+.signal-case-ledger>p{font-size:12px;line-height:1.5;color:#d0c7bb;margin:12px 0 0}
+.signal-case-language{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;padding-top:26px;border-top:1px solid #24100a66}
+.signal-case-language>div{display:flex;align-items:flex-start;gap:14px}.signal-case-language i{width:28px;height:40px;flex-shrink:0;border:1px solid #24100a66}
+.signal-case-language strong{display:block;font-size:15px;font-weight:600}.signal-case-language small{display:block;margin-top:7px;font-size:14px;line-height:1.5;max-width:30ch}
+@media(max-width:760px){.case-signal .case-hero{gap:28px}.case-signal .case-hero>.signal-case-intro{grid-template-columns:1fr;gap:32px;padding-block:0}.case-signal .signal-case-title h1{margin:0;font-size:clamp(58px,15vw,100px)}.signal-case-title p{font-size:16px;margin-top:24px}.signal-case-language{grid-template-columns:1fr;gap:22px}.signal-case-language small{max-width:none}.signal-case-ledger{padding:24px 20px}.signal-case-ledger dd{font-size:22px}.signal-case-ledger dl>div:last-child dd{font-size:30px}}
