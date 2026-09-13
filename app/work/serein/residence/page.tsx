@@ -1,7 +1,8 @@
 import Image from 'next/image';
 import type { Metadata } from 'next';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
+import { ExperienceBreadcrumb } from '@/components/experience-breadcrumb';
 import { ResidenceHero } from '@/components/residence-hero';
 import { ResidenceBooking } from '@/components/residence-booking';
 import { SiteFooter } from '@/components/site-footer';
@@ -22,8 +23,8 @@ export const metadata: Metadata = {
 export default function ResidencePage() {
   return (
     <main className="residence-page">
+      <ExperienceBreadcrumb slug="serein" name="SEREIN" />
       <nav className="residence-nav">
-        <a href={sitePath('/work/serein')}><ArrowLeft /> Case study</a>
         <a className="residence-wordmark" href={sitePath('/work/serein/residence')}><BrandMark slug="serein"/>SEREIN</a>
         <a href="#booking">Plan your stay <ArrowRight/></a>
       </nav>

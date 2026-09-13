@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
+import { ExperienceBreadcrumb } from '@/components/experience-breadcrumb';
 import { ImageGallery } from '@/components/image-gallery';
 import { SiteFooter } from '@/components/site-footer';
 import { BrandMark } from '@/components/brand-mark';
@@ -36,6 +37,7 @@ export default async function ResidenceSpacePage({ params }: { params: Promise<{
 
   return (
     <main className={`residence-detail residence-detail-${space.slug}`}>
+      <ExperienceBreadcrumb slug="serein" name="SEREIN" current={space.name} websitePath="/work/serein/residence" />
       <nav className="residence-detail-nav">
         <a href={sitePath(`/work/serein/residence#ritual-${slug}`)}><ArrowLeft /> The residence</a>
         <a className="residence-wordmark" href={sitePath('/work/serein/residence')}><BrandMark slug="serein"/>SEREIN</a>

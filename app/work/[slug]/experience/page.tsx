@@ -1,3 +1,4 @@
+import { ExperienceBreadcrumb } from '@/components/experience-breadcrumb';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { sitePath } from '@/lib/site-path';
@@ -13,5 +14,5 @@ export async function generateMetadata({params}: {params: Promise<{slug: string}
 export default async function ExperiencePage({params}: {params: Promise<{slug: string}>}) {
   const {slug} = await params;
   if (!getProject(slug) || slug === 'serein') notFound();
-  return <main className={`standalone-site site-${slug}`} id="site-top"><nav className="experience-breadcrumb" aria-label="Breadcrumb"><a href={sitePath('/')}>Portfolio</a><span aria-hidden="true">/</span><a href={sitePath(`/work/${slug}`)}>{getProject(slug)!.name}</a><span aria-hidden="true">/</span><span aria-current="page">Website</span></nav><h1 className="sr-only">{getProject(slug)!.name}</h1><ProjectExperience slug={slug}/><SiteFooter slug={slug}/></main>;
+  return <main className={`standalone-site site-${slug}`} id="site-top"><ExperienceBreadcrumb slug={slug} name={getProject(slug)!.name} /><h1 className="sr-only">{getProject(slug)!.name}</h1><ProjectExperience slug={slug}/><SiteFooter slug={slug}/></main>;
 }

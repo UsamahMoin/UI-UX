@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
+import { ExperienceBreadcrumb } from '@/components/experience-breadcrumb';
 import { AuraSite } from '@/components/aura-site';
 
 const sections = ['library', 'rituals', 'about'] as const;
@@ -25,5 +26,5 @@ export async function generateMetadata({ params }: { params: Promise<{ section: 
 export default async function AuraSectionPage({ params }: { params: Promise<{ section: string }> }) {
   const section = (await params).section as AuraSection;
   if (!sections.includes(section)) notFound();
-  return <AuraSite section={section} />;
+  return <><ExperienceBreadcrumb slug="aura" name="AURA" current={section[0].toUpperCase() + section.slice(1)} websitePath="/work/aura/experience" /><AuraSite section={section} /></>;
 }

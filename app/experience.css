@@ -25,3 +25,6 @@
 .nova-demo{overflow:visible}.nova-side{position:sticky;top:0;align-self:start;height:100svh;min-height:420px;flex-shrink:0;gap:0}.nova-side nav{margin:44px 0 0;flex:none}.nova-side .avatar{margin-top:auto}.nova-side>b{width:40px;height:40px;border-radius:6px}.nova-demo>aside>b>.brand-mark{width:25px;height:25px;padding:0;background:transparent;border-radius:0}.nova-side button{border-radius:6px;flex-shrink:0}
 /* Landscape case previews reserve a separate baseline for the Civic caption. */
 .experience-art .cover-civic h3{font-size:9cqw;line-height:.94;margin-top:4cqw}.cover-civic .cover-caption{margin:0;max-width:88%;font-size:2.1cqw}
+
+/* Keep the residence header below the portfolio breadcrumb. */
+.residence-nav,.residence-detail-nav{position:relative}.residence-nav{grid-template-columns:1fr auto}.residence-nav>a:last-child{justify-self:end}

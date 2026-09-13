@@ -11,6 +11,7 @@ import {
   Sparkles, X,
 } from 'lucide-react';
 
+import { AuraNavigation } from '@/components/aura-navigation';
 import { BrandMark } from '@/components/brand-mark';
 import { SignalDashboard } from '@/components/signal-dashboard';
 import { NovaDashboard } from '@/components/nova-dashboard';
@@ -172,7 +173,7 @@ function Aura() {
   return (
     <div className={`demo aura-demo tone-${tone.toLowerCase()} ${playing ? 'is-playing' : ''}`}>
       <nav className="aura-demo-top"><a href={sitePath('/work/aura/experience')} aria-label="AURA home"><b className="brand-lockup"><BrandMark slug="aura"/>aura</b></a><span className="aura-demo-status"><i aria-hidden="true" /> VISUAL SESSION DEMO</span><button onClick={() => setSaved(!saved)} aria-label={saved ? 'Remove listening session from saved' : 'Save listening session'} aria-pressed={saved}><Bookmark fill={saved ? 'currentColor' : 'none'} /></button></nav>
-      <aside className="aura-demo-rail" aria-label="Explore AURA"><a href={sitePath('/work/aura/library')} aria-label="Library"><Headphones /><span>Library</span></a><a href={sitePath('/work/aura/rituals')} aria-label="Rituals"><Sparkles /><span>Rituals</span></a><a href={sitePath('/work/aura/about')} aria-label="About"><Info /><span>About</span></a></aside>
+      <AuraNavigation section="experience" />
       <div className="prototype-main">
         <div className={`aura-lightscape ${playing ? 'playing' : ''}`} aria-hidden="true"><span className="aura-wash"/><span className="aura-veil aura-veil-one"/><span className="aura-veil aura-veil-two"/></div>
         <section className="aura-demo-copy"><small>VISUAL SESSION / {totalSeconds / 60} MIN</small><h2>Make space<br />for <em>{tone.toLowerCase()}.</em></h2>

@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { ArrowLeft, ArrowRight, Bookmark, Check, Headphones, Home, Info, Pause, Play, Search, Sparkles } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Bookmark, Check, Pause, Play, Search } from 'lucide-react';
 
+import { AuraNavigation } from '@/components/aura-navigation';
 import { BrandMark } from '@/components/brand-mark';
 import { sitePath } from '@/lib/site-path';
 
@@ -24,13 +25,6 @@ const rituals = [
 ];
 
 export function AuraSite({ section }: { section: AuraSection }) {
-  const destinations = [
-    { label: 'Listening room', href: '/work/aura/experience', icon: Home },
-    { label: 'Library', href: '/work/aura/library', icon: Headphones, section: 'library' },
-    { label: 'Rituals', href: '/work/aura/rituals', icon: Sparkles, section: 'rituals' },
-    { label: 'About', href: '/work/aura/about', icon: Info, section: 'about' },
-  ] as const;
-
   return (
     <main className={`aura-site aura-site-${section}`}>
       <nav className="aura-site-nav">
@@ -38,13 +32,7 @@ export function AuraSite({ section }: { section: AuraSection }) {
         <div className="aura-site-status"><span>VISUAL DEMO</span><i aria-hidden="true" /> <span>NO AUDIO</span></div>
         <a className="aura-site-back" href={sitePath('/work/aura/experience')}><ArrowLeft /> Listening room</a>
       </nav>
-      <aside className="aura-os-rail" aria-label="AURA navigation">
-        {destinations.map((destination) => {
-          const Icon = destination.icon;
-          const isActive = 'section' in destination && destination.section === section;
-          return <a key={destination.label} className={isActive ? 'active' : ''} aria-current={isActive ? 'page' : undefined} href={sitePath(destination.href)} aria-label={destination.label}><Icon /><span>{destination.label}</span></a>;
-        })}
-      </aside>
+      <AuraNavigation section={section} />
       <div className="aura-os-content">
         {section === 'library' && <AuraLibrary />}
         {section === 'rituals' && <AuraRituals />}
