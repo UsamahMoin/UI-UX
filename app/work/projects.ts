@@ -171,7 +171,7 @@ export const projects: Project[] = [
     "category": "Cinema / Storytelling",
     "year": "2026",
     "philosophy": "A poster can hold a story before the first frame.",
-    "summary": "An original supernatural film concept presented as a living ensemble poster, with cast-name navigation, glowing artwork, and a fictional screening finder.",
+    "summary": "A supernatural thriller about a missing tram, an empty-car report, and twelve minutes to stop a cover-up. Its ensemble poster becomes a website through cast links, glowing artwork, and a fictional screening finder.",
     "theme": "After-dark cinema",
     "intentHeadline": "A film poster that becomes the website.",
     "colorRationale": "Midnight blue and plum frame the ensemble while coral light draws the portraits and tram out of darkness. Cream type keeps cast navigation legible. Two registered artwork frames shift the light slowly without moving the composition.",
