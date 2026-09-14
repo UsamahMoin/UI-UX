@@ -219,23 +219,23 @@ export const projectProcess: Record<string, ProjectProcess> = {
     "plan": "Ask prospective shoppers to describe a recent dinner decision and the words they would search for. Compare those terms with recipe labels before changing filters. Test a constrained shopping task and check whether people can explain the quantity and total; investigate dietary information separately before claiming suitability."
   },
   "meridian": {
-    "focus": "Let the audience enter the image.",
-    "audience": "Working audience assumption: a curious film or illustration fan arriving for the artwork, with only a short time to explore. A keyboard visitor needs the same story access as someone using the image markers.",
-    "hypothesis": "An illustrated poster may become more memorable when its details reveal a connected mystery. The risk is making people search for controls before they understand what the experience offers.",
+    "focus": "Let the poster become the navigation.",
+    "audience": "Working audience assumption: a film or illustration fan arriving for the artwork who wants to explore the cast or find a screening. The layout should remain understandable without motion or pointer hover.",
+    "hypothesis": "Familiar poster conventions can become usable navigation: cast names lead to profiles and the billing area leads to screenings. The risk is that people read the actor names as decoration rather than links.",
     "artifact": {
-      "kind": "NARRATIVE FLOW",
-      "title": "Look → discover → tune → reveal",
-      "body": "The sequence was designed for this original fictional film concept. It does not promote an existing release or imply audience research has occurred.",
+      "kind": "POSTER TO WEBSITE FLOW",
+      "title": "Cast credit → profile → film → screening",
+      "body": "A flow designed for an original fictional production, not an existing release or a completed audience study.",
       "steps": [
-        "Choose a numbered detail in the poster or its equivalent text list.",
-        "Read the evidence and tune to its radio frequency.",
-        "Collect all three clues to unlock the final notebook page.",
-        "Reset the investigation to explore again."
+        "Choose an actor name at the top of the poster.",
+        "Read the fictional cast profile in the same visual language.",
+        "Return to the film and choose a city in the screening section.",
+        "Preview a fictional screening time; no booking or payment occurs."
       ]
     },
-    "decision": "The poster uses original AI-assisted illustration with live HTML title lettering and controls. The radio delivers written transmissions; it does not advertise a trailer or imply an audio recording exists.",
-    "evidence": "The implementation connects clue selection, discovery count, tuning, the final reveal, ink treatment, and reset in local page state. It is a high-fidelity narrative prototype, not a tested film-marketing campaign.",
-    "method": "First-click testing + narrative comprehension",
-    "plan": "Ask viewers what they expect to happen before touching the poster, then let them explore without guidance. Check whether the numbered details are discoverable, whether the dial makes sense, and whether the final reveal connects the clues. Repeat with keyboard and narrow-screen use; revise the invitations before adding more story branches."
+    "decision": "The artwork is character-led. Two aligned images fade between lighting states while title lettering and navigation remain stable HTML. The glow runs automatically and is disabled for reduced-motion preferences.",
+    "evidence": "The initial city-only clue game was rejected in portfolio review. The direction changed to ensemble artwork with credits as navigation and a screening section at the bottom. This documents a design iteration, not measured audience preference.",
+    "method": "Navigation discoverability + motion evaluation",
+    "plan": "Ask viewers where they would go to learn about a cast member before explaining the links. Test return navigation, city selection, and the distinction between a fictional screening and a real booking. Repeat with keyboard use, narrow screens, and reduced motion before adding more promotional content."
   }
 };

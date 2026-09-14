@@ -171,24 +171,24 @@ export const projects: Project[] = [
     "category": "Cinema / Storytelling",
     "year": "2026",
     "philosophy": "A poster can hold a story before the first frame.",
-    "summary": "An original midnight mystery told through an illustrated city, three discoverable clues, and a radio dial that reveals fragments of the story.",
-    "theme": "Midnight in print",
-    "intentHeadline": "A film poster that rewards a closer look.",
-    "colorRationale": "Aubergine supplies the night, amber lights the city, coral picks out the last tram, and oxidized teal carries the architecture. Cream keeps the title and numbered clues legible against the illustration.",
-    "systemRationale": "Compressed uppercase film lettering sits inside the poster while serif story copy and monospaced evidence labels sit beside it. A text list offers the same discoveries as the illustrated hotspots, and the composition stacks on narrow screens.",
-    "interactionRationale": "Three numbered details reveal connected story fragments. Each clue supplies a radio frequency; tuning close to it reveals a written transmission. Finding all three opens the final dispatch. A reversible ink treatment and a reset control keep the exploration playful and recoverable.",
+    "summary": "An original supernatural film concept presented as a living ensemble poster, with cast-name navigation, glowing artwork, and a fictional screening finder.",
+    "theme": "After-dark cinema",
+    "intentHeadline": "A film poster that becomes the website.",
+    "colorRationale": "Midnight blue and plum frame the ensemble while coral light draws the portraits and tram out of darkness. Cream type keeps cast navigation legible. Two registered artwork frames shift the light slowly without moving the composition.",
+    "systemRationale": "Cast credits at the top become real navigation links. A monumental serif film title sits within the image, billing credits close the poster, and the screening finder continues below it. Cast profiles retain the same artwork and typographic system.",
+    "interactionRationale": "Two artwork layers crossfade slowly to create a glow; reduced-motion preferences keep the image still when needed. Cast names open dedicated profiles. A city selector changes the fictional cinema program and times, with clear feedback that no tickets can be purchased.",
     "paletteColors": [
         {
             "name": "Midnight ink",
             "value": "#30152f"
         },
         {
-            "name": "Marquee amber",
-            "value": "#f5b83d"
+            "name": "Midnight blue",
+            "value": "#101b35"
         },
         {
-            "name": "Tram coral",
-            "value": "#ed694d"
+            "name": "Signal glow",
+            "value": "#ff776d"
         },
         {
             "name": "Poster cream",
@@ -196,13 +196,13 @@ export const projects: Project[] = [
         }
     ],
     "principles": [
-        "The illustration is the entrance",
-        "Curiosity has a keyboard path",
-        "Story rewards attention"
+        "The poster is the interface",
+        "Credits become navigation",
+        "Motion stays optional"
     ],
-    "palette": "#f5b83d",
-    "accent": "#30152f",
-    "dark": false
+    "palette": "#792d3a",
+    "accent": "#ffebcb",
+    "dark": true
 },
 ];
 

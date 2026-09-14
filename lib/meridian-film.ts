@@ -1,0 +1,11 @@
+export const meridianCast = [
+  { slug: 'mira-ellery', first: 'Mira', last: 'Ellery', role: 'Ada Vale', credit: 'THE VOICE ON THE RADIO', line: 'She hears tomorrow. It sounds like her.', description: 'Ada runs the overnight receiver at Meridian Central. When a broadcast arrives twelve minutes before it is sent, she recognizes the voice as her own. Following it means returning to a part of the city she has spent her life trying to forget.', note: 'The imagined performance moves from precise, almost mechanical composure to the vulnerability of someone finally willing to listen.' },
+  { slug: 'jonah-reed', first: 'Jonah', last: 'Reed', role: 'The Conductor', credit: 'THE MAN ON THE LAST TRAM', line: 'He knows every stop. Except the last.', description: 'The conductor has worked the midnight route for as long as anyone can remember. He punches tickets for streets missing from every map and never asks his passengers where they came from. Tonight, someone has a ticket bearing his name.', note: 'A quiet presence at the center of the mystery: reassuring until a small hesitation reveals that even the guide may be lost.' },
+  { slug: 'ines-calder', first: 'Ines', last: 'Calder', role: 'Mara Voss', credit: 'THE KEEPER OF THE CITY', line: 'Nothing disappears without a witness.', description: 'Beneath the station, Mara preserves maps of demolished streets and recordings of voices no one else remembers. She is the first to understand what the stopped clocks are protecting—and what restarting them could cost.', note: 'The imagined character brings warmth and urgency to the story, treating every forgotten address as a life rather than a line on a map.' },
+] as const;
+
+export const meridianScreenings = [
+  { city: 'London', venue: 'The Lantern Cinema', district: 'Riverside', format: '35mm concept screening', times: ['Friday · 7:30 PM', 'Saturday · 9:00 PM'] },
+  { city: 'New York', venue: 'Meridian Film House', district: 'Lower Manhattan', format: 'Midnight double-bill concept', times: ['Friday · 11:45 PM', 'Saturday · 11:45 PM'] },
+  { city: 'Los Angeles', venue: 'The Afterlight', district: 'Eastside', format: 'Director’s edition concept', times: ['Friday · 8:00 PM', 'Sunday · 6:00 PM'] },
+] as const;

@@ -15,7 +15,7 @@ export default function Home() {
         </a>
 
         <div className="gallery-role">
-          <span className="status-dot" /> Engineer / systems thinker / Chicago
+          <span className="status-dot" /> Engineer / systems thinker
         </div>
 
         <div className="gallery-nav-links">
@@ -97,7 +97,7 @@ export default function Home() {
 
       <footer className="gallery-footer">
         <strong>Usamah Moin</strong>
-        <span>Product engineering · Chicago</span>
+        <span>Product engineering</span>
         <a href="#top">Back to top ↑</a>
       </footer>
     </main>

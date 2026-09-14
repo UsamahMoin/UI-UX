@@ -40,4 +40,4 @@ For each study, retain: the question, method and rationale, recruitment criteria
 
 ## Narrative interaction addition
 
-MERIDIAN adds an original film-poster experience: image-based discovery with a text-list alternative, connected story fragments, a tunable text receiver, and a gated ending. Its case study distinguishes implemented interaction from proposed first-click and comprehension testing. This broadens interaction design without filling the participant-research gap described above.
+MERIDIAN now explores poster conventions as navigation: actor names link to fictional cast profiles and a screening finder continues below the billing block. Two lighting frames crossfade with reduced-motion support. The initial clue-game direction was replaced after portfolio review. Its case study distinguishes that feedback from a proposed audience discoverability study.

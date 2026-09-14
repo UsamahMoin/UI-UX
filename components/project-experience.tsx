@@ -420,7 +420,7 @@ function Civic() {
 
       <div className="prototype-main">
         <section className="civic-hero">
-          <div className="civic-hero-copy"><span>CHICAGO / PUBLIC-SERVICE PROTOTYPE</span><h2>The city is<br />a shared <em>interface.</em></h2><p>See what is working, report what is not, and understand what happens next without learning how government is organized first.</p><a href="#report">Start a request <ArrowRight /></a></div>
+          <div className="civic-hero-copy"><span>NEIGHBORHOOD / PUBLIC-SERVICE PROTOTYPE</span><h2>The city is<br />a shared <em>interface.</em></h2><p>See what is working, report what is not, and understand what happens next without learning how government is organized first.</p><a href="#report">Start a request <ArrowRight /></a></div>
           <div className="civic-bulletin"><div><span>SAMPLE BULLETIN</span><i>10 Sep</i></div><strong>3</strong><h3>services need attention</h3><ul><li><b>Blue Line</b><span>Minor delays</span></li><li><b>Ward 32 pickup</b><span>1 day late</span></li><li><b>Cooling centers</b><span>Open until 7 PM</span></li></ul><small>Illustrative service data</small></div>
           <div className="civic-street-grid" aria-hidden="true"><i/><i/><i/><i/><i/><i/><i/><i/><span>●</span><b>+</b></div>
         </section>
@@ -437,7 +437,7 @@ function Civic() {
       if (!place || !title) return;
       const id = `DEMO-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
       setRequests(current => [{ id, category: issueType, title, place, status: 'In progress', age: 'Just drafted', color: '#2146c7' }, ...current]);
-      setRequestFilter('All'); setSubmitted(id); }}><fieldset><legend>What needs attention?</legend><div>{['Streetlight','Sidewalk','Tree','Water'].map((item) => <button type="button" key={item} className={issueType === item ? 'active' : ''} onClick={() => setIssueType(item)} aria-pressed={issueType === item}>{item}</button>)}</div></fieldset><label>Location<input name="location" required maxLength={120} pattern=".*\S.*" defaultValue="Palmer Square, Chicago" /></label><label>What did you notice?<textarea name="description" required maxLength={300} defaultValue="The light beside the northeast path has been out for two nights." /></label><button className="civic-submit" type="submit">Create prototype request <ArrowRight /></button><small>Prototype only. This form does not transmit personal information or contact the city.</small>{submitted && <output className="civic-confirmation"><Check /> Request drafted locally <b>{submitted}</b><button type="button" onClick={() => setSubmitted('')}>Dismiss</button></output>}</form></section>
+      setRequestFilter('All'); setSubmitted(id); }}><fieldset><legend>What needs attention?</legend><div>{['Streetlight','Sidewalk','Tree','Water'].map((item) => <button type="button" key={item} className={issueType === item ? 'active' : ''} onClick={() => setIssueType(item)} aria-pressed={issueType === item}>{item}</button>)}</div></fieldset><label>Location<input name="location" required maxLength={120} pattern=".*\S.*" defaultValue="Neighborhood square" /></label><label>What did you notice?<textarea name="description" required maxLength={300} defaultValue="The light beside the northeast path has been out for two nights." /></label><button className="civic-submit" type="submit">Create prototype request <ArrowRight /></button><small>Prototype only. This form does not transmit personal information or contact the city.</small>{submitted && <output className="civic-confirmation"><Check /> Request drafted locally <b>{submitted}</b><button type="button" onClick={() => setSubmitted('')}>Dismiss</button></output>}</form></section>
 
         <section className="civic-priorities" id="priorities"><header><span>04 / NEIGHBORHOOD PRIORITIES</span><h3>What should<br />move first?</h3><p>This local-only simulator demonstrates transparent participation without pretending to cast a real vote.</p></header><div>{['Safe crossings','More tree canopy','Late-night transit'].map((item, index) => <button type="button" key={item} className={priority === item ? 'active' : ''} onClick={() => setPriority(item)} aria-pressed={priority === item}><span>0{index + 1}</span><strong>{item}</strong><i>{priority === item ? 'Your priority' : 'Select'}</i><ArrowRight /></button>)}</div></section>
 
@@ -579,7 +579,7 @@ function Pantry() {
               <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Try bright, beans, quick..." aria-label="Search meals and moods" />
               <button type="submit">Find dinner <ArrowRight aria-hidden="true" /></button>
             </form>
-            <div className="pantry-hero-notes"><span>CHICAGO / 09.11</span><span>4 RECIPES / 12 INGREDIENTS</span></div>
+            <div className="pantry-hero-notes"><span>SEASONAL TABLE / 09.11</span><span>4 RECIPES / 12 INGREDIENTS</span></div>
           </div>
           <figure className="pantry-hero-art">
             <Image src={sitePath('/images/pantry-sketch-hero.jpg')} alt="Marker and ink sketch of a market basket filled with tomatoes, bread, greens, beans, and plums" width={1600} height={1066} priority unoptimized sizes="(max-width: 820px) 100vw, 58vw" />
