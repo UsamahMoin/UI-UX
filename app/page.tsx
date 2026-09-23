@@ -20,6 +20,7 @@ export default function Home() {
 
         <div className="gallery-nav-links">
           <a href="#work">Work <span>{projects.length}</span></a>
+          <a href={sitePath("/design-lab")}>Design Lab</a>
           <a href="https://github.com/UsamahMoin">GitHub <ArrowUpRight /></a>
         </div>
       </nav>
