@@ -1,4 +1,4 @@
-import { DesignLab } from '@/components/design-lab';
-import './design-lab.css';
-export const metadata = { title:'Design Lab | Learn by changing things', description:'An interactive design lab for engineers: explore color, accessibility, typography, images, and layout with live examples.' };
-export default function Page(){return <DesignLab/>;}
+import { DesignFoundations } from '@/components/design-foundations';
+import './foundations.css';
+export const metadata = { title:'Form & Feel | Design Foundations', description:'One message, six complete design directions. Learn how purpose shapes layout, imagery, typography, and interaction.' };
+export default function Page(){return <DesignFoundations/>;}
