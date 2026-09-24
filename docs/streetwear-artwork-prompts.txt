@@ -1,0 +1,19 @@
+ASSET 1
+Use case: photorealistic-natural
+Asset type: original fictional streetwear website campaign hero photograph
+Primary request: A wide 3:2 landscape editorial fashion photograph with a diverse group of exactly three adult models in an authentic concrete urban plaza. They wear an original unbranded streetwear collection: oversized cobalt varsity jacket, rust-orange sweatshirt, dark cargo trousers, and unbranded cream sneakers with lime accents.
+Scene/backdrop: Textured concrete plaza and a darker concrete / muted blue wall to the left.
+Composition/framing: Full-body group clustered in the right half. Preserve generous clear negative space on the left for a future text overlay. Grounded relaxed confident poses, natural interpersonal energy.
+Style/medium: Realistic daylight fashion campaign photography, tactile cotton and concrete, authentic editorial quality.
+Lighting/mood: Daytime, soft directional sunlight, subtle natural shadows.
+Constraints: All models are fully clothed adults. Original fictional people and unbranded clothing. No text, lettering, logos, watermark, recognizable real people, recognizable brand designs, or decorative graphics.
+
+ASSET 2
+Use case: photorealistic-natural
+Asset type: original fictional streetwear lookbook photograph triptych
+Primary request: A 3:1 panoramic triptych made of exactly three equal square photographic panels flush edge to edge, with no gutters or borders. Each square shows exactly one different adult fashion model full body, head to shoe, wearing an original unbranded streetwear collection in cobalt, rust-orange, cream, and charcoal.
+Scene/backdrop: Pale neutral studio backgrounds across the three equal square panels.
+Subject: Three diverse adult models, one per panel, each with a distinct outfit and relaxed editorial pose. Left: oversized cobalt varsity jacket, cream tee, charcoal cargo trousers, cream and lime sneakers. Middle: rust-orange sweatshirt, relaxed cream trousers, cream sneakers. Right: cream oversized overshirt over cobalt tee, dark cargo trousers, lime-accent cream sneakers.
+Composition/framing: Each person centered within their own equal square, entire body and shoes visible with breathing room. Exactly three square panels together form one 3:1 image, flush edge to edge, no gutters.
+Style/medium: Photorealistic polished fashion lookbook photography, detailed fabric textures, soft studio light.
+Constraints: All models are fully clothed adults. Original fictional people. No text, lettering, logos, watermarks, recognizable real people, recognizable brands, extra panels, gutters, or borders.

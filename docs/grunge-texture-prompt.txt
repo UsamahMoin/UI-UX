@@ -1,0 +1,6 @@
+Use case: stylized-concept
+Asset type: square grunge background overlay texture
+Primary request: One standalone square, seamless-ish dark photocopied paper texture. Black and charcoal rough screenprint grain, scattered fine off-white paper fibers, subtle scratches, and worn xerox ink.
+Composition: Flat edge-to-edge texture, evenly distributed fine distress, edges visually compatible for repeated tiling, no central subject, no vignette, no obvious seam.
+Style/medium: Authentic analog photocopier degradation and worn black screenprint on fibrous paper, tactile and gritty, high contrast details against a predominantly dark charcoal-black surface.
+Constraints: No words, letters, numbers, typography, logos, symbols, recognizable objects, illustrations, borders, or watermarks. Texture only.
