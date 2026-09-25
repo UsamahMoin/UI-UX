@@ -121,6 +121,32 @@ export function DesignColorStudio({
       useState<keyof typeof relations>('complementary'),
     [role, setRole] = useState<Role>('accent'),
     [notice, setNotice] = useState('');
+  const selectedColor = palette[role];
+  useEffect(() => {
+    // Keep exact slider positions when the hex value came from those controls.
+    // Converting back from rounded RGB can otherwise move hue by a degree.
+    if (hsl(hue, sat, light).toLowerCase() === selectedColor.toLowerCase())
+      return;
+    const [h, s, l] = toHsl(selectedColor);
+    setHue(h);
+    setSat(s);
+    setLight(l);
+  }, [selectedColor, role, hue, sat, light]);
+  function adjust(h: number, s: number, l: number) {
+    setHue(h);
+    setSat(s);
+    setLight(l);
+    onChange(role, hsl(h, s, l));
+  }
+  function adjustHue(h: number) {
+    adjust(h, sat, light);
+  }
+  function adjustSat(s: number) {
+    adjust(hue, s, light);
+  }
+  function adjustLight(l: number) {
+    adjust(hue, sat, l);
+  }
   const relation = relations[relationship];
   const colors =
     relationship === 'monochrome'
@@ -130,7 +156,9 @@ export function DesignColorStudio({
     const r = e.currentTarget.getBoundingClientRect(),
       x = e.clientX - r.left - r.width / 2,
       y = e.clientY - r.top - r.height / 2;
-    setHue(Math.round(((Math.atan2(x, -y) * 180) / Math.PI + 360) % 360) % 360);
+    adjustHue(
+      Math.round(((Math.atan2(x, -y) * 180) / Math.PI + 360) % 360) % 360,
+    );
   }
   const checks = [
     ['Body text / canvas', contrast(palette.ink, palette.bg)],
@@ -158,8 +186,9 @@ export function DesignColorStudio({
           </h2>
         </div>
         <p>
-          Move around the wheel, adjust intensity and lightness, then apply a
-          swatch to this website. Your copy stays the same.
+          Choose which color to edit, then move the wheel or sliders. The
+          website updates immediately. Try a related swatch to compare. Your
+          copy stays the same.
         </p>
       </header>
       <div className="fg-color-workbench">
@@ -192,12 +221,12 @@ export function DesignColorStudio({
                 ].includes(e.key)
               ) {
                 e.preventDefault();
-                setHue((h) =>
+                adjustHue(
                   e.key === 'Home'
                     ? 0
                     : e.key === 'End'
                       ? 359
-                      : (h +
+                      : (hue +
                           (e.key === 'ArrowRight' || e.key === 'ArrowUp'
                             ? 1
                             : -1) +
@@ -229,9 +258,9 @@ export function DesignColorStudio({
           </p>
           {(
             [
-              ['Hue', hue, 0, 359, '°', setHue],
-              ['Saturation', sat, 0, 100, '%', setSat],
-              ['Lightness', light, 0, 100, '%', setLight],
+              ['Hue', hue, 0, 359, '°', adjustHue],
+              ['Saturation', sat, 0, 100, '%', adjustSat],
+              ['Lightness', light, 0, 100, '%', adjustLight],
             ] as const
           ).map(([label, value, min, max, unit, setter]) => (
             <div className="fg-color-range" key={label}>
@@ -272,7 +301,7 @@ export function DesignColorStudio({
           <h3>{relation.name}</h3>
           <p>{relation.note}</p>
           <label className="fg-color-target">
-            Apply a swatch to
+            Edit color for
             <select
               value={role}
               onChange={(e) => setRole(e.target.value as Role)}
@@ -324,8 +353,9 @@ export function DesignColorStudio({
             />
           </div>
           <p className="fg-color-note">
-            Canvas, page text, and the main action update. Photos, brand bands,
-            and inset surfaces keep their art direction.
+            {name === 'Public service'
+              ? 'Canvas, text, cards, navigation, and action accents update together. Photographs keep their original colors.'
+              : 'Canvas, page text, and the main action update. Photos, brand bands, and inset surfaces keep their art direction.'}
           </p>
           <div className="fg-color-checks">
             {checks.map(([label, ratio]) => (

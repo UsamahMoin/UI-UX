@@ -2205,3 +2205,22 @@
       linear-gradient(#13161188, #13161188), var(--grunge-texture);
   }
 }
+
+/* Public service surfaces follow the Color Studio palette. */
+.fg-civic .fg-service-line,
+.fg-civic .fg-site-footer {
+  background: var(--study-ink);
+  color: var(--study-on-ink);
+}
+.fg-civic .fg-site-nav {
+  background: var(--study-bg);
+  border-bottom-color: var(--study-accent);
+}
+.fg-civic .fg-details > div {
+  background: var(--study-bg);
+  border-color: color-mix(in srgb, var(--study-ink) 35%, var(--study-bg));
+}
+.fg-civic .fg-task-links,
+.fg-civic .fg-task-links a {
+  border-color: color-mix(in srgb, var(--study-ink) 35%, var(--study-bg));
+}

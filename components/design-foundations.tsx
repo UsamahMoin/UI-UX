@@ -62,6 +62,7 @@ export function DesignFoundations() {
     '--study-ink': ink,
     '--study-accent': accent,
     '--study-on-accent': onColor(accent),
+    '--study-on-ink': onColor(ink),
     '--grunge-texture': `url("${sitePath('/images/design-foundations/grunge-texture.png')}")`,
     '--study-space': `${values.space ?? 32}px`,
     '--study-font':
