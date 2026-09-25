@@ -94,7 +94,7 @@ export function DesignFoundations() {
       />
     </div>
   );
-  const ActionArrow = theme.id === 'streetwear' ? ArrowUpRight : ArrowRight;
+  const ActionArrow = ArrowRight;
   const action = (label = copy.action) => (
     <a className="fg-action" href="#study-details">
       {label}
@@ -271,66 +271,28 @@ export function DesignFoundations() {
         )}
         {active === 2 && (
           <>
-            <div className="fg-street-announcement">
-              COMMON GROUND / INDEPENDENT PERSPECTIVES / COLLECTION 01
-            </div>
             {nav}
-            <section className="fg-hero fg-campaign-hero">
-              <div className="fg-zine-hero-art">
-                <div
-                  className="fg-photo fg-zine-photo-main"
-                  role="img"
-                  aria-label="A model in worn black denim and ripped jeans, photographed with direct flash in a warehouse"
-                >
-                  <span
-                    className="fg-photo-art"
-                    style={{
-                      backgroundImage: `url("${sitePath('/images/design-foundations/streetwear-punk.png')}")`,
-                      backgroundPosition: '0% center',
-                    }}
-                  />
-                </div>
-                <div className="fg-photo fg-zine-photo-cut" aria-hidden="true">
-                  <span
-                    className="fg-photo-art"
-                    style={{
-                      backgroundImage: `url("${sitePath('/images/design-foundations/streetwear-punk.png')}")`,
-                      backgroundPosition: '100% center',
-                    }}
-                  />
-                </div>
+            <section className="fg-fashion-intro">
+              <div className="fg-fashion-fabric" aria-hidden="true">
+                {photo(2)}
               </div>
-              <div className="fg-hero-copy">
+              <div className="fg-fashion-message">
                 <span className="fg-eyebrow">{copy.eyebrow}</span>
-                <h2 className="fg-cut-title" aria-label={copy.title}>
-                  {copy.title.split(/\s+/).map((word, i) => (
-                    <span key={i}>{word} </span>
-                  ))}
-                </h2>
-                <p className="fg-description">{copy.description}</p>
+                <h2>{copy.title}</h2>
+                <p>{copy.description}</p>
                 {action()}
               </div>
-              <span className="fg-campaign-edition" aria-hidden="true">
-                CG / 01
-              </span>
             </section>
-            <div className="fg-street-banner" aria-hidden="true">
-              COMMON GROUND <span>✳</span> A NEW PERSPECTIVE <span>✳</span>{' '}
-              COMMON GROUND
-            </div>
-            <section id="study-details" className="fg-street-lookbook">
-              <header>
-                {detail(0)}
-                <span className="fg-lookbook-label">THE LOOKBOOK / 01—03</span>
-              </header>
-              <div className="fg-lookbook-grid">
+            <section id="study-details" className="fg-fashion-collection">
+              <h3>{copy.first}</h3>
+              <div className="fg-fashion-grid">
                 {[
-                  'Worn denim jacket and torn wide-leg jeans',
-                  'Oversized black T-shirt, chain, and distressed cargo trousers',
-                  'Black denim layers and shredded gray jeans',
+                  'Cobalt varsity jacket with charcoal trousers',
+                  'Rust sweatshirt with cream wide-leg trousers',
+                  'Cream overshirt with cobalt layers and a knit beanie',
                 ].map((label, n) => (
                   <button
-                    className="fg-look"
+                    className="fg-fashion-look"
                     key={label}
                     onClick={() => {
                       setFrame(n);
@@ -342,20 +304,29 @@ export function DesignFoundations() {
                       <span
                         className="fg-photo-art"
                         style={{
-                          backgroundImage: `url("${sitePath('/images/design-foundations/streetwear-punk.png')}")`,
+                          backgroundImage: `url("${sitePath('/images/design-foundations/streetwear-lookbook.png')}")`,
                           backgroundPosition: `${n * 50}% center`,
                         }}
                       />
                     </span>
-                    <span className="fg-look-caption">
+                    <span className="fg-fashion-caption">
                       <span>LOOK 0{n + 1}</span>
                       <ArrowRight aria-hidden="true" />
                     </span>
                   </button>
                 ))}
               </div>
+              <div className="fg-fashion-note">
+                <p>{copy.firstBody}</p>
+                <button
+                  className="fg-text-link"
+                  onClick={() => setOpenDetail(0)}
+                >
+                  Look closer <ArrowRight size={16} aria-hidden="true" />
+                </button>
+              </div>
             </section>
-            <section className="fg-street-product">
+            <section className="fg-fashion-product">
               {detail(1)}
               <div className="fg-product-stage">
                 {photo(frame)}
@@ -660,7 +631,7 @@ export function DesignFoundations() {
               <span
                 className="fg-photo-art"
                 style={{
-                  backgroundImage: `url("${sitePath('/images/design-foundations/streetwear-punk.png')}")`,
+                  backgroundImage: `url("${sitePath('/images/design-foundations/streetwear-lookbook.png')}")`,
                   backgroundPosition: `${frame * 50}% center`,
                 }}
               />

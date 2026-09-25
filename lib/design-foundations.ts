@@ -81,21 +81,21 @@ export const directions = [
     brief:
       'Make a product feel culturally distinctive while keeping browsing and choice straightforward.',
     philosophy:
-      'Use tension deliberately: oversized type, sharp cuts, and unexpected color can express confidence. Energy should come from art direction, not fabricated urgency.',
+      'Let the collection lead. A quiet, recognizable masthead and generous photography let the clothes, styling, and people carry the identity.',
     layout:
-      'A pasted-up collage replaces the conventional hero: torn photo edges, cut-paper word blocks, clashing scales, and imperfect alignment. The visual tension is deliberate; reading order and controls stay predictable.',
-    type: 'Rubik Distressed brings chipped ink and eroded edges into the letterforms themselves. Use it at poster scale for identity and emphasis; plain navigation, monospaced labels, and readable body text keep the experience usable.',
+      'A centered wordmark anchors a restrained navigation bar. A compact material-led introduction opens into three edge-to-edge looks, giving photography most of the space.',
+    type: 'A bold serif wordmark supplies character. Direct sans-serif headings and small, clearly spaced navigation stay secondary to the collection. Personality does not require every line to shout.',
     image:
-      'Direct-flash warehouse portraits, worn black denim, and severe monochrome create a specific underground identity. Repeating the same photographic treatment connects the collage and lookbook; product close-ups add a different scale.',
+      'Three full-length studio portraits share a neutral backdrop and consistent lighting. Cobalt, rust, and cream clothing supply the color; close-up fabric and sneaker details connect the campaign to the product.',
     motion:
-      'Clickable looks and image changes reward exploration. Uneven frames and print texture carry the grunge character; controls stay stable and keyboard focus remains obvious.',
+      'Each look opens a larger image. A small photographic zoom on hover signals that it is clickable, while clear labels and keyboard focus keep the gallery usable without hovering.',
     tradeoff:
       'Hype can become pressure. Keep availability claims honest, preserve clear focus, and leave room for product information.',
-    colors: ['#e4dfd2', '#111111', '#e5f449'],
+    colors: ['#ffffff', '#111111', '#1c3042'],
     ink: '#111111',
-    bg: '#e4dfd2',
-    accent: '#e5f449',
-    font: 'grunge',
+    bg: '#ffffff',
+    accent: '#1c3042',
+    font: 'sans',
     photos: [
       'An unbranded cream and lime sneaker on a campaign plinth',
       'Streetwear and sneakers photographed on concrete steps',
