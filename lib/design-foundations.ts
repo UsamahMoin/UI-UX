@@ -84,7 +84,7 @@ export const directions = [
       'Use tension deliberately: oversized type, sharp cuts, and unexpected color can express confidence. Energy should come from art direction, not fabricated urgency.',
     layout:
       'A pasted-up collage replaces the conventional hero: torn photo edges, cut-paper word blocks, clashing scales, and imperfect alignment. The visual tension is deliberate; reading order and controls stay predictable.',
-    type: 'Condensed uppercase display type feels like a pasted-up poster. Short monospaced labels add a utilitarian counterpoint. Body text keeps ordinary spacing and a readable size.',
+    type: 'Rubik Distressed brings chipped ink and eroded edges into the letterforms themselves. Use it at poster scale for identity and emphasis; plain navigation, monospaced labels, and readable body text keep the experience usable.',
     image:
       'Direct-flash warehouse portraits, worn black denim, and severe monochrome create a specific underground identity. Repeating the same photographic treatment connects the collage and lookbook; product close-ups add a different scale.',
     motion:
@@ -95,7 +95,7 @@ export const directions = [
     ink: '#111111',
     bg: '#e4dfd2',
     accent: '#e5f449',
-    font: 'display',
+    font: 'grunge',
     photos: [
       'An unbranded cream and lime sneaker on a campaign plinth',
       'Streetwear and sneakers photographed on concrete steps',

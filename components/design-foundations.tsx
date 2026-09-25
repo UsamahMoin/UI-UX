@@ -65,13 +65,15 @@ export function DesignFoundations() {
     '--grunge-texture': `url("${sitePath('/images/design-foundations/grunge-texture.png')}")`,
     '--study-space': `${values.space ?? 32}px`,
     '--study-font':
-      font === 'display'
-        ? 'Impact, Haettenschweiler, Arial Narrow, sans-serif'
-        : font === 'serif'
-          ? 'Georgia, serif'
-          : font === 'mono'
-            ? 'var(--font-geist-mono), monospace'
-            : 'var(--font-geist-sans), Arial, sans-serif',
+      font === 'grunge'
+        ? '"Rubik Distressed", Impact, sans-serif'
+        : font === 'display'
+          ? 'Impact, Haettenschweiler, Arial Narrow, sans-serif'
+          : font === 'serif'
+            ? 'Georgia, serif'
+            : font === 'mono'
+              ? 'var(--font-geist-mono), monospace'
+              : 'var(--font-geist-sans), Arial, sans-serif',
   } as CSSProperties;
   const actionRatio = contrast(
     accent,
@@ -604,6 +606,7 @@ export function DesignFoundations() {
               value={font}
               onChange={(e) => change('font', e.target.value)}
             >
+              <option value="grunge">Distressed / Rubik Distressed</option>
               <option value="display">Condensed / Impact</option>
               <option value="serif">Serif / Georgia</option>
               <option value="sans">Sans / Geist</option>

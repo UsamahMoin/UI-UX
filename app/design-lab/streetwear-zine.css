@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'Rubik Distressed';
+  src: url('./fonts/RubikDistressed-Latin.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
 /* Streetwear is a pasted-up underground zine, not a polished campaign skin. */
 .fg-streetwear {
   border: 0;
@@ -28,7 +36,7 @@
   border: 0;
 }
 .fg-streetwear .fg-brand {
-  font-size: clamp(38px, 6.8cqw, 102px);
+  font-size: clamp(30px, 4.4cqw, 64px);
   line-height: 0.95;
   letter-spacing: -0.035em;
   transform: rotate(-3deg);
@@ -142,7 +150,7 @@
   align-items: start;
   gap: 0.12em 0.18em;
   max-width: 100%;
-  font-size: clamp(64px, 9.2cqw, 148px);
+  font-size: clamp(52px, 7.2cqw, 108px);
   line-height: 1;
   letter-spacing: -0.02em;
   margin: 38px 0 44px;
@@ -162,7 +170,7 @@
 .fg-cut-title > span:nth-child(3n + 2) {
   background: #dfff00;
   transform: rotate(3deg);
-  font-style: italic;
+  font-style: normal;
 }
 .fg-cut-title > span:nth-child(3n) {
   color: #f5f1dd;
@@ -221,7 +229,7 @@
 }
 .fg-streetwear .fg-street-lookbook h3 {
   display: table;
-  font-size: clamp(42px, 6.3cqw, 90px);
+  font-size: clamp(36px, 4.8cqw, 70px);
   line-height: 1.05;
   padding: 5px 14px 8px;
   background: #111;
@@ -279,7 +287,7 @@
   padding: calc(var(--study-space) * 2.5) 6%;
 }
 .fg-streetwear .fg-street-product h3 {
-  font-size: clamp(48px, 6.4cqw, 96px);
+  font-size: clamp(36px, 5cqw, 72px);
   color: #dfff00;
   transform: rotate(-3deg);
   line-height: 1.03;
@@ -320,7 +328,7 @@
     top: 10%;
   }
   .fg-streetwear .fg-hero h2.fg-cut-title {
-    font-size: 10cqw;
+    font-size: 7.2cqw;
   }
 }
 @media (max-width: 700px) {
@@ -333,7 +341,7 @@
   }
   .fg-streetwear .fg-brand {
     align-self: start;
-    font-size: clamp(32px, 9.7cqw, 64px);
+    font-size: clamp(23px, 6.6cqw, 42px);
     max-width: 96%;
     padding: 8px;
   }
@@ -380,7 +388,7 @@
     background: none;
   }
   .fg-streetwear .fg-hero h2.fg-cut-title {
-    font-size: clamp(48px, 14.5cqw, 80px);
+    font-size: clamp(36px, 11.7cqw, 64px);
     margin-block: 28px 32px;
     gap: 0.1em 0.08em;
   }
@@ -412,7 +420,7 @@
     margin-bottom: 30px;
   }
   .fg-streetwear .fg-street-lookbook h3 {
-    font-size: clamp(37px, 10cqw, 60px);
+    font-size: clamp(28px, 8cqw, 46px);
   }
   .fg-streetwear .fg-lookbook-label {
     display: table;
@@ -448,4 +456,19 @@
     border-width: 5px;
     box-shadow: 7px 7px 0 #dfff00;
   }
+}
+
+/* Preserve the typeface's cutouts: synthetic bold would fill the worn ink. */
+.fg-streetwear
+  :is(
+    .fg-brand,
+    .fg-cut-title,
+    .fg-detail-copy h3,
+    .fg-street-banner,
+    .fg-campaign-edition
+  ) {
+  font-family: var(--study-font);
+  font-weight: 400;
+  font-synthesis: none;
+  letter-spacing: 0;
 }
