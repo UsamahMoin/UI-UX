@@ -11,6 +11,7 @@ import { Slider } from '@/components/ui/slider';
 
 type Role = 'bg' | 'ink' | 'accent';
 type Palette = Record<Role, string>;
+type Target = Role | 'palette';
 const relations = {
   complementary: {
     name: 'Complementary',
@@ -105,12 +106,14 @@ export function DesignColorStudio({
   palette,
   linkAction,
   onChange,
+  onPaletteChange,
   onReset,
 }: {
   name: string;
   palette: Palette;
   linkAction: boolean;
   onChange: (role: Role, color: string) => void;
+  onPaletteChange: (palette: Palette) => void;
   onReset: () => void;
 }) {
   const initial = toHsl(palette.accent);
@@ -119,9 +122,22 @@ export function DesignColorStudio({
     [light, setLight] = useState(initial[2]);
   const [relationship, setRelationship] =
       useState<keyof typeof relations>('complementary'),
-    [role, setRole] = useState<Role>('accent'),
+    [role, setRole] = useState<Target>('palette'),
     [notice, setNotice] = useState('');
-  const selectedColor = palette[role];
+  const [darkCanvas] = useState(() => toHsl(palette.bg)[2] < 50);
+  const selectedColor = palette[role === 'palette' ? 'accent' : role];
+  function applyColor(color: string) {
+    if (role !== 'palette') {
+      onChange(role, color);
+      return;
+    }
+    const [h, s, l] = toHsl(color);
+    onPaletteChange({
+      accent: color,
+      bg: hsl(h, Math.min(s, 38), darkCanvas ? 7 + l * 0.12 : 88 + l * 0.08),
+      ink: hsl(h, Math.min(s, 35), darkCanvas ? 94 : 14),
+    });
+  }
   useEffect(() => {
     // Keep exact slider positions when the hex value came from those controls.
     // Converting back from rounded RGB can otherwise move hue by a degree.
@@ -136,7 +152,7 @@ export function DesignColorStudio({
     setHue(h);
     setSat(s);
     setLight(l);
-    onChange(role, hsl(h, s, l));
+    applyColor(hsl(h, s, l));
   }
   function adjustHue(h: number) {
     adjust(h, sat, light);
@@ -186,11 +202,23 @@ export function DesignColorStudio({
           </h2>
         </div>
         <p>
-          Choose which color to edit, then move the wheel or sliders. The
-          website updates immediately. Try a related swatch to compare. Your
-          copy stays the same.
+          Move the wheel to recolor the background, navigation, sections, and
+          actions together. Choose an individual color below for finer control.
+          Your copy stays the same.
         </p>
       </header>
+      <label className="fg-color-target">
+        Update
+        <select
+          value={role}
+          onChange={(e) => setRole(e.target.value as Target)}
+        >
+          <option value="palette">Whole website palette</option>
+          <option value="accent">Action accent</option>
+          <option value="bg">Page canvas</option>
+          <option value="ink">Page text</option>
+        </select>
+      </label>
       <div className="fg-color-workbench">
         <div className="fg-wheel-column">
           <div
@@ -300,26 +328,15 @@ export function DesignColorStudio({
           </div>
           <h3>{relation.name}</h3>
           <p>{relation.note}</p>
-          <label className="fg-color-target">
-            Edit color for
-            <select
-              value={role}
-              onChange={(e) => setRole(e.target.value as Role)}
-            >
-              <option value="accent">Action accent</option>
-              <option value="bg">Page canvas</option>
-              <option value="ink">Page text</option>
-            </select>
-          </label>
           <div className="fg-color-swatches">
             {colors.map((color, i) => (
               <button
                 key={i}
                 style={{ background: color, color: onColor(color) }}
                 onClick={() => {
-                  onChange(role, color);
+                  applyColor(color);
                   setNotice(
-                    `${color} applied to ${role === 'accent' ? 'action accent' : role === 'bg' ? 'page canvas' : 'page text'} in ${name}.`,
+                    `${color} applied to ${role === 'palette' ? 'whole website palette' : role === 'accent' ? 'action accent' : role === 'bg' ? 'page canvas' : 'page text'} in ${name}.`,
                   );
                 }}
                 aria-label={`Apply ${color} to ${role}`}
@@ -353,9 +370,10 @@ export function DesignColorStudio({
             />
           </div>
           <p className="fg-color-note">
-            {name === 'Public service'
-              ? 'Canvas, text, cards, navigation, and action accents update together. Photographs keep their original colors.'
-              : 'Canvas, page text, and the main action update. Photos, brand bands, and inset surfaces keep their art direction.'}
+            Whole website palette creates coordinated surface and text colors
+            from your chosen accent, keeping this design's light or dark
+            character. Individual controls change just that role. Photographs
+            stay unchanged.
           </p>
           <div className="fg-color-checks">
             {checks.map(([label, ratio]) => (

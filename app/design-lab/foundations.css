@@ -2224,3 +2224,52 @@
 .fg-civic .fg-task-links a {
   border-color: color-mix(in srgb, var(--study-ink) 35%, var(--study-bg));
 }
+
+/* Applied palettes recolor the full example, including fixed brand surfaces. */
+.fg-website.fg-palette-custom {
+  --study-surface: color-mix(in srgb, var(--study-ink) 7%, var(--study-bg));
+  --study-border: color-mix(in srgb, var(--study-ink) 35%, var(--study-bg));
+  background: var(--study-bg);
+  color: var(--study-ink);
+}
+.fg-website.fg-palette-custom .fg-site-nav {
+  background: var(--study-accent);
+  color: var(--study-on-accent);
+  border-color: var(--study-border);
+}
+.fg-website.fg-palette-custom :is(.fg-institution-line, .fg-service-line, .fg-site-footer, .fg-tech-image > span) {
+  background: var(--study-ink);
+  color: var(--study-on-ink);
+  border-color: var(--study-border);
+}
+.fg-website.fg-palette-custom :is(.fg-details, .fg-details > div, .fg-fashion-product, .fg-fashion-note) {
+  background: var(--study-bg);
+  color: var(--study-ink);
+  border-color: var(--study-border);
+}
+.fg-website.fg-palette-custom :is(.fg-value-line, .fg-fashion-collection > h3, .fg-fashion-caption, .fg-frame-controls) {
+  background: var(--study-surface);
+  color: var(--study-ink);
+  border-color: var(--study-border);
+}
+.fg-website.fg-palette-custom :is(.fg-description, .fg-eyebrow, .fg-index) {
+  color: var(--study-ink);
+}
+.fg-website.fg-palette-custom :is(.fg-task-links, .fg-task-links a, .fg-tech-feature, .fg-tech-image) {
+  border-color: var(--study-border);
+}
+.fg-website.fg-palette-custom .fg-fashion-intro {
+  background: var(--study-ink);
+  color: var(--study-on-ink);
+}
+.fg-website.fg-palette-custom .fg-fashion-intro::after {
+  background: var(--study-ink);
+  opacity: .88;
+}
+.fg-website.fg-palette-custom .fg-fashion-intro .fg-eyebrow {
+  color: var(--study-on-ink);
+}
+.fg-color-studio > .fg-color-target {
+  max-width: 380px;
+  margin-bottom: 24px;
+}

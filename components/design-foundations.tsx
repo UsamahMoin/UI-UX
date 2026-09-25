@@ -39,6 +39,7 @@ export function DesignFoundations() {
           ink?: string;
           font?: string;
           space?: number;
+          coordinated?: boolean;
         }
       >
     >({});
@@ -213,7 +214,7 @@ export function DesignFoundations() {
       )}
       <article
         id="study-top"
-        className={`fg-website fg-${theme.id}`}
+        className={`fg-website fg-${theme.id}${values.coordinated ? ' fg-palette-custom' : ''}`}
         style={style}
         aria-label={`${theme.name} website example`}
       >
@@ -441,6 +442,12 @@ export function DesignFoundations() {
         palette={{ bg, ink, accent }}
         linkAction={['editorial', 'luxury'].includes(theme.id)}
         onChange={change}
+        onPaletteChange={(palette) =>
+          setCustom((v) => ({
+            ...v,
+            [theme.id]: { ...v[theme.id], ...palette, coordinated: true },
+          }))
+        }
         onReset={() =>
           setCustom((v) => ({
             ...v,
@@ -449,6 +456,7 @@ export function DesignFoundations() {
               bg: undefined,
               ink: undefined,
               accent: undefined,
+              coordinated: false,
             },
           }))
         }
