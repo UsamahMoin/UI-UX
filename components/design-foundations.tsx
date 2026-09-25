@@ -120,8 +120,8 @@ export function DesignFoundations() {
       </a>
       <div>
         <a href="#study-details">Discover</a>
-        <a href="#study-approach">Approach</a>
         <a href="#study-details">Details</a>
+        <a href="#study-approach">Approach</a>
       </div>
     </nav>
   );
