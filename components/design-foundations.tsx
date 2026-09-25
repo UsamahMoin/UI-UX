@@ -274,18 +274,42 @@ export function DesignFoundations() {
             </div>
             {nav}
             <section className="fg-hero fg-campaign-hero">
-              <img
-                className="fg-campaign-photo"
-                src={sitePath(
-                  '/images/design-foundations/streetwear-campaign.png',
-                )}
-                alt="Three models wearing cobalt and rust streetwear in a concrete plaza"
-                width={1536}
-                height={1024}
-              />
-              <div className="fg-hero-copy">{heading}</div>
+              <div className="fg-zine-hero-art">
+                <div
+                  className="fg-photo fg-zine-photo-main"
+                  role="img"
+                  aria-label="A model in worn black denim and ripped jeans, photographed with direct flash in a warehouse"
+                >
+                  <span
+                    className="fg-photo-art"
+                    style={{
+                      backgroundImage: `url("${sitePath('/images/design-foundations/streetwear-punk.png')}")`,
+                      backgroundPosition: '0% center',
+                    }}
+                  />
+                </div>
+                <div className="fg-photo fg-zine-photo-cut" aria-hidden="true">
+                  <span
+                    className="fg-photo-art"
+                    style={{
+                      backgroundImage: `url("${sitePath('/images/design-foundations/streetwear-punk.png')}")`,
+                      backgroundPosition: '100% center',
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="fg-hero-copy">
+                <span className="fg-eyebrow">{copy.eyebrow}</span>
+                <h2 className="fg-cut-title" aria-label={copy.title}>
+                  {copy.title.split(/\s+/).map((word, i) => (
+                    <span key={i}>{word} </span>
+                  ))}
+                </h2>
+                <p className="fg-description">{copy.description}</p>
+                {action()}
+              </div>
               <span className="fg-campaign-edition" aria-hidden="true">
-                CG — 01
+                CG / 01
               </span>
             </section>
             <div className="fg-street-banner" aria-hidden="true">
@@ -299,9 +323,9 @@ export function DesignFoundations() {
               </header>
               <div className="fg-lookbook-grid">
                 {[
-                  'Cobalt varsity jacket and charcoal cargo trousers',
-                  'Rust sweatshirt and cream trousers',
-                  'Cream overshirt, cobalt T-shirt, and charcoal trousers',
+                  'Worn denim jacket and torn wide-leg jeans',
+                  'Oversized black T-shirt, chain, and distressed cargo trousers',
+                  'Black denim layers and shredded gray jeans',
                 ].map((label, n) => (
                   <button
                     className="fg-look"
@@ -316,7 +340,7 @@ export function DesignFoundations() {
                       <span
                         className="fg-photo-art"
                         style={{
-                          backgroundImage: `url("${sitePath('/images/design-foundations/streetwear-lookbook.png')}")`,
+                          backgroundImage: `url("${sitePath('/images/design-foundations/streetwear-punk.png')}")`,
                           backgroundPosition: `${n * 50}% center`,
                         }}
                       />
@@ -633,7 +657,7 @@ export function DesignFoundations() {
               <span
                 className="fg-photo-art"
                 style={{
-                  backgroundImage: `url("${sitePath('/images/design-foundations/streetwear-lookbook.png')}")`,
+                  backgroundImage: `url("${sitePath('/images/design-foundations/streetwear-punk.png')}")`,
                   backgroundPosition: `${frame * 50}% center`,
                 }}
               />

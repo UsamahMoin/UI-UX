@@ -83,10 +83,10 @@ export const directions = [
     philosophy:
       'Use tension deliberately: oversized type, sharp cuts, and unexpected color can express confidence. Energy should come from art direction, not fabricated urgency.',
     layout:
-      'A distressed campaign, oversized condensed type, and offset image frames borrow from photocopied gig posters. A three-look grid and a stable product viewer keep browsing straightforward.',
+      'A pasted-up collage replaces the conventional hero: torn photo edges, cut-paper word blocks, clashing scales, and imperfect alignment. The visual tension is deliberate; reading order and controls stay predictable.',
     type: 'Condensed uppercase display type feels like a pasted-up poster. Short monospaced labels add a utilitarian counterpoint. Body text keeps ordinary spacing and a readable size.',
     image:
-      'Campaign, lookbook, product. People establish the collection in context; consistent full-body studio portraits make outfits comparable; close product views show construction.',
+      'Direct-flash warehouse portraits, worn black denim, and severe monochrome create a specific underground identity. Repeating the same photographic treatment connects the collage and lookbook; product close-ups add a different scale.',
     motion:
       'Clickable looks and image changes reward exploration. Uneven frames and print texture carry the grunge character; controls stay stable and keyboard focus remains obvious.',
     tradeoff:
